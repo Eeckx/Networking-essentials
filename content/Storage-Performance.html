@@ -1,4 +1,4 @@
-<section>
+<article>
   <h1>💽 Storage & Prestaties – Windows Server</h1>
 
   <section>
@@ -21,26 +21,52 @@
     </ul>
   </section>
 
-  <section>
+  <section class="infra-table">
     <h2>⚙️ Storage Configuraties</h2>
-    <ul>
-      <li>Direct Attached: lokaal op server aangesloten drives.</li>
-      <li>SAN: Fibre Channel of iSCSI gevirtualiseerde storage.</li>
-      <li>NAS: CIFS/SMB gedeelde storage voor bestanden.</li>
-      <li>Storage Pools & Spaces: combineer fysieke disks in virtuele volumes met resiliency (Mirror, Parity, Simple).</li>
-      <li>Storage Spaces Direct (S2D): cluster-based storage met hoge performance en HA.</li>
-      <li>ReFS: optimalisatie voor grote volumes, dataintegriteit en snelle recovery.</li>
-    </ul>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Beschrijving</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Direct Attached Storage (DAS)</td>
+          <td>Lokaal op server aangesloten drives</td>
+        </tr>
+        <tr>
+          <td>SAN</td>
+          <td>Fibre Channel of iSCSI gevirtualiseerde storage</td>
+        </tr>
+        <tr>
+          <td>NAS</td>
+          <td>CIFS/SMB gedeelde storage voor bestanden</td>
+        </tr>
+        <tr>
+          <td>Storage Pools & Spaces</td>
+          <td>Combineer fysieke disks in virtuele volumes met resiliency (Mirror, Parity, Simple)</td>
+        </tr>
+        <tr>
+          <td>Storage Spaces Direct (S2D)</td>
+          <td>Cluster-based storage met hoge performance en hoge beschikbaarheid</td>
+        </tr>
+        <tr>
+          <td>ReFS</td>
+          <td>Optimalisatie voor grote volumes, dataintegriteit en snelle recovery</td>
+        </tr>
+      </tbody>
+    </table>
   </section>
 
   <section>
     <h2>📈 Performance Optimalisatie</h2>
     <ul>
-      <li>Disks: gebruik SSD/NVMe voor hoge IOPS workloads.</li>
-      <li>RAID: kies juiste niveau afhankelijk van performance vs. redundantie.</li>
-      <li>NTFS: Active Directory, deduplicatie en compressie kunnen impact hebben op prestaties.</li>
-      <li>Cache & Tiering: implementatie van SSD caching of tiering in Storage Spaces voor hot data.</li>
-      <li>Monitoring: gebruik Performance Monitor counters zoals Disk Queue Length, Avg. Disk sec/Read en Write, IOPS.</li>
+      <li>Gebruik SSD/NVMe voor hoge IOPS workloads.</li>
+      <li>Kies RAID-niveau afhankelijk van performance vs. redundantie.</li>
+      <li>NTFS: let op impact van deduplicatie, compressie en AD-integratie.</li>
+      <li>Cache & Tiering: implementeer SSD caching of tiering in Storage Spaces voor hot data.</li>
+      <li>Monitoring: gebruik Performance Monitor counters zoals Disk Queue Length, Avg. Disk sec/Read & Write, IOPS.</li>
       <li>Defragmentatie: alleen voor HDD; SSD gebruik TRIM-support.</li>
       <li>Network: voor NAS/SAN – zorg voor voldoende bandwidth, lage latency en jumbo frames waar mogelijk.</li>
     </ul>
@@ -50,7 +76,7 @@
     <h2>🔧 Monitoring & Analyse</h2>
     <ul>
       <li>Performance Monitor: real-time monitoring van disk, storage pool en SMB/NFS throughput.</li>
-      <li>Resource Monitor: inzicht in read/write speeds, latency en active processes.</li>
+      <li>Resource Monitor: inzicht in read/write speeds, latency en actieve processen.</li>
       <li>Event Viewer: waarschuwingen over storage failure, pool degradation of resiliency issues.</li>
       <li>PowerShell voorbeeld om Storage Pool status te controleren:
         <pre><code class="language-powershell">
@@ -74,6 +100,36 @@ Get-StoragePool | Get-StorageHealthReport
     </ul>
   </section>
 
+  <section class="infra-table">
+    <h2>📊 Probleemoplossing</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Probleem</th>
+          <th>Mogelijke oplossing</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Storage pool degradeert</td>
+          <td>Controleer fysieke disks en resiliency instellingen</td>
+        </tr>
+        <tr>
+          <td>Hoge disk latency</td>
+          <td>Gebruik SSD/NVMe, pas caching en tiering toe</td>
+        </tr>
+        <tr>
+          <td>NAS/SAN netwerk traag</td>
+          <td>Controleer bandwidth, latency, en netwerkconfiguratie</td>
+        </tr>
+        <tr>
+          <td>Defragmentatie mislukt</td>
+          <td>Alleen toepassen op HDD; SSD TRIM ondersteunen</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
   <section>
     <h2>🧾 Conclusie</h2>
     <p>
@@ -81,4 +137,5 @@ Get-StoragePool | Get-StorageHealthReport
       Door juiste storage types, configuraties, performance tuning en monitoring toe te passen, kunnen servers optimale prestaties leveren en tegelijkertijd data beschermen.
     </p>
   </section>
-</section>
+
+</article>
