@@ -1,0 +1,175 @@
+<article>
+  <h1>Hyper-V Virtuele Machines Aanmaken en Configureren Lab (Inclusief Server-VM’s)</h1>
+
+  <section>
+    <h2>🎯 Doelstelling</h2>
+    <p>
+      Deze handleiding leert je virtuele machines (VM’s) aan te maken en te configureren in Hyper-V, 
+      inclusief het opzetten van server-VM’s zoals domeincontrollers, bestandsservers of webservers. 
+      Je leert RAM, CPU, netwerk, opslag en serverrollen correct instellen.
+    </p>
+  </section>
+
+  <section class="infra-table">
+    <h3>🧩 Benodigde infrastructuur</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Component</th>
+          <th>Minimumvereisten</th>
+          <th>Aanbevolen</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Host OS</td>
+          <td>Windows 10/11 Pro of Enterprise</td>
+          <td>Windows 10/11 Enterprise met laatste updates</td>
+        </tr>
+        <tr>
+          <td>Hyper-V</td>
+          <td>Ingeschakeld via Windows Features</td>
+          <td>Laatste updates geïnstalleerd</td>
+        </tr>
+        <tr>
+          <td>Opslag</td>
+          <td>Minimaal 256 GB SSD</td>
+          <td>512 GB NVMe SSD of meer</td>
+        </tr>
+        <tr>
+          <td>RAM</td>
+          <td>8 GB</td>
+          <td>16 GB of meer (voor meerdere server-VM’s)</td>
+        </tr>
+        <tr>
+          <td>Virtuele switches</td>
+          <td>Minimaal één</td>
+          <td>Meerdere voor gesegmenteerde netwerken</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>🏗️ Stappenplan VM aanmaken</h2>
+
+    <h3>Stap 1 – Hyper-V Manager openen</h3>
+    <ol>
+      <li>Open <strong>Start → Hyper-V Manager</strong> en selecteer de host.</li>
+    </ol>
+
+    <h3>Stap 2 – Nieuwe VM aanmaken</h3>
+    <ol>
+      <li>Klik rechts op de host → <strong>Nieuw → Virtuele machine</strong>.</li>
+      <li>Volg de wizard: naam, locatie, generatie (1 of 2), RAM, netwerkadapter en harde schijf.</li>
+      <li>PowerShell alternatief:
+        <pre><code class="language-powershell">
+New-VM -Name "ServerVM01" -MemoryStartupBytes 4GB -Generation 2 -NewVHDPath "C:\HyperV\ServerVM01.vhdx" -NewVHDSizeBytes 60GB -SwitchName "LabSwitch_Internal"
+        </code></pre>
+      </li>
+    </ol>
+
+    <h3>Stap 3 – OS installeren</h3>
+    <ol>
+      <li>Start de VM → <strong>Connect</strong>.</li>
+      <li>Installeer het serverbesturingssysteem (Windows Server, Linux Server):  
+        <ul>
+          <li>Hostname instellen (bijv. DC01, FILE01)</li>
+          <li>IP-configuratie: vaak statisch voor servers</li>
+          <li>Installeer serverrollen indien nodig (Active Directory, DNS, DHCP, IIS, etc.)</li>
+        </ul>
+      </li>
+    </ol>
+
+    <h3>Stap 4 – VM-instellingen aanpassen</h3>
+    <ul>
+      <li>CPU en RAM verhogen voor serverrollen:  
+        <ul>
+          <li>Domeincontroller: minimaal 2 vCPU, 4–8 GB RAM</li>
+          <li>Bestandsserver: afhankelijk van opslag en gebruikers</li>
+          <li>Webserver: afhankelijk van verwachte belasting</li>
+        </ul>
+      </li>
+      <li>Dynamisch geheugen inschakelen indien gewenst.</li>
+      <li>Extra netwerkadapters toevoegen voor gescheiden VLAN’s of beheer/extern verkeer.</li>
+      <li>Snapshots maken vóór belangrijke wijzigingen of updates.</li>
+    </ul>
+
+    <h3>Stap 5 – Serverrollen configureren</h3>
+    <ul>
+      <li><strong>Domeincontroller:</strong> Active Directory Domain Services installeren, promotie naar DC, DNS configureren</li>
+      <li><strong>Bestandsserver:</strong> File Server rol installeren, shares aanmaken, permissies instellen</li>
+      <li><strong>Webserver:</strong> IIS of Apache installeren, firewallpoorten openzetten, testpagina aanmaken</li>
+      <li>Controleer dat server-VM’s de juiste IP en netwerkconnectiviteit hebben</li>
+    </ul>
+
+    <h3>Stap 6 – Netwerk testen</h3>
+    <ul>
+      <li>Ping andere VM’s en de host</li>
+      <li>Controleer DNS-resolutie bij domeincontrollers</li>
+      <li>Controleer toegang tot gedeelde mappen of webservices</li>
+      <li>PowerShell test: 
+        <pre><code class="language-powershell">
+Test-Connection -ComputerName "DC01"
+Test-Connection -ComputerName "FILE01"
+        </code></pre>
+      </li>
+    </ul>
+
+    <h3>Stap 7 – Geavanceerde opties</h3>
+    <ul>
+      <li>VLAN tagging instellen voor gescheiden netwerksegmenten</li>
+      <li>NIC Teaming voor redundantie</li>
+      <li>Backups of checkpoints automatiseren</li>
+      <li>Serverrollen clusteren indien nodig</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>🔐 Veiligheid en isolatie</h2>
+    <ul>
+      <li>Gebruik Private/Internal switches voor testservers om productie niet te beïnvloeden</li>
+      <li>Stel firewallregels in voor testdoeleinden</li>
+      <li>Beperk RDP/SSH toegang tot beheerders</li>
+      <li>Regelmatig snapshots maken voor herstelpunten</li>
+    </ul>
+  </section>
+
+  <section class="infra-table">
+    <h3>📊 Probleemoplossing</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Probleem</th>
+          <th>Oplossing</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>VM start niet</td>
+          <td>Controleer Hyper-V status, BIOS/UEFI virtualisatie, RAM en CPU instellingen</td>
+        </tr>
+        <tr>
+          <td>Server-VM krijgt geen IP</td>
+          <td>Controleer switch koppeling, DHCP of statisch IP, VLAN instellingen</td>
+        </tr>
+        <tr>
+          <td>Domeincontroller werkt niet correct</td>
+          <td>Controleer AD-installatie, DNS-configuratie en netwerkconnectiviteit</td>
+        </tr>
+        <tr>
+          <td>Bestandsserver shares niet bereikbaar</td>
+          <td>Controleer permissies, firewall en netwerkconnectiviteit</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>🧾 Conclusie</h2>
+    <p>
+      Na dit lab kun je Hyper-V VM’s aanmaken voor zowel werkstations als serverrollen, 
+      netwerk, opslag en CPU correct configureren en testen. Je kunt veilige testomgevingen met meerdere server-VM’s opzetten.
+    </p>
+  </section>
+</article>

@@ -1,0 +1,111 @@
+<section>
+  <h1>🤖 Automatisering & Herhaalbaarheid – Windows Server</h1>
+
+  <section>
+    <h2>🎯 Doelstelling</h2>
+    <p>
+      Dit lab behandelt hoe je taken in Windows Server automatiseert en repliceerbare, consistente omgevingen creëert.  
+      Automatisering vermindert menselijke fouten, versnelt deployment en verhoogt betrouwbaarheid.
+    </p>
+  </section>
+
+  <section>
+    <h2>🧰 Tools & Technologieën</h2>
+    <ul>
+      <li><strong>PowerShell:</strong> scripting, cmdlets, modules, DSC (Desired State Configuration).</li>
+      <li><strong>PowerShell DSC:</strong> declaratieve configuraties voor herhaalbare serverinstallaties.</li>
+      <li><strong>Task Scheduler:</strong> geplande taken voor herhalende acties.</li>
+      <li><strong>Group Policy:</strong> beleidsregels voor consistente configuratie van meerdere machines.</li>
+      <li><strong>Windows Admin Center / Remote Management:</strong> centrale controle en remote automation.</li>
+      <li><strong>Configuration Management tools:</strong> Ansible, Puppet, Chef (voor grotere omgevingen).</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>⚙️ PowerShell Automatisering</h2>
+    <ul>
+      <li>Scripts schrijven voor herhalende taken: updates, backups, serviceconfiguratie.</li>
+      <li>Voorbeeld: automatisch nieuwe Hyper-V VM aanmaken:
+        <pre><code class="language-powershell">
+New-VM -Name "VM01" -MemoryStartupBytes 4GB -Generation 2 -NewVHDPath "C:\VMs\VM01.vhdx" -NewVHDSizeBytes 40GB -SwitchName "LabSwitch"
+        </code></pre>
+      </li>
+      <li>Gebruik functies en modules om scripts herbruikbaar te maken.</li>
+      <li>Log acties automatisch om fouten te detecteren en audit-ready te zijn.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>🛠️ Desired State Configuration (DSC)</h2>
+    <ul>
+      <li>Declaratieve configuraties: je beschrijft de gewenste staat van een server, DSC zorgt voor implementatie.</li>
+      <li>Voorbeeld: installeren van roles en features:
+        <pre><code class="language-powershell">
+Configuration WebServerConfig {
+    Node "WEB01" {
+        WindowsFeature IIS {
+            Ensure = "Present"
+            Name   = "Web-Server"
+        }
+    }
+}
+WebServerConfig -OutputPath "C:\DSC"
+Start-DscConfiguration -Path "C:\DSC" -Wait -Verbose
+        </code></pre>
+      </li>
+      <li>Herhaalbaar: dezelfde configuratie kan op 10 of 100 servers toegepast worden zonder handmatige stappen.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>📅 Task Scheduler & Herhalende Taken</h2>
+    <ul>
+      <li>Automatiseer back-ups, scripts, monitoring of rapporten.</li>
+      <li>Voorbeeld: dagelijks een script laten draaien om logbestanden te archiveren:
+        <pre><code class="language-powershell">
+$Action = New-ScheduledTaskAction -Execute "PowerShell.exe" -Argument "-File C:\Scripts\ArchiveLogs.ps1"
+$Trigger = New-ScheduledTaskTrigger -Daily -At 02:00AM
+Register-ScheduledTask -TaskName "LogArchiver" -Action $Action -Trigger $Trigger -RunLevel Highest
+        </code></pre>
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>🌐 Groepsbeleid & Consistente Configuratie</h2>
+    <ul>
+      <li>Gebruik Group Policy Objects (GPO's) om instellingen centraal uit te rollen:  
+          bijv. firewall policies, script deployment, software-installatie, security baselines.</li>
+      <li>GPO’s zorgen voor herhaalbare en consistente configuratie op alle clients/servers.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>💾 Configuration Management Tools</h2>
+    <ul>
+      <li>Ansible, Puppet, Chef of SaltStack voor grote omgevingen.</li>
+      <li>Helpt bij multi-server deployment, patching, rolbeheer en compliance.</li>
+      <li>PowerShell DSC kan gecombineerd worden met Ansible voor Windows-omgevingen.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>⚡ Best Practices</h2>
+    <ul>
+      <li>Scheid automatisering van handmatige stappen; alles wat herhaalbaar is, moet geautomatiseerd worden.</li>
+      <li>Versiebeheer voor scripts en DSC-configuraties (Git, Azure Repos).</li>
+      <li>Logging en monitoring integreren in automatisering.</li>
+      <li>Test scripts en configuraties eerst in een labomgeving voordat je productie wijzigt.</li>
+      <li>Gebruik herbruikbare modules, templates en DSC resources voor consistentie.</li>
+      <li>Documenteer alle automatiseringsprocessen voor audit en onderhoud.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>🧾 Conclusie</h2>
+    <p>
+      Automatisering en herhaalbaarheid verhogen de betrouwbaarheid en efficiëntie van Windows Server omgevingen.  
+      Door PowerShell, DSC, GPO en taakplanning te combineren, kan je complexe taken schaalbaar en foutloos uitvoeren, waardoor beheer eenvoudiger en veiliger wordt.
+    </p>
+  </section>
+</section>

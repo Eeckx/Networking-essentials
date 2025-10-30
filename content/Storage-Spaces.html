@@ -1,0 +1,145 @@
+<section>
+  <h1>💽 Storage Spaces – Flexibel en redundant storagebeheer in Windows Server</h1>
+
+  <section>
+    <h2>🎯 Doelstelling</h2>
+    <p>
+      In deze handleiding leer je hoe je **Storage Spaces** configureert en beheert in Windows Server.  
+      Storage Spaces biedt de mogelijkheid om fysieke schijven samen te voegen tot logische storagepools, waarbij redundantie (mirror/parity) en flexibiliteit centraal staan.
+    </p>
+  </section>
+
+  <section>
+    <h2>🧰 Voorwaarden</h2>
+    <ul>
+      <li>Windows Server 2019, 2022 of nieuwer</li>
+      <li>Administrator rechten</li>
+      <li>Minimaal 2 fysieke of virtuele disks voor een eenvoudige mirror</li>
+      <li>Extra disks aanbevolen voor parity of complexe pools</li>
+      <li>Storage Spaces Direct (S2D) vereist clusteromgeving met minimaal 2 nodes</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>⚙️ Installatie van Storage Spaces Feature</h2>
+    <ul>
+      <li>Windows Server heeft Storage Spaces standaard ingebouwd; voor S2D moet de feature geïnstalleerd worden via Server Manager → Add Roles and Features → File and Storage Services → Storage Services → Storage Spaces</li>
+      <li>PowerShell alternatief:
+        <pre><code class="language-powershell">
+Install-WindowsFeature FS-FileServer, Storage-Services
+        </code></pre>
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>🔍 Voorbereiding van disks</h2>
+    <ul>
+      <li>Sluit fysieke of virtuele disks aan op de server</li>
+      <li>Controleer status van disks:
+        <pre><code class="language-powershell">
+Get-PhysicalDisk
+        </code></pre>
+      </li>
+      <li>Disks moeten beschikbaar zijn (geen volumes of partities) voor de storage pool</li>
+      <li>Voor S2D: alle nodes moeten identieke en ondersteunde disks hebben, SSD/HDD gemengd mogelijk</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>🏗️ Storage Pool aanmaken</h2>
+    <ol>
+      <li>Open Server Manager → File and Storage Services → Storage Pools → Tasks → New Storage Pool</li>
+      <li>Selecteer de server en de fysieke disks die je wilt opnemen in de pool</li>
+      <li>Geef de pool een naam (bijv. <code>Pool01</code>)</li>
+      <li>Wizard maakt de storage pool aan en initialiseert de disks</li>
+      <li>PowerShell alternatief:
+        <pre><code class="language-powershell">
+New-StoragePool -FriendlyName "Pool01" -StorageSubsystemFriendlyName "Windows Storage*" -PhysicalDisks (Get-PhysicalDisk -CanPool $true)
+        </code></pre>
+      </li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>📦 Virtual Disk (Storage Space) aanmaken</h2>
+    <ul>
+      <li>Kies in Storage Pools → Tasks → New Virtual Disk</li>
+      <li>Selecteer storage pool en geef virtual disk een naam</li>
+      <li>Kies het resiliency type:
+        <ul>
+          <li><strong>Simple:</strong> geen redundantie, maximale capaciteit</li>
+          <li><strong>Mirror:</strong> 2-way of 3-way voor redundantie</li>
+          <li><strong>Parity:</strong> bescherming tegen 1 disk failure, beter voor archief/data opslag</li>
+        </ul>
+      </li>
+      <li>Kies provisioning type:
+        <ul>
+          <li><strong>Fixed:</strong> volledige ruimte direct toegewezen</li>
+          <li><strong>Thin:</strong> ruimte wordt dynamisch toegewezen</li>
+        </ul>
+      </li>
+      <li>PowerShell alternatief:
+        <pre><code class="language-powershell">
+New-VirtualDisk -StoragePoolFriendlyName "Pool01" -FriendlyName "VD01" -ResiliencySettingName Mirror -Size 500GB
+        </code></pre>
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>🖴 Volume aanmaken en formatteren</h2>
+    <ol>
+      <li>Open Disk Management of Server Manager → Volumes → New Volume</li>
+      <li>Kies virtual disk als bron</li>
+      <li>Selecteer drive letter of mount point</li>
+      <li>Kies bestandssysteem (NTFS of ReFS) en volumenaam</li>
+      <li>PowerShell alternatief:
+        <pre><code class="language-powershell">
+Get-VirtualDisk -FriendlyName "VD01" | Initialize-Disk -PartitionStyle GPT
+New-Volume -VirtualDisk (Get-VirtualDisk -FriendlyName "VD01") -FileSystem ReFS -FriendlyName "Data01" -DriveLetter D
+        </code></pre>
+      </li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>⚡ Monitoring en beheer</h2>
+    <ul>
+      <li>Controleer status van storage pool en virtual disks:
+        <pre><code class="language-powershell">
+Get-StoragePool
+Get-VirtualDisk
+Get-PhysicalDisk | Select FriendlyName, OperationalStatus
+        </code></pre>
+      </li>
+      <li>Repareer fouten automatisch met:
+        <pre><code class="language-powershell">
+Repair-VirtualDisk -FriendlyName "VD01"
+        </code></pre>
+      </li>
+      <li>Bekijk opslaggebruik en health reports in Server Manager → Storage Pools</li>
+      <li>Event Viewer → Applications and Services Logs → Microsoft → Windows → StorageSpaces-Driver voor errors en waarschuwingen</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>💡 Best Practices</h2>
+    <ul>
+      <li>Gebruik mirror of parity voor productieomgevingen, simple alleen voor test/lab</li>
+      <li>Splits workloads: SSD voor performance, HDD voor archief/data</li>
+      <li>Monitor regelmatig health en capacity</li>
+      <li>Gebruik ReFS voor grote volumes en betere data integrity</li>
+      <li>Voor Storage Spaces Direct (S2D): cluster nodes identiek configureren en voldoende netwerkbandbreedte (RDMA aanbevolen)</li>
+      <li>Plan periodieke snapshots/backups van kritieke data</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>🧾 Conclusie</h2>
+    <p>
+      Storage Spaces biedt flexibele en schaalbare opslagoplossingen binnen Windows Server, inclusief redundantie en failover-opties.  
+      Door storage pools, virtual disks en volumes correct te configureren en te monitoren, kan je zowel performance als beschikbaarheid optimaliseren.
+    </p>
+  </section>
+</section>

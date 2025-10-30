@@ -1,0 +1,118 @@
+<section>
+  <h1>💾 Back-upstrategie per Rol – Windows Server</h1>
+
+  <section>
+    <h2>🎯 Doelstelling</h2>
+    <p>
+      Dit lab behandelt het opzetten van een robuuste back-upstrategie voor verschillende serverrollen in een Windows Server-omgeving.  
+      Het doel is dat kritieke data en services veilig zijn, herstel mogelijk is bij falen, en downtime tot een minimum beperkt blijft.
+    </p>
+  </section>
+
+  <section>
+    <h2>🧰 Kernconcepten</h2>
+    <ul>
+      <li><strong>Back-up types:</strong> Full, Incremental, Differential, System State</li>
+      <li><strong>Recovery Time Objective (RTO):</strong> maximale downtime toegestaan</li>
+      <li><strong>Recovery Point Objective (RPO):</strong> maximaal dataverlies toegestaan</li>
+      <li><strong>Retention policy:</strong> bewaartermijn van back-ups en versiebeheer</li>
+      <li><strong>Offsite & Cloud backups:</strong> bescherming tegen lokale incidenten (brand, diefstal)</li>
+      <li><strong>Automatisering:</strong> gepland, script- of software-gestuurd back-upproces</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>⚙️ Back-upstrategie per Rol</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Serverrol</th>
+          <th>Back-up Type</th>
+          <th>Frequentie</th>
+          <th>Belangrijke Opmerkingen</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Domain Controller / Active Directory</td>
+          <td>System State (AD, SYSVOL)</td>
+          <td>Dagelijks of minimaal wekelijks</td>
+          <td>Back-ups op meerdere locaties, test regelmatig restore; gebruik VSS (Volume Shadow Copy)</td>
+        </tr>
+        <tr>
+          <td>File Servers</td>
+          <td>Full + Incremental</td>
+          <td>Full wekelijks, incremental dagelijks</td>
+          <td>Bewaar meerdere versies; implementeer NTFS permissies en ACLs in restore</td>
+        </tr>
+        <tr>
+          <td>Hyper-V / VM Servers</td>
+          <td>VHD/VHDX snapshots + Full VM backup</td>
+          <td>Dagelijks of per workload criticaliteit</td>
+          <td>Gebruik online backup tools compatibel met VM's; check consistency van checkpoints</td>
+        </tr>
+        <tr>
+          <td>SQL / Databases</td>
+          <td>Full, Differential, Transaction Log</td>
+          <td>Full dagelijks, differential/transaction log meerdere keren per dag</td>
+          <td>Test restores regelmatig; combineer met offsite backups</td>
+        </tr>
+        <tr>
+          <td>IIS / Web Servers</td>
+          <td>Full + Configuration + App Data</td>
+          <td>Dagelijks of wekelijks afhankelijk van traffic</td>
+          <td>Includeer SSL-certificaten, website config en databases</td>
+        </tr>
+        <tr>
+          <td>DHCP / DNS / RDS</td>
+          <td>System State + Configuration export</td>
+          <td>Dagelijks of wekelijks</td>
+          <td>Gebruik PowerShell export cmdlets; test restore op testserver</td>
+        </tr>
+        <tr>
+          <td>Certificate Services (PKI)</td>
+          <td>CA Database + System State + Private Key</td>
+          <td>Dagelijks of bij wijzigingen</td>
+          <td>Back-up beveiligd opslaan; sleutel export encryptie verplicht</td>
+        </tr>
+        <tr>
+          <td>Network & Firewall Config</td>
+          <td>Configuration Export / Scripted Backup</td>
+          <td>Bij wijzigingen en wekelijks</td>
+          <td>Automatiseer met PowerShell / CLI; documenteer versie en datum</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>🔧 Best Practices</h2>
+    <ul>
+      <li>Implementeer 3-2-1 regel: 3 kopieën, 2 locaties, 1 offsite/cloud</li>
+      <li>Automatiseer back-ups met Windows Server Backup, Veeam, DPM of andere tools</li>
+      <li>Test regelmatig restore-procedures (Full en Granular restores)</li>
+      <li>Documenteer alle back-upstrategieën, frequenties en retentieperiodes</li>
+      <li>Versleutel back-ups en bewaak toegang tot back-up locaties</li>
+      <li>Integreer back-ups met monitoring voor alerting bij falende jobs</li>
+      <li>Houd rekening met RTO en RPO bij het plannen van frequenties en technologieën</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>📌 Voorbeelden</h2>
+    <ul>
+      <li>File server met 1TB data: Full backup wekelijks, incremental dagelijks, retentie 4 weken</li>
+      <li>Hyper-V cluster: VM snapshots dagelijks, Full VM backup wekelijks naar offsite locatie</li>
+      <li>SQL Database: Full backup 02:00 uur, Differential om 10:00 uur en 14:00 uur, Transaction Log elke 30 minuten</li>
+      <li>Certificate Services: Private key back-up encryptie met wachtwoord, offsite opslag en test restore op staging server</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>🧾 Conclusie</h2>
+    <p>
+      Een rol-gebaseerde back-upstrategie zorgt voor optimale bescherming van data en services in Windows Server omgevingen.  
+      Door de juiste back-up types, frequenties, retentie en testprocedures per rol toe te passen, wordt herstelbaarheid gegarandeerd en risico op downtime of dataverlies beperkt.
+    </p>
+  </section>
+</section>

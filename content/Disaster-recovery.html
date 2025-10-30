@@ -1,0 +1,91 @@
+<section>
+  <h1>🛡️ Disaster Recovery & High Availability – Windows Server</h1>
+
+  <section>
+    <h2>🎯 Doelstelling</h2>
+    <p>
+      Dit lab behandelt strategieën en technologieën voor **High Availability (HA)** en **Disaster Recovery (DR)** in Windows Server omgevingen.  
+      Je leert hoe je servers, applicaties en data beschermt tegen downtime, storingen en rampen, en hoe je herstelplannen implementeert.
+    </p>
+  </section>
+
+  <section>
+    <h2>🧰 Kernconcepten</h2>
+    <ul>
+      <li><strong>High Availability (HA):</strong> systemen zo configureren dat ze continu beschikbaar zijn bij hardware-, software- of netwerkstoringen.</li>
+      <li><strong>Disaster Recovery (DR):</strong> plannen en implementeren van herstelmethoden bij volledige uitval, rampen of dataverlies.</li>
+      <li><strong>RTO (Recovery Time Objective):</strong> maximale tolerantie voor downtime.</li>
+      <li><strong>RPO (Recovery Point Objective):</strong> maximaal dataverlies dat acceptabel is.</li>
+      <li><strong>Failover & Redundantie:</strong> automatisch overschakelen naar standby systemen of locaties.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>⚙️ High Availability Technologieën</h2>
+    <ul>
+      <li><strong>Failover Clustering:</strong> meerdere servers in een cluster die diensten continu beschikbaar houden.  
+          Voorbeelden: File Services, SQL Server, Hyper-V, DHCP, RDS.</li>
+      <li><strong>Network Load Balancing (NLB):</strong> verdelen van inkomend verkeer over meerdere servers voor performance en beschikbaarheid.</li>
+      <li><strong>Storage Spaces Direct (S2D):</strong> gedistribueerde storage met redundantie voor HA en performance.</li>
+      <li><strong>Hyper-V Replica:</strong> replicatie van virtuele machines naar andere hosts voor snelle failover.</li>
+      <li><strong>Database Mirroring / Always On Availability Groups:</strong> voor SQL Server HA.</li>
+      <li><strong>DNS & DHCP redundantie:</strong> meerdere servers om services beschikbaar te houden bij uitval.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>💾 Disaster Recovery Strategieën</h2>
+    <ul>
+      <li><strong>Back-ups:</strong> volledige, incrementele of differentiële back-ups.  
+          Tools: Windows Server Backup, Veeam, System Center Data Protection Manager (DPM).</li>
+      <li><strong>Off-site replicatie:</strong> data repliceren naar secundaire locatie of cloud (Azure Site Recovery, Hyper-V Replica).</li>
+      <li><strong>Recovery Testing:</strong> periodiek testen van back-ups en failover procedures.</li>
+      <li><strong>Documentation & Runbooks:</strong> gedetailleerde stappen voor herstelprocessen bij rampen.</li>
+      <li><strong>VM Snapshots / Checkpoints:</strong> tijdelijk herstelpunt bij configuration errors (niet geschikt als volledige DR).</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>🖥️ Voorbeelden van HA & DR implementaties</h2>
+    <ul>
+      <li>File server cluster: 2 nodes met shared storage via S2D → automatische failover bij hardware-uitval.</li>
+      <li>Hyper-V cluster: VM's met Live Migration en Hyper-V Replica naar secundaire locatie → minimale downtime en RTO < 15 minuten.</li>
+      <li>SQL Server Always On: meerdere replicas, read-only voor reporting → continue beschikbaarheid en DR optie.</li>
+      <li>Off-site DR via Azure Site Recovery: replicatie van on-prem Hyper-V VM's naar Azure → herstel bij volledige site-uitval.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>🔧 Best Practices</h2>
+    <ul>
+      <li>Identificeer kritieke applicaties en data, bepaal RTO en RPO per workload.</li>
+      <li>Gebruik geclusterde services en redundante hardware om single points of failure te vermijden.</li>
+      <li>Implementeer regelmatige back-ups en test het herstelplan minstens jaarlijks.</li>
+      <li>Documenteer failover- en herstelprocedures duidelijk en train personeel.</li>
+      <li>Implementeer monitoring en alerts voor hardware, netwerk, storage en applicaties.</li>
+      <li>Combineer lokale HA met off-site DR voor maximale beschikbaarheid.</li>
+      <li>Houd software- en firmwareversies consistent in clusters.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>📌 Checklist</h2>
+    <ol>
+      <li>Kritische workloads identificeren en RTO/RPO bepalen.</li>
+      <li>Failover Clustering of NLB implementeren voor HA.</li>
+      <li>Hyper-V Replica of database replicatie instellen voor DR.</li>
+      <li>Regelmatige back-ups configureren en testen.</li>
+      <li>Monitoring en alerts configureren voor alle componenten.</li>
+      <li>Runbooks/documentatie opstellen en testen.</li>
+      <li>Periodieke DR-testen uitvoeren en lessons learned implementeren.</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>🧾 Conclusie</h2>
+    <p>
+      Door HA en DR correct te implementeren kunnen Windows Server omgevingen zowel korte als lange uitval overleven met minimale impact.  
+      Het combineren van failover clustering, storage-replicatie, VM-replicatie, off-site backups en duidelijke recovery procedures zorgt voor een robuuste en veerkrachtige infrastructuur.
+    </p>
+  </section>
+</section>

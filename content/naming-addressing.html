@@ -1,0 +1,122 @@
+<section>
+  <h1>🏷️ Naamgevings- & Adresseringsconventies – Windows Server</h1>
+
+  <section>
+    <h2>🎯 Doelstelling</h2>
+    <p>
+      Dit lab behandelt de best practices voor consistente naamgeving en adressering in Windows Server-omgevingen.  
+      Correcte conventies verbeteren beheerbaarheid, troubleshooting, auditing en schaalbaarheid.
+    </p>
+  </section>
+
+  <section>
+    <h2>🧰 Kernconcepten</h2>
+    <ul>
+      <li><strong>Naamgeving:</strong> consistente en duidelijke namen voor servers, services, storage, netwerkapparatuur en gebruikersaccounts.</li>
+      <li><strong>Adressering:</strong> consistente IP-adressering, subnetting en VLAN-indeling voor netwerkbeheer.</li>
+      <li><strong>Domain & DNS:</strong> hiërarchische structuur van domeinen, subdomeinen, hostnamen en FQDN.</li>
+      <li><strong>Consistency & Scalability:</strong> standaarden zorgen dat nieuwe servers, netwerkapparaten en services eenvoudig te integreren zijn.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>⚙️ Naamgevingsconventies</h2>
+    <ul>
+      <li><strong>Servers:</strong> Naamgeving gebaseerd op locatie, functie en volgnummer
+        <ul>
+          <li>Formaat: LOC-FUNC-001</li>
+          <li>Voorbeeld: AMS-DC-01 (Amsterdam Domain Controller 1)</li>
+        </ul>
+      </li>
+      <li><strong>Virtual Machines:</strong> Voeg “VM” toe voor herkenning
+        <ul>
+          <li>Formaat: LOC-FUNC-VM01</li>
+          <li>Voorbeeld: AMS-SQL-VM02</li>
+        </ul>
+      </li>
+      <li><strong>Storage Volumes:</strong> gebruik volumetype en server/cluster referentie
+        <ul>
+          <li>Voorbeeld: CSV-CL01-VOL01 (Cluster Shared Volume 1 op Cluster 01)</li>
+        </ul>
+      </li>
+      <li><strong>Users & Groups:</strong> eenduidige accounts:
+        <ul>
+          <li>Users: firstname.lastname</li>
+          <li>Service accounts: svc-functie-server</li>
+          <li>Groups: dept-functie (HR-Admins)</li>
+        </ul>
+      </li>
+      <li><strong>Network Devices:</strong> locatie + functie + volgnummer
+        <ul>
+          <li>Voorbeeld: NYC-SW-01 (New York City Switch 1)</li>
+          <li>Firewall: LOC-FW-01</li>
+        </ul>
+      </li>
+      <li><strong>Applications & Services:</strong> consistent met server/VM naamgeving
+        <ul>
+          <li>Voorbeeld: APP-SQL-Reporting</li>
+        </ul>
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>⚙️ Adresseringsconventies</h2>
+    <ul>
+      <li><strong>IP-adressering:</strong>
+        <ul>
+          <li>Private IP-ranges: 10.x.x.x, 172.16.x.x – 172.31.x.x, 192.168.x.x</li>
+          <li>Subnetting volgens afdeling of locatie</li>
+          <li>Voorbeeld: 10.1.10.0/24 – Finance VLAN</li>
+          <li>Server static IPs buiten DHCP scope</li>
+        </ul>
+      </li>
+      <li><strong>VLAN-indeling:</strong> functioneel geordend
+        <ul>
+          <li>Voorbeeld: VLAN 10 – Servers, VLAN 20 – Clients, VLAN 30 – Management</li>
+        </ul>
+      </li>
+      <li><strong>DNS Naming:</strong> hiërarchisch, korte maar duidelijke namen
+        <ul>
+          <li>Voorbeeld: dc01.amsterdam.corp.local</li>
+          <li>VM: sqlvm02.nyc.corp.local</li>
+        </ul>
+      </li>
+      <li><strong>MAC Addressing:</strong> documenteer netwerkinterfaces en koppelingen met hostnamen.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>💡 Best Practices</h2>
+    <ul>
+      <li>Gebruik altijd dezelfde structuur voor alle servers, VMs, storage, users en netwerkapparaten.</li>
+      <li>Documenteer alle naamgevings- en adresseringsconventies in een centrale wiki of knowledge base.</li>
+      <li>Plan voor schaalbaarheid: reserveer nummers of subnets voor toekomstige uitbreiding.</li>
+      <li>Voorkom verwarring met korte, cryptische namen of inconsistent gebruik van hoofdletters en cijfers.</li>
+      <li>Integreer naamgeving en adressering met monitoring, auditing en backup tools.</li>
+      <li>Gebruik standaard prefixes voor service accounts, applicaties en cluster resources.</li>
+      <li>Voer periodieke review uit van hostnamen, IP-adressen en VLAN-indeling om duplicaten en conflicten te vermijden.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>📌 Voorbeelden</h2>
+    <ul>
+      <li><strong>Server:</strong> AMS-DC-01 → Amsterdam Domain Controller 1</li>
+      <li><strong>VM:</strong> NYC-SQL-VM03 → New York City SQL Server VM3</li>
+      <li><strong>Storage:</strong> CSV-CL02-VOL01 → Cluster Shared Volume 1 op Cluster 2</li>
+      <li><strong>User Account:</strong> john.doe → medewerker John Doe</li>
+      <li><strong>Service Account:</strong> svc-sql-backup → SQL Backup Service Account</li>
+      <li><strong>VLAN:</strong> VLAN 50 – Development, 10.2.50.0/24 subnet</li>
+      <li><strong>DNS:</strong> appweb01.london.corp.local → eerste webserver in Londen</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>🧾 Conclusie</h2>
+    <p>
+      Consistente naamgevings- en adresseringsconventies zijn cruciaal voor beheerbaarheid, troubleshooting, auditing en schaalbaarheid van Windows Server-omgevingen.  
+      Door duidelijke structuren, gedocumenteerde standaarden en best practices toe te passen, kan een organisatie efficiënt en overzichtelijk groeien.
+    </p>
+  </section>
+</section>

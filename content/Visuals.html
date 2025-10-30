@@ -1,0 +1,92 @@
+<section>
+  <h1>🖥️ Visuals & Hulpmiddelen – Windows Server</h1>
+
+  <section>
+    <h2>🎯 Doelstelling</h2>
+    <p>
+      Dit lab behandelt de visuele hulpmiddelen en management tools in Windows Server omgevingen.  
+      Het doel is het vereenvoudigen van monitoring, beheer, troubleshooting en documentatie door gebruik te maken van dashboards, grafieken, diagrammen en beheerinterfaces.
+    </p>
+  </section>
+
+  <section>
+    <h2>🧰 Kernconcepten</h2>
+    <ul>
+      <li><strong>Visuals:</strong> grafische representaties van serverstatus, performance, events en netwerkactiviteit.</li>
+      <li><strong>Hulpmiddelen:</strong> softwaretools en consoles die serverbeheer, monitoring en documentatie vergemakkelijken.</li>
+      <li><strong>Monitoring & Reporting:</strong> real-time en historische data inzichtelijk maken met dashboards en grafieken.</li>
+      <li><strong>Automation & Alerts:</strong> visuele tools integreren met meldingen en scripts om proactief beheer te ondersteunen.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>⚙️ Windows Server Visuals & Tools</h2>
+    <ul>
+      <li><strong>Server Manager:</strong> centrale console voor beheer van roles, features, services, events en performance.</li>
+      <li><strong>Windows Admin Center (WAC):</strong> moderne webinterface voor serverbeheer, clusters, storage, updates en performance monitoring.</li>
+      <li><strong>Performance Monitor (PerfMon):</strong>
+        <ul>
+          <li>Realtime performance counters voor CPU, memory, disk, network</li>
+          <li>Grafieken en datalogging voor historische analyse</li>
+        </ul>
+      </li>
+      <li><strong>Resource Monitor:</strong> proces- en resource-specific inzicht</li>
+      <li><strong>Event Viewer:</strong> visuele representatie van logs per server, service of component</li>
+      <li><strong>Task Manager:</strong> snelle overview van CPU, RAM, disk, network gebruik per proces</li>
+      <li><strong>Hyper-V Manager & Failover Cluster Manager:</strong> visualisatie van VM status, cluster nodes en failover events</li>
+      <li><strong>Storage Explorer / Storage Spaces Visuals:</strong> grafieken van pool status, tiering, resiliency en beschikbare capaciteit</li>
+      <li><strong>Network Monitoring Tools:</strong> Wireshark, Message Analyzer, Performance Monitor counters voor netwerk throughput en latency</li>
+      <li><strong>Third-party dashboards:</strong> SCOM, SolarWinds, PRTG, Nagios voor gecombineerde server, netwerk en storage monitoring</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>📊 Visuals en Dashboards</h2>
+    <ul>
+      <li>Real-time dashboards tonen resource gebruik, uptime, storage status en event alerts.</li>
+      <li>Grafieken voor trends en capacity planning (CPU, RAM, disk I/O, netwerk).</li>
+      <li>Heatmaps voor storage en VM performance in clusters.</li>
+      <li>Topology diagrams voor netwerk, storage en cluster architectuur.</li>
+      <li>Custom PowerShell scripts combineren data in visuele charts via HTML of grafische libraries (Chart.js, PSWriteHTML).</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>🔧 Hulpmiddelen en Automatisering</h2>
+    <ul>
+      <li>PowerShell scripts voor data-extractie en visuele reporting:
+        <pre><code class="language-powershell">
+# Grafiek van CPU gebruik over de laatste 24 uur
+Get-Counter '\Processor(_Total)\% Processor Time' -SampleInterval 60 -MaxSamples 1440 | 
+    Select-Object Timestamp, CounterSamples |
+    ConvertTo-Html -Property Timestamp, @{Name='CPU (%)';Expression={$_.CounterSamples[0].CookedValue}} -Title "CPU Usage" | Out-File "CPU_Report.html"
+        </code></pre>
+      </li>
+      <li>SCOM dashboards voor alerts, trends, compliance en performance metrics</li>
+      <li>Windows Admin Center geïntegreerde grafieken voor storage, updates, VM status</li>
+      <li>Grafische documentatie tools: Visio, Draw.io, Lucidchart voor architectuur en workflow diagrams</li>
+      <li>Alerting en notifications via e-mail, SMS of Microsoft Teams</li>
+      <li>Integration met SIEM tools voor security & compliance visualisatie</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>💡 Best Practices</h2>
+    <ul>
+      <li>Gebruik dashboards voor zowel real-time als historische data-analyse.</li>
+      <li>Integreer monitoring tools met alerts en scripts voor proactief beheer.</li>
+      <li>Documenteer architectuur en workflows visueel voor snel begrip door teams.</li>
+      <li>Centraliseer monitoring voor multi-server, multi-cluster en multi-site omgevingen.</li>
+      <li>Gebruik visuele rapporten en grafieken voor management en compliance rapportage.</li>
+      <li>Automatiseer het verzamelen van metrics en het genereren van HTML/PDF reports.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>🧾 Conclusie</h2>
+    <p>
+      Visuele hulpmiddelen en dashboards in Windows Server zorgen voor beter inzicht, snellere troubleshooting en eenvoudiger beheer.  
+      Door Performance Monitor, Windows Admin Center, PowerShell, SCOM en visuele documentatie te combineren, kan een IT-team sneller en accurater beslissingen nemen en problemen oplossen.
+    </p>
+  </section>
+</section>

@@ -1,0 +1,198 @@
+<article>
+  <h1>Hyper-V Server Rollen en Features Lab</h1>
+
+  <section>
+    <h2>🎯 Doelstelling</h2>
+    <p>
+      Dit lab leert je hoe je verschillende serverrollen en features installeert en configureert in Windows Server via Hyper-V VM’s. 
+      Je leert zowel via Server Manager als PowerShell werken, inclusief basisconfiguraties en best practices.
+    </p>
+  </section>
+
+  <section class="infra-table">
+    <h3>🧩 Benodigde infrastructuur</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Component</th>
+          <th>Minimumvereisten</th>
+          <th>Aanbevolen</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Hyper-V VM</td>
+          <td>Windows Server 2019/2022, 2 vCPU, 4 GB RAM</td>
+          <td>4 vCPU, 8 GB RAM, 60 GB VHDX</td>
+        </tr>
+        <tr>
+          <td>Netwerk</td>
+          <td>Internal of External switch</td>
+          <td>Internal + External switch voor testnetwerk</td>
+        </tr>
+        <tr>
+          <td>PowerShell</td>
+          <td>Windows PowerShell 5.1+</td>
+          <td>PowerShell 7 of hoger</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>🏗️ Installatie en Configuratie van Rollen</h2>
+
+    <h3>1. Active Directory Domain Services (AD DS)</h3>
+    <ol>
+      <li>Open <strong>Server Manager → Add Roles and Features</strong>.</li>
+      <li>Selecteer <strong>Active Directory Domain Services</strong> en installeer de vereiste features.</li>
+      <li>Na installatie: Promoot de server tot een domeincontroller:
+        <ul>
+          <li>Nieuw Forest of bestaand domein</li>
+          <li>Domeinnaam instellen (bijv. lab.local)</li>
+          <li>DNS server automatisch installeren</li>
+          <li>Admin wachtwoord voor Directory Services instellen</li>
+        </ul>
+      </li>
+      <li>PowerShell alternatief:
+        <pre><code class="language-powershell">
+Install-WindowsFeature AD-Domain-Services -IncludeManagementTools
+Install-ADDSForest -DomainName "lab.local" -SafeModeAdministratorPassword (ConvertTo-SecureString "Azerty01" -AsPlainText -Force)
+        </code></pre>
+      </li>
+    </ol>
+
+    <h3>2. DNS Server</h3>
+    <ol>
+      <li>DNS wordt meestal automatisch geïnstalleerd bij AD DS.</li>
+      <li>Controleer zones en records via DNS Manager.</li>
+      <li>PowerShell alternatief:
+        <pre><code class="language-powershell">
+Install-WindowsFeature DNS -IncludeManagementTools
+Add-DnsServerPrimaryZone -Name "lab.local" -ZoneFile "lab.local.dns"
+        </code></pre>
+      </li>
+    </ol>
+
+    <h3>3. DHCP Server</h3>
+    <ol>
+      <li>Installeer de rol via Server Manager of PowerShell.</li>
+      <li>Configureer een scope met IP-range, subnetmasker, gateway en DNS.</li>
+      <li>Authorize de DHCP server in Active Directory.</li>
+      <li>PowerShell alternatief:
+        <pre><code class="language-powershell">
+Install-WindowsFeature DHCP -IncludeManagementTools
+Add-DhcpServerv4Scope -Name "LabScope" -StartRange 192.168.10.100 -EndRange 192.168.10.200 -SubnetMask 255.255.255.0
+Add-DhcpServerInDC -DnsName "lab.local" -IPAddress "192.168.10.10"
+        </code></pre>
+      </li>
+    </ol>
+
+    <h3>4. File Server</h3>
+    <ol>
+      <li>Installeer de <strong>File and Storage Services</strong> rol.</li>
+      <li>Maak een share aan:
+        <ul>
+          <li>Server Manager → File and Storage Services → Shares → New Share</li>
+          <li>Kies een share type: SMB (standaard)</li>
+          <li>Configureer permissies (NTFS + Share)</li>
+        </ul>
+      </li>
+      <li>PowerShell alternatief:
+        <pre><code class="language-powershell">
+New-Item -Path "D:\Shares\Public" -ItemType Directory
+New-SmbShare -Name "Public" -Path "D:\Shares\Public" -FullAccess "Domain Admins"
+        </code></pre>
+      </li>
+    </ol>
+
+    <h3>5. IIS Webserver</h3>
+    <ol>
+      <li>Installeer <strong>Web Server (IIS)</strong> via Server Manager.</li>
+      <li>Start IIS Manager en configureer een website:
+        <ul>
+          <li>Fysieke pad naar webcontent</li>
+          <li>Bindings: IP, poort 80/443</li>
+        </ul>
+      </li>
+      <li>PowerShell alternatief:
+        <pre><code class="language-powershell">
+Install-WindowsFeature Web-Server -IncludeManagementTools
+New-Website -Name "LabWeb" -Port 80 -PhysicalPath "C:\inetpub\wwwroot"
+        </code></pre>
+      </li>
+    </ol>
+
+    <h3>6. Print Server</h3>
+    <ol>
+      <li>Installeer <strong>Print and Document Services</strong> rol.</li>
+      <li>Voeg printers toe via Print Management.</li>
+      <li>PowerShell alternatief:
+        <pre><code class="language-powershell">
+Install-WindowsFeature Print-Services -IncludeManagementTools
+Add-Printer -Name "LabPrinter01" -DriverName "HP Universal" -PortName "IP_192.168.10.50"
+        </code></pre>
+      </li>
+    </ol>
+
+    <h3>7. Hyper-V rol op server</h3>
+    <ol>
+      <li>Installeer Hyper-V rol via Server Manager of PowerShell.</li>
+      <li>Configureer virtuele switches en opslaglocaties voor VM’s.</li>
+      <li>PowerShell alternatief:
+        <pre><code class="language-powershell">
+Install-WindowsFeature Hyper-V -IncludeManagementTools -Restart
+        </code></pre>
+      </li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>🔐 Veiligheid en best practices</h2>
+    <ul>
+      <li>Gebruik VLANs of interne switches om testservers te isoleren.</li>
+      <li>Beperk admin toegang tot beheerdersaccounts.</li>
+      <li>Regelmatig back-ups of snapshots maken.</li>
+      <li>Documenteer IP-adressen, scopes en serverrollen.</li>
+      <li>Update serverrollen en OS regelmatig.</li>
+    </ul>
+  </section>
+
+  <section class="infra-table">
+    <h3>📊 Probleemoplossing</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Probleem</th>
+          <th>Oplossing</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>AD DS installatie mislukt</td>
+          <td>Controleer servernaam, DNS configuratie en netwerkconnectiviteit</td>
+        </tr>
+        <tr>
+          <td>DHCP geeft geen IP’s uit</td>
+          <td>Controleer scope, autorisatie in AD, netwerkconnectiviteit</td>
+        </tr>
+        <tr>
+          <td>File share niet bereikbaar</td>
+          <td>Controleer NTFS- en share-permissies, firewall en netwerk</td>
+        </tr>
+        <tr>
+          <td>IIS website laadt niet</td>
+          <td>Controleer bindings, poorten, firewall en website content pad</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>🧾 Conclusie</h2>
+    <p>
+      Na dit lab kun je een breed scala aan serverrollen en features installeren en configureren in Windows Server VM’s in Hyper-V. 
+      Je kunt een testomgeving opzetten met AD, DNS, DHCP, File Server, Webserver, Print Server en Hyper-V, inclusief best practices en troubleshooting.
+    </p>
+  </section>
+</article>

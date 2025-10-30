@@ -1,0 +1,156 @@
+<section>
+  <h1>🖥️ Failover Clustering – High Availability voor Windows Server</h1>
+
+  <section>
+    <h2>🎯 Doelstelling</h2>
+    <p>
+      Dit lab leert hoe je **Windows Server Failover Clustering (WSFC)** installeert, configureert en beheert. 
+      Failover Clustering biedt hoge beschikbaarheid (HA) voor servers en applicaties zoals SQL Server, Hyper-V, File Services en andere kritieke workloads.
+    </p>
+  </section>
+
+  <section>
+    <h2>🧰 Voorwaarden</h2>
+    <ul>
+      <li>Windows Server 2019, 2022 of nieuwer</li>
+      <li>Minimaal 2 fysieke of virtuele servers (nodes)</li>
+      <li>Static IP-adressen en netwerkconnectiviteit tussen nodes</li>
+      <li>Gedeelde opslag (SAN, SMB 3.0 share of Storage Spaces Direct)</li>
+      <li>Administrator rechten op alle nodes</li>
+      <li>DNS en Active Directory functioneel voor clusternaam registratie</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>⚙️ Installatie van Failover Clustering Feature</h2>
+    <ul>
+      <li>Open Server Manager → Add Roles and Features → Features → <strong>Failover Clustering</strong>.</li>
+      <li>PowerShell alternatief:
+        <pre><code class="language-powershell">
+Install-WindowsFeature -Name Failover-Clustering -IncludeManagementTools
+        </code></pre>
+      </li>
+      <li>Installeer op alle nodes die deel gaan uitmaken van de cluster.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>🔍 Voorbereiding en validatie</h2>
+    <ol>
+      <li>Controleer hardware en netwerkvereisten:
+        <ul>
+          <li>Ping tussen nodes</li>
+          <li>Gedeelde opslag zichtbaar op alle nodes</li>
+          <li>Firewall rules voor cluster communicatie (TCP/UDP 3343, RPC)</li>
+        </ul>
+      </li>
+      <li>Run Cluster Validation Wizard:
+        <pre><code class="language-powershell">
+Test-Cluster -Node Node1,Node2
+        </code></pre>
+      </li>
+      <li>Analyseer rapporten voor waarschuwingen of fouten. Alles moet “Passed” zijn voor productiecluster.</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>🏗️ Cluster aanmaken</h2>
+    <ol>
+      <li>Open Failover Cluster Manager → Create Cluster → Next</li>
+      <li>Selecteer alle nodes die deel uitmaken van de cluster</li>
+      <li>Voer een clusternaam in (bijv. <code>HA-Cluster01</code>) en statisch IP-adres</li>
+      <li>Wizard maakt computer object in Active Directory en configureert quorum</li>
+      <li>Controleer clusterstatus: alle nodes moeten “Up” zijn</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>⚡ Quorum configuratie</h2>
+    <ul>
+      <li>Cluster quorum bepaalt het minimale aantal stemmen om cluster te laten functioneren</li>
+      <li>Soorten quorum:
+        <ul>
+          <li>Node Majority (even aantal nodes + witness)</li>
+          <li>Node and Disk Majority (met gedeelde disk)</li>
+          <li>Node and File Share Majority (via SMB share)</li>
+          <li>Dynamic quorum (aanbevolen vanaf 2012)</li>
+        </ul>
+      </li>
+      <li>PowerShell voorbeeld:
+        <pre><code class="language-powershell">
+(Get-Cluster).QuorumType
+Set-ClusterQuorum -NodeAndFileShareMajority "\\FileServer\ClusterShare"
+        </code></pre>
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>🛠️ Rollen en resources toevoegen</h2>
+    <ul>
+      <li>Voeg een rol toe in Failover Cluster Manager → Roles → Configure Role
+        <ul>
+          <li>Hyper-V</li>
+          <li>File Server (General Purpose / Scale-Out)</li>
+          <li>SQL Server Failover Cluster Instance (FCI)</li>
+          <li>DHCP, IIS, Print Server (optioneel)</li>
+        </ul>
+      </li>
+      <li>Resources kunnen zijn:
+        <ul>
+          <li>IP addresses</li>
+          <li>Shared storage</li>
+          <li>Cluster Name Object (CNO) in AD</li>
+        </ul>
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>🔁 Failover testen</h2>
+    <ol>
+      <li>In Failover Cluster Manager → Roles → selecteer role → Move → Select Node</li>
+      <li>Controleer dat resources succesvol naar andere node overgaan</li>
+      <li>Simuleer node failure (shutdown of disconnect network) en observeer failover</li>
+      <li>Bekijk logs via Event Viewer → Applications and Services Logs → Microsoft → Windows → FailoverClustering</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>📊 Monitoring en beheer</h2>
+    <ul>
+      <li>Failover Cluster Manager → Dashboard → overzicht van cluster en roles</li>
+      <li>Gebruik PowerShell voor monitoring:
+        <pre><code class="language-powershell">
+Get-Cluster
+Get-ClusterNode
+Get-ClusterGroup
+Get-ClusterResource
+        </code></pre>
+      </li>
+      <li>Configureer alerts voor failover events via Event Viewer of SIEM</li>
+      <li>Plan regelmatig onderhoud zonder downtime door roles te verplaatsen</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>💡 Best Practices</h2>
+    <ul>
+      <li>Minimaal 2 nodes, idealiter 3+ voor hoge beschikbaarheid</li>
+      <li>Quorum configureren passend bij aantal nodes en storage</li>
+      <li>Shared storage betrouwbaar en redundant (SAN, Storage Spaces Direct)</li>
+      <li>Cluster Validation Wizard uitvoeren voor productiecluster</li>
+      <li>Failover testen vóór productie-implementatie</li>
+      <li>Documenteer cluster architectuur, IP’s en roles</li>
+      <li>Gebruik separate VLAN’s voor cluster communicatie indien mogelijk</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>🧾 Conclusie</h2>
+    <p>
+      Windows Server Failover Clustering biedt een robuuste oplossing voor hoge beschikbaarheid van servers en applicaties.
+      Door nodes correct te configureren, quorum en roles goed te beheren en failover te testen, kan je kritieke workloads beschermen tegen uitval en downtime minimaliseren.
+    </p>
+  </section>
+</section>

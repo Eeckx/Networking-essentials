@@ -1,0 +1,91 @@
+<section>
+  <h1>🛠️ Patch- & Updatebeheer – Windows Server</h1>
+
+  <section>
+    <h2>🎯 Doelstelling</h2>
+    <p>
+      Dit lab behandelt hoe je Windows Server-omgevingen veilig en up-to-date houdt via gestructureerd patch- en updatebeheer.  
+      Je leert methodes, tools en best practices om beveiligingsrisico’s, compliance-problemen en downtime te minimaliseren.
+    </p>
+  </section>
+
+  <section>
+    <h2>🧰 Kernconcepten</h2>
+    <ul>
+      <li><strong>Patch Management:</strong> proces van het distribueren en installeren van software-updates (security, bugfixes, functionaliteit).</li>
+      <li><strong>Update Types:</strong>
+        <ul>
+          <li>Security Updates – Kritieke kwetsbaarheden.</li>
+          <li>Critical Updates – Bugs en functionaliteitsverbeteringen.</li>
+          <li>Feature Updates – Nieuwe functionaliteit of OS-versies.</li>
+          <li>Driver Updates – Hardwarecompatibiliteit en performance.</li>
+        </ul>
+      </li>
+      <li><strong>Compliance:</strong> servers moeten voldoen aan interne en externe veiligheidsstandaarden.</li>
+      <li><strong>Patch Tuesday:</strong> elke tweede dinsdag van de maand uitgegeven updates van Microsoft.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>⚙️ Update Tools & Technologieën</h2>
+    <ul>
+      <li><strong>Windows Update (WU):</strong> basisupdates via Microsoft Update.</li>
+      <li><strong>Windows Server Update Services (WSUS):</strong> centraal beheer van updates binnen een organisatie.</li>
+      <li><strong>System Center Configuration Manager (SCCM/MECM):</strong> geavanceerd patch management voor grote omgevingen.</li>
+      <li><strong>PowerShell:</strong> automatisering van patching en reporting via cmdlets zoals:
+        <pre><code class="language-powershell">
+# Updates zoeken en installeren
+Get-WindowsUpdate -MicrosoftUpdate -AcceptAll -Install
+        </code></pre>
+      </li>
+      <li><strong>Windows Admin Center:</strong> overzicht van updates, compliance en remote patching.</li>
+      <li><strong>Third-party tools:</strong> Ivanti, ManageEngine, SolarWinds Patch Manager.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>📅 Patch Management Process</h2>
+    <ol>
+      <li><strong>Inventarisatie:</strong> identificeer alle servers, applicaties en afhankelijkheden.</li>
+      <li><strong>Prioriteren:</strong> security-critical updates eerst, daarna functionele updates.</li>
+      <li><strong>Testen:</strong> test updates in een labomgeving voordat je productie servers bijwerkt.</li>
+      <li><strong>Distributie:</strong> gebruik WSUS, SCCM of PowerShell scripts voor gefaseerde uitrol.</li>
+      <li><strong>Monitoring:</strong> controleer installatie succes en afwijkingen via logs, WSUS-console of PowerShell:
+        <pre><code class="language-powershell">
+Get-WindowsUpdateLog
+        </code></pre>
+      </li>
+      <li><strong>Fallback & Rollback:</strong> plan rollback of herstelmethodes bij problematische updates.</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>🔧 Best Practices</h2>
+    <ul>
+      <li>Gebruik een test-/pre-productie omgeving voor updates voordat je productie bijwerkt.</li>
+      <li>Plan onderhoudsvensters buiten piekuren om downtime te minimaliseren.</li>
+      <li>Automatiseer update reporting en compliance monitoring.</li>
+      <li>Implementeer update-fases: pilot, roll-out, verificatie.</li>
+      <li>Documenteer alle updates en eventuele problemen voor audit-doeleinden.</li>
+      <li>Gebruik WSUS/SCCM voor grote en complexe omgevingen voor consistente patching.</li>
+      <li>Beveilig update-infrastructuur tegen ongeautoriseerde wijzigingen (signing, authentificatie).</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>💡 Voorbeelden</h2>
+    <ul>
+      <li>Een kleine omgeving: Windows Update + PowerShell scripts voor automatische patching van alle servers.</li>
+      <li>Grote enterprise omgeving: WSUS server met goedgekeurde updates, pilot-groep, gefaseerde uitrol en compliance reporting via SCCM.</li>
+      <li>Hyper-V host servers: test eerst Hyper-V en VM compatibiliteit voor updates uitrollen, gebruik snapshots voor rollback.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>🧾 Conclusie</h2>
+    <p>
+      Gestructureerd patch- en updatebeheer is essentieel voor de beveiliging en betrouwbaarheid van Windows Server-omgevingen.  
+      Door gebruik te maken van tools zoals WSUS, SCCM en PowerShell, in combinatie met testprocedures, monitoring en rollback-strategieën, kan een organisatie veilig en compliant blijven met minimale downtime.
+    </p>
+  </section>
+</section>

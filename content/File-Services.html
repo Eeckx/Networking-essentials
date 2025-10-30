@@ -1,0 +1,216 @@
+<article>
+  <h1>Hyper-V File Services Lab</h1>
+
+  <section>
+    <h2>🎯 Doelstelling</h2>
+    <p>
+      Dit lab leert je hoe je File Services installeert, configureert en valideert binnen een Hyper-V VM. 
+      Je leert netwerkshares, NTFS-permissies, hidden shares, PowerShell beheer, auditing, beveiliging en troubleshooting.
+    </p>
+  </section>
+
+  <section class="infra-table">
+    <h3>🧩 Benodigde infrastructuur</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Component</th>
+          <th>Minimumvereisten</th>
+          <th>Aanbevolen</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Hyper-V VM</td>
+          <td>Windows Server 2019/2022, 2 vCPU, 4 GB RAM, 40 GB VHDX</td>
+          <td>4 vCPU, 8 GB RAM, 60 GB VHDX</td>
+        </tr>
+        <tr>
+          <td>Netwerk</td>
+          <td>Internal of External switch</td>
+          <td>Internal + External switch voor test en internet toegang</td>
+        </tr>
+        <tr>
+          <td>PowerShell</td>
+          <td>Windows PowerShell 5.1+</td>
+          <td>PowerShell 7 of hoger</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>🏗️ Installatie en Configuratie van File Services</h2>
+
+    <h3>Stap 1 – File Services rol installeren</h3>
+    <ol>
+      <li>Open <strong>Server Manager → Add Roles and Features</strong>.</li>
+      <li>Selecteer <strong>File and Storage Services → File and iSCSI Services</strong>.</li>
+      <li>Vink aan:
+        <ul>
+          <li>File Server</li>
+          <li>Optional: BranchCache, DFS Namespaces, DFS Replication (indien relevant)</li>
+        </ul>
+      </li>
+      <li>Installeer de rol en wacht tot voltooiing.</li>
+      <li>PowerShell alternatief:
+        <pre><code class="language-powershell">
+Install-WindowsFeature FS-FileServer -IncludeManagementTools
+        </code></pre>
+      </li>
+    </ol>
+
+    <h3>Stap 2 – Share aanmaken</h3>
+    <ol>
+      <li>Open <strong>Server Manager → File and Storage Services → Shares → New Share</strong>.</li>
+      <li>Kies share type:
+        <ul>
+          <li>SMB Share – Quick (standaard, geschikt voor testomgeving)</li>
+          <li>SMB Share – Advanced (meer configuratieopties, zoals offline files)</li>
+        </ul>
+      </li>
+      <li>Configureer:
+        <ul>
+          <li>Share name (bijv. Public, Projects)</li>
+          <li>Physical path: bv. <code>D:\Shares\Public</code></li>
+          <li>Enable access-based enumeration (optioneel, laat gebruikers alleen hun toegestane mappen zien)</li>
+        </ul>
+      </li>
+      <li>PowerShell alternatief:
+        <pre><code class="language-powershell">
+New-Item -Path "D:\Shares\Public" -ItemType Directory
+New-SmbShare -Name "Public" -Path "D:\Shares\Public" -FullAccess "Domain Admins" -ChangeAccess "Users"
+        </code></pre>
+      </li>
+    </ol>
+
+    <h4>Extra tip – Hidden Share</h4>
+    <p>
+      Je kunt een share “hidden” maken door een `$` achter de share-naam te zetten. Dit zorgt ervoor dat de share niet zichtbaar is in netwerkverkenners, maar nog steeds toegankelijk via directe padtoegang.
+    </p>
+    <ul>
+      <li>Voorbeeld via PowerShell:
+        <pre><code class="language-powershell">
+New-SmbShare -Name "Public$" -Path "D:\Shares\Public" -FullAccess "Domain Admins" -ChangeAccess "Users"
+        </code></pre>
+      </li>
+      <li>Toegang via \\SERVER\Public$</li>
+      <li>Handig voor beheerders- of systeemshares die je niet wilt tonen aan gebruikers.</li>
+    </ul>
+
+    <h3>Stap 3 – NTFS-permissies instellen</h3>
+    <ul>
+      <li>Rechtsklik op de map → Properties → Security tab</li>
+      <li>Stel permissies in:
+        <ul>
+          <li>Administrators: Full Control</li>
+          <li>Users: Read/Write of alleen Read</li>
+          <li>Specifieke groepen: Change of Full Control waar nodig</li>
+        </ul>
+      </li>
+      <li>Let op: NTFS-permissies worden gecombineerd met share-permissies; de **strengste regel wint**.</li>
+      <li>PowerShell alternatief:
+        <pre><code class="language-powershell">
+$acl = Get-Acl "D:\Shares\Public"
+$rule = New-Object System.Security.AccessControl.FileSystemAccessRule("Users","Modify","ContainerInherit,ObjectInherit","None","Allow")
+$acl.SetAccessRule($rule)
+Set-Acl "D:\Shares\Public" $acl
+        </code></pre>
+      </li>
+    </ul>
+
+    <h3>Stap 4 – Toegang testen</h3>
+    <ul>
+      <li>Vanuit een client VM of andere server, map netwerkshare:
+        <pre><code class="language-powershell">
+net use Z: \\FILE01.lab.local\Public
+dir Z:\
+        </code></pre>
+      </li>
+      <li>Controleer lees-/schrijfrechten.</li>
+      <li>Test dat onbevoegde gebruikers geen toegang hebben (indien ABEs of restricties ingesteld).</li>
+      <li>Test ook de hidden share:
+        <pre><code class="language-powershell">
+net use Y: \\FILE01.lab.local\Public$
+dir Y:\
+        </code></pre>
+      </li>
+    </ul>
+
+    <h3>Stap 5 – Geavanceerde configuratie (optioneel)</h3>
+    <ul>
+      <li>DFS Namespaces instellen voor centrale toegang tot meerdere shares.</li>
+      <li>DFS Replication configureren voor redundantie.</li>
+      <li>Quota instellen om schijfruimte per gebruiker/groep te limiteren:
+        <pre><code class="language-powershell">
+Import-Module FileServerResourceManager
+New-FsrmQuota -Path "D:\Shares\Public" -Limit 10GB -Description "Max 10GB per gebruiker"
+        </code></pre>
+      </li>
+      <li>File Screening instellen om ongewenste bestanden te blokkeren (bijv. *.exe in Public): 
+        <pre><code class="language-powershell">
+New-FsrmFileScreen -Path "D:\Shares\Public" -Active $true -IncludeGroup "Executable Files"
+        </code></pre>
+      </li>
+    </ul>
+
+    <h3>Stap 6 – Auditing en monitoring</h3>
+    <ul>
+      <li>Activeer auditing om toegang tot shares te loggen:
+        <pre><code class="language-powershell">
+AuditPol /set /subcategory:"File System" /success:enable /failure:enable
+        </code></pre>
+      </li>
+      <li>Gebruik Event Viewer → Security log voor file access events.</li>
+      <li>Controleer disk usage en performance via Server Manager → File and Storage Services → Volumes.</li>
+    </ul>
+
+    <h3>Stap 7 – Best practices</h3>
+    <ul>
+      <li>Gebruik aparte volumes voor shares en OS-schijf.</li>
+      <li>Documenteer share namen, paden en toegangsrechten.</li>
+      <li>Maak regelmatig backups van belangrijke shares.</li>
+      <li>Gebruik snapshots in testomgeving voor snelle herstelopties.</li>
+      <li>Gebruik hidden shares voor systeem- of beheerdersdata die niet zichtbaar moet zijn voor gewone gebruikers.</li>
+    </ul>
+  </section>
+
+  <section class="infra-table">
+    <h3>📊 Troubleshooting</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Probleem</th>
+          <th>Oplossing</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Share niet bereikbaar</td>
+          <td>Controleer netwerkconnectiviteit, SMB service, firewall, DNS naam</td>
+        </tr>
+        <tr>
+          <td>Gebruiker kan niet schrijven</td>
+          <td>Controleer NTFS- en share-permissies, access-based enumeration</td>
+        </tr>
+        <tr>
+          <td>Quota overschreden</td>
+          <td>Controleer FSRM instellingen en waarschuwingen</td>
+        </tr>
+        <tr>
+          <td>Ongewenste bestanden zichtbaar</td>
+          <td>File Screening configureren via FSRM</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>🧾 Conclusie</h2>
+    <p>
+      Na dit lab kun je File Services installeren, configureren en beheren in een Hyper-V VM, inclusief:
+      shares, NTFS-permissies, hidden shares, PowerShell beheer, auditing, quotas, file screening en troubleshooting. 
+      Dit lab vormt een stevige basis voor veilige en beheersbare netwerkshares in test- of productieomgevingen.
+    </p>
+  </section>
+</article>

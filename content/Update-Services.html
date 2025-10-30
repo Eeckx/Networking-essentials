@@ -1,0 +1,156 @@
+<section>
+  <h1>🧩 Windows Server Update Services (WSUS) – Installatie, Configuratie en Beheer</h1>
+
+  <section>
+    <h2>🎯 Doelstelling</h2>
+    <p>
+      In dit lab leer je hoe je <strong>Windows Server Update Services (WSUS)</strong> installeert en configureert.
+      WSUS stelt beheerders in staat om <strong>Microsoft-updates lokaal te beheren, goed te keuren en te distribueren</strong> binnen het netwerk,
+      zodat niet elke client afzonderlijk updates hoeft te downloaden van het internet.
+    </p>
+  </section>
+
+  <section>
+    <h2>🧰 Voorwaarden</h2>
+    <ul>
+      <li>Windows Server 2019, 2022 of nieuwer</li>
+      <li>Statische IP-adres en correcte DNS-instelling</li>
+      <li>Lid van het domein (optioneel maar aanbevolen)</li>
+      <li>Voldoende schijfruimte voor updatebestanden (minstens 30–100 GB)</li>
+      <li>Internettoegang of verbinding met een upstream WSUS-server</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>⚙️ Installatie van WSUS</h2>
+    <ol>
+      <li>Open <strong>Server Manager → Add Roles and Features</strong>.</li>
+      <li>Kies <strong>Role-based or feature-based installation</strong>.</li>
+      <li>Selecteer de juiste server.</li>
+      <li>Vink <strong>Windows Server Update Services</strong> aan.</li>
+      <li>Bij features, klik <strong>Next</strong>.</li>
+      <li>Kies waar je updates wil opslaan:
+        <ul>
+          <li>Bijv. <code>D:\WSUS\Updates</code> (aanbevolen aparte schijf)</li>
+        </ul>
+      </li>
+      <li>Selecteer databaseoptie:
+        <ul>
+          <li><strong>WID (Windows Internal Database)</strong> voor kleine/middelgrote omgevingen.</li>
+          <li><strong>SQL Server</strong> als je al een SQL-instantie hebt.</li>
+        </ul>
+      </li>
+      <li>Klik <strong>Install</strong>.</li>
+      <li>PowerShell alternatief:
+        <pre><code class="language-powershell">
+Install-WindowsFeature -Name UpdateServices,UpdateServices-WidDB,UpdateServices-Services -IncludeManagementTools
+        </code></pre>
+      </li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>🔧 Eerste configuratie (Post-installatie)</h2>
+    <ol>
+      <li>Open Server Manager → Klik op de waarschuwing “Post-deployment Configuration”.</li>
+      <li>Klik op <strong>Launch Post-Installation Tasks</strong> om WSUS te initialiseren.</li>
+      <li>Daarna open je de <strong>WSUS Management Console</strong> via <code>Tools → Windows Server Update Services</code>.</li>
+      <li>De configuratiewizard start automatisch.</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>⚙️ Configuratiewizard doorlopen</h2>
+    <ol>
+      <li>Kies of deze WSUS-server synchroniseert met:
+        <ul>
+          <li><strong>Microsoft Update</strong> (direct van internet)</li>
+          <li><strong>Upstream WSUS-server</strong> (intern mirror-systeem)</li>
+        </ul>
+      </li>
+      <li>Selecteer proxyserver indien nodig.</li>
+      <li>Voer een eerste synchronisatie uit om producten en classificaties te laden.</li>
+      <li>Kies welke producten je wilt beheren, bv.:
+        <ul>
+          <li>Windows 10, Windows 11, Windows Server 2022</li>
+          <li>Microsoft Office-producten</li>
+        </ul>
+      </li>
+      <li>Kies updateclassificaties:
+        <ul>
+          <li>Critical Updates</li>
+          <li>Security Updates</li>
+          <li>Service Packs</li>
+          <li>Feature Packs</li>
+        </ul>
+      </li>
+      <li>Kies synchronisatieplanning (dagelijks aanbevolen).</li>
+      <li>Klik <strong>Finish</strong> en laat WSUS synchroniseren.</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>📦 Updategroepen en goedkeuringen</h2>
+    <p>Na synchronisatie kun je updates goedkeuren en clients beheren.</p>
+    <ol>
+      <li>Maak computerdoelgroepen aan:
+        <ul>
+          <li><strong>Servers</strong></li>
+          <li><strong>Workstations</strong></li>
+          <li><strong>Testgroep</strong></li>
+        </ul>
+      </li>
+      <li>Rechtsklik op “All Computers” → <strong>Add Computer Group</strong>.</li>
+      <li>Om updates goed te keuren:
+        <ul>
+          <li>Ga naar <strong>Updates</strong> → filter op “Needed Updates”.</li>
+          <li>Selecteer updates → <strong>Approve</strong> → kies doelgroep (bijv. Testgroep).</li>
+        </ul>
+      </li>
+      <li>Je kunt ook automatische goedkeuring instellen via:
+        <ul>
+          <li><code>Options → Automatic Approvals</code></li>
+          <li>Bepaal regels per classificatie of product.</li>
+        </ul>
+      </li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>💻 Clients koppelen via Group Policy</h2>
+    <p>Gebruik Group Policy om clients te laten updaten via WSUS.</p>
+    <ol>
+      <li>Open <strong>Group Policy Management (gpmc.msc)</strong>.</li>
+      <li>Maak of bewerk een GPO, bv. “WSUS Settings”.</li>
+      <li>Navigeer naar:
+        <ul>
+          <li><code>Computer Configuration → Policies → Administrative Templates → Windows Components → Windows Update → Specify intranet Microsoft update service location</code></li>
+        </ul>
+      </li>
+      <li>Zet op <strong>Enabled</strong> en vul in:
+        <ul>
+          <li>Intranet update service: <code>http://wsusserver.lab.local</code></li>
+          <li>Intranet statistics server: <code>http://wsusserver.lab.local</code></li>
+        </ul>
+      </li>
+      <li>Configureer eventueel:
+        <ul>
+          <li><strong>Automatic Updates</strong> = Enabled</li>
+          <li><strong>Schedule Install Day/Time</strong> = bv. elke nacht om 3u</li>
+        </ul>
+      </li>
+      <li>Voer op clients uit:
+        <pre><code class="language-powershell">
+gpupdate /force
+wuauclt /detectnow
+wuauclt /reportnow
+        </code></pre>
+      </li>
+      <li>Controleer in WSUS-console of clients verschijnen onder “Computers”.</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>🔍 Onderhoud en optimalisatie</h2>
+    <ul>
+      <li>Voer regelmatig de <strong>Server Cleanup Wizard</strong> uit:

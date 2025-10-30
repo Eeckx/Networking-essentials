@@ -1,0 +1,125 @@
+<section>
+  <h1>☁️ Azure Arc Integration – Modern Hybrid Management</h1>
+
+  <section>
+    <h2>🎯 Doelstelling</h2>
+    <p>
+      Dit lab behandelt Azure Arc Integration voor het beheer van on-premises en multi-cloud Windows Server-omgevingen.  
+      Het doel is om een uniforme, moderne beheerlaag te creëren die governance, monitoring, beveiliging en automatisering centraliseert.
+    </p>
+  </section>
+
+  <section>
+    <h2>🧰 Kernconcepten</h2>
+    <ul>
+      <li><strong>Azure Arc:</strong> Cloud-native management platform voor hybride en multi-cloud resources.</li>
+      <li><strong>On-premises servers:</strong> Worden via Azure Arc beheerd alsof ze native Azure-resources zijn.</li>
+      <li><strong>Kubernetes en SQL:</strong> Arc ondersteunt ook clusters en databases.</li>
+      <li><strong>Governance & Compliance:</strong> Policy management, RBAC, auditing via Azure.</li>
+      <li><strong>Monitoring & Security:</strong> Azure Monitor, Log Analytics en Security Center integratie.</li>
+      <li><strong>Automation:</strong> Azure Automation en Runbooks voor patching, configuratie en deployment.</li>
+    </ul>
+  </section>
+
+<section>
+  <h2>⚙️ Installatie en Integratie</h2>
+  <ol>
+    <li>Voorbereiding van on-premises server(s):
+      <ul>
+        <li>Windows Server 2012 R2 of hoger</li>
+        <li>PowerShell 5.1+ en Internet toegang naar Azure endpoints</li>
+        <li>Gebruikersaccount met lokale Administrator rechten</li>
+      </ul>
+    </li>
+    <li>Registeren van server in Azure Arc:</li>
+      <ul>
+        <li><strong>Methode 1: PowerShell / CLI</strong>
+          <pre><code class="language-powershell">
+# Install Azure Connected Machine Agent
+Invoke-WebRequest -Uri https://aka.ms/AzureConnectedMachineAgent -OutFile AzureConnectedMachineAgent.msi
+msiexec /i AzureConnectedMachineAgent.msi /quiet
+
+# Connect server to Azure Arc
+azcmagent connect --resource-group "RG-Hybrid" --tenant-id "<TenantID>" --subscription-id "<SubscriptionID>"
+          </code></pre>
+          <p>Vul <code>&lt;TenantID&gt;</code> en <code>&lt;SubscriptionID&gt;</code> in met jouw Azure tenant- en abonnementgegevens.  
+          Dit is de meest flexibele methode, geschikt voor scripts en grootschalige registratie.</p>
+        </li>
+        <li><strong>Methode 2: Azure Portal (GUI)</strong>
+          <ol>
+            <li>Ga naar <strong>Azure Portal → Azure Arc → Servers → Add</strong>.</li>
+            <li>Kies “On-premises Windows Server”.</li>
+            <li>Download het automatisch gegenereerde registratie-script.</li>
+            <li>Voer dit script op de server uit. Tenant-ID, Subscription-ID en Resource Group zijn al correct ingevuld.</li>
+          </ol>
+          <p>Handig voor één of enkele servers en voor gebruikers die geen PowerShell-scripts willen beheren.</p>
+        </li>
+      </ul>
+    <li>Verifieer registratie via Azure Portal → Azure Arc → Servers.</li>
+    <li>Configureer Governance:
+      <ul>
+        <li>Azure Policy toepassen op Arc-resources</li>
+        <li>RBAC voor beheerrechten</li>
+        <li>Compliance monitoring en auditing instellen</li>
+      </ul>
+    </li>
+    <li>Configureer Monitoring & Security:
+      <ul>
+        <li>Azure Monitor agent installeren via Arc</li>
+        <li>Log Analytics Workspace koppelen</li>
+        <li>Security Center integratie voor vulnerability assessment</li>
+      </ul>
+    </li>
+    <li>Automatisering instellen:
+      <ul>
+        <li>Azure Automation Accounts koppelen</li>
+        <li>Runbooks voor patching, updates en configuratie</li>
+        <li>GitOps workflows voor declaratieve configuratie (bij Kubernetes)</li>
+      </ul>
+    </li>
+  </ol>
+</section>
+
+  <section>
+    <h2>📊 Voordelen van Azure Arc</h2>
+    <ul>
+      <li>Single pane of glass voor alle servers, ongeacht locatie</li>
+      <li>Centralized governance en compliance via Azure Policy en RBAC</li>
+      <li>Cloud-native monitoring en logging met Azure Monitor en Log Analytics</li>
+      <li>Automatisering en DevOps workflows mogelijk voor on-premises resources</li>
+      <li>Schaling en toekomstige integratie eenvoudig door cloud-native architectuur</li>
+      <li>Ondersteuning voor multi-cloud scenario’s (AWS, GCP) met dezelfde tooling</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>🔧 Best Practices</h2>
+    <ul>
+      <li>Plan resource registratie in resource-groepen en tags voor overzichtelijkheid</li>
+      <li>Implementeer policies en compliance checks direct bij registratie</li>
+      <li>Gebruik monitoring alerts en dashboards voor proactieve actie</li>
+      <li>Automatiseer zoveel mogelijk herhalende taken met Runbooks of GitOps</li>
+      <li>Test restores en patching op een subset van Arc-servers voordat je breed uitrolt</li>
+      <li>Documenteer alle registratie-, monitoring- en automation-processen</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>📌 Voorbeelden</h2>
+    <ul>
+      <li>On-premises DC en File Server gekoppeld aan Azure Arc → beheer via Azure Policy en compliance dashboard</li>
+      <li>Hyper-V cluster on-premises → Arc agent geïnstalleerd → monitoren van VM performance via Azure Monitor</li>
+      <li>SQL Server op AWS → Azure Arc registratie → back-up en security assessment via Azure native tools</li>
+      <li>Kubernetes cluster on-premises → Arc-enabled → declaratieve configuratie via GitOps en Azure Automation</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>🧾 Conclusie</h2>
+    <p>
+      Azure Arc is de modernste manier om on-premises en multi-cloud Windows Server-omgevingen te beheren.  
+      Het centraliseert governance, monitoring, security en automatisering, terwijl het dezelfde cloud-native tools en best practices biedt als Azure-native resources.  
+      Organisaties die hybride of multi-cloud strategieën toepassen, kunnen met Azure Arc consistentie, compliance en schaalbaarheid realiseren.
+    </p>
+  </section>
+</section>

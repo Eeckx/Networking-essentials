@@ -1,0 +1,84 @@
+<section>
+  <h1>💽 Storage & Prestaties – Windows Server</h1>
+
+  <section>
+    <h2>🎯 Doelstelling</h2>
+    <p>
+      Dit lab behandelt hoe je opslag beheert, configureert en optimaliseert in Windows Server omgevingen.  
+      We bespreken storage types, configuraties, performance tuning en best practices voor betrouwbare en snelle opslag.
+    </p>
+  </section>
+
+  <section>
+    <h2>🧰 Kernconcepten</h2>
+    <ul>
+      <li><strong>Storage Types:</strong> Direct Attached Storage (DAS), Storage Area Network (SAN), Network Attached Storage (NAS), en cloud storage.</li>
+      <li><strong>Disk Types:</strong> HDD, SSD, NVMe, met impact op IOPS, latency en throughput.</li>
+      <li><strong>RAID Levels:</strong> redundantie en performance combinaties (RAID 0, 1, 5, 6, 10).</li>
+      <li><strong>Storage Spaces & S2D:</strong> Windows-native virtualisatie van storage met pooling, resiliency en tiering.</li>
+      <li><strong>File Systems:</strong> NTFS en ReFS, inclusief performance en resiliency eigenschappen.</li>
+      <li><strong>Caching & Tiering:</strong> gebruik van SSD caching voor frequently accessed data.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>⚙️ Storage Configuraties</h2>
+    <ul>
+      <li>Direct Attached: lokaal op server aangesloten drives.</li>
+      <li>SAN: Fibre Channel of iSCSI gevirtualiseerde storage.</li>
+      <li>NAS: CIFS/SMB gedeelde storage voor bestanden.</li>
+      <li>Storage Pools & Spaces: combineer fysieke disks in virtuele volumes met resiliency (Mirror, Parity, Simple).</li>
+      <li>Storage Spaces Direct (S2D): cluster-based storage met hoge performance en HA.</li>
+      <li>ReFS: optimalisatie voor grote volumes, dataintegriteit en snelle recovery.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>📈 Performance Optimalisatie</h2>
+    <ul>
+      <li>Disks: gebruik SSD/NVMe voor hoge IOPS workloads.</li>
+      <li>RAID: kies juiste niveau afhankelijk van performance vs. redundantie.</li>
+      <li>NTFS: Active Directory, deduplicatie en compressie kunnen impact hebben op prestaties.</li>
+      <li>Cache & Tiering: implementatie van SSD caching of tiering in Storage Spaces voor hot data.</li>
+      <li>Monitoring: gebruik Performance Monitor counters zoals Disk Queue Length, Avg. Disk sec/Read en Write, IOPS.</li>
+      <li>Defragmentatie: alleen voor HDD; SSD gebruik TRIM-support.</li>
+      <li>Network: voor NAS/SAN – zorg voor voldoende bandwidth, lage latency en jumbo frames waar mogelijk.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>🔧 Monitoring & Analyse</h2>
+    <ul>
+      <li>Performance Monitor: real-time monitoring van disk, storage pool en SMB/NFS throughput.</li>
+      <li>Resource Monitor: inzicht in read/write speeds, latency en active processes.</li>
+      <li>Event Viewer: waarschuwingen over storage failure, pool degradation of resiliency issues.</li>
+      <li>PowerShell voorbeeld om Storage Pool status te controleren:
+        <pre><code class="language-powershell">
+Get-StoragePool | Get-StorageHealthReport
+        </code></pre>
+      </li>
+      <li>Gebruik Windows Admin Center of SCOM voor gecentraliseerde storage monitoring.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>💡 Best Practices</h2>
+    <ul>
+      <li>Kies juiste RAID-level of Storage Spaces resiliency voor workload.</li>
+      <li>Gebruik SSD/NVMe voor I/O-intensieve applicaties.</li>
+      <li>Implementeer regelmatige monitoring van prestaties en health.</li>
+      <li>Gebruik ReFS voor grote volumes en waar dataintegriteit cruciaal is.</li>
+      <li>Deduplicatie en compressie met mate toepassen afhankelijk van workload.</li>
+      <li>Implementeer backup en snapshot strategieën voor kritische data.</li>
+      <li>Documenteer storage architectuur, volumes, pools en performance metrics.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>🧾 Conclusie</h2>
+    <p>
+      Storage en performance management zijn cruciaal voor betrouwbare en snelle Windows Server omgevingen.  
+      Door juiste storage types, configuraties, performance tuning en monitoring toe te passen, kunnen servers optimale prestaties leveren en tegelijkertijd data beschermen.
+    </p>
+  </section>
+</section>

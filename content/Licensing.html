@@ -1,0 +1,123 @@
+<section>
+  <h1>🗝️ Licentiëring & Activatie – Windows Server</h1>
+
+  <section>
+    <h2>🎯 Doelstelling</h2>
+    <p>
+      Deze handleiding behandelt hoe je Windows Server correct <strong>licentieert en activeert</strong> in een bedrijfsomgeving.  
+      We bespreken licentievoorwaarden, activatiemethoden, voorbeelden en best practices voor compliance en beheer.
+    </p>
+  </section>
+
+  <section>
+    <h2>🔍 Terminologie</h2>
+    <ul>
+      <li><strong>Licentie:</strong> Het recht om de software te gebruiken volgens de overeenkomst.</li>
+      <li><strong>Activatie:</strong> Het technische proces om de software te verifiëren en gebruiksklaar te maken.</li>
+      <li>Let op: een licentie geeft gebruiksrecht, maar activatie kan nog steeds falen als sleutel of infrastructuur niet correct is.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>🏷️ Licentie-edities & modellen</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Editie</th>
+          <th>Licentiemodel</th>
+          <th>Opmerkingen</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Standard</td>
+          <td>Core-gebaseerd + CAL's</td>
+          <td>Voor lagere virtualisatiedichtheid</td>
+        </tr>
+        <tr>
+          <td>Datacenter</td>
+          <td>Core-gebaseerd + CAL's</td>
+          <td>Voor hoge virtualisatiedichtheid / datacenteromgevingen</td>
+        </tr>
+        <tr>
+          <td>Essentials</td>
+          <td>Server-gebaseerd (meestal OEM)</td>
+          <td>Max. aantal gebruikers/devices, vaak 1 fysieke socket</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <ul>
+      <li>Minimum licentievereisten: 8 core-licenties per processor, 16 per server.</li>
+      <li>Standard editie: 2 OSE's per volledig gelicentieerde server; Datacenter: onbeperkt virtualisatiegebruik.</li>
+      <li>CAL’s verplicht voor toegang door gebruikers/devices.</li>
+      <li>Downgrade rights: lagere Windows Server versies zijn toegestaan indien licentie aanwezig.</li>
+      <li>Nieuw model: PAYG via Azure Arc voor flexibele licenties.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>⚙️ Activatie-methoden</h2>
+    <ul>
+      <li><strong>KMS (Key Management Service):</strong> interne host activeert clients automatisch via netwerk.</li>
+      <li><strong>MAK (Multiple Activation Key):</strong> een sleutel met beperkt aantal activaties, via internet of telefoon.</li>
+      <li><strong>AVMA (Automatic VM Activation):</strong> voor Hyper-V Datacenter hosts; VM’s activeren automatisch via host.</li>
+      <li><strong>ADBA (Active Directory-Based Activation):</strong> activatie via Active Directory, geen aparte KMS nodig.</li>
+    </ul>
+
+    <h3>Voorbeelden:</h3>
+    <ul>
+      <li>Datacenter host met Hyper-V → AVMA voor alle VM's automatisch geactiveerd.</li>
+      <li>Volume Licensing omgeving → KMS host voor automatische activatie van alle servers en clients.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>⚠️ Activatieproblemen & tips</h2>
+    <ul>
+      <li>Downgrade-installatie: lagere versies vereisen soms aparte KMS/MAK sleutels.</li>
+      <li>Zonder juiste activatie verschijnen waarschuwingen in Windows en Event Viewer.</li>
+      <li>Controleer activatie via PowerShell:
+        <pre><code class="language-powershell">
+slmgr /dli
+slmgr /dlv
+        </code></pre>
+      </li>
+      <li>Documenteer host ID, KMS sleutels, AVMA host en MAK activaties voor compliance.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>✅ Best Practices</h2>
+    <ul>
+      <li>Kies de juiste editie afhankelijk van virtualisatiebehoefte.</li>
+      <li>Licentieer alle cores correct volgens fysieke serverconfiguratie.</li>
+      <li>Houd CAL’s up-to-date en wijs ze correct toe (User vs Device CAL).</li>
+      <li>Gebruik activatiemethode passend bij de infrastructuur (KMS, MAK, AVMA, ADBA).</li>
+      <li>Houd documentatie bij voor auditdoeleinden.</li>
+      <li>Controleer regelmatig activatiestatus via PowerShell of KMS console.</li>
+      <li>Bij clusters/VMs: gebruik AVMA of KMS voor consistente activatie.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>📌 Checklist</h2>
+    <ol>
+      <li>Editie gekozen passend bij server en virtualisatie.</li>
+      <li>Core-licenties correct toegewezen.</li>
+      <li>CAL's aangeschaft en toegewezen.</li>
+      <li>Activatiemethode geselecteerd en uitgevoerd.</li>
+      <li>Downgrade rechten begrepen indien nodig.</li>
+      <li>Documentatie en compliance geordend.</li>
+      <li>Activatiestatus gecontroleerd en gevalideerd.</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>🧾 Conclusie</h2>
+    <p>
+      Correct licentiëren en activeren van Windows Server is essentieel voor compliance en operationele continuïteit.  
+      Door de juiste editie te kiezen, cores correct te licentiëren, CAL’s toe te wijzen en de juiste activatiemethode te gebruiken, kan een organisatie zowel legaal als efficiënt gebruik maken van Windows Server.
+    </p>
+  </section>
+</section>

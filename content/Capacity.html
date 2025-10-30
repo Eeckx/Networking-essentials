@@ -1,0 +1,110 @@
+<section>
+  <h1>📊 Capaciteitsplanning & Baseline-metrics – Windows Server</h1>
+
+  <section>
+    <h2>🎯 Doelstelling</h2>
+    <p>
+      Dit lab behandelt hoe je capaciteitsplanning uitvoert en baseline-metrics vastlegt in Windows Server-omgevingen.  
+      Het doel is om resources efficiënt te beheren, bottlenecks te voorkomen en toekomstige groei te voorspellen.
+    </p>
+  </section>
+
+  <section>
+    <h2>🧰 Kernconcepten</h2>
+    <ul>
+      <li><strong>Capaciteitsplanning:</strong> systematische inschatting van benodigde resources zoals CPU, geheugen, storage en netwerk voor huidige en toekomstige workloads.</li>
+      <li><strong>Baseline-metrics:</strong> historische data van performance en resource gebruik, gebruikt als referentiepunt voor monitoring en planning.</li>
+      <li><strong>Performance Indicators:</strong> belangrijke parameters zoals CPU usage, memory utilization, disk IOPS, network throughput.</li>
+      <li><strong>Growth Trends:</strong> analyse van historische trends om toekomstige resourcebehoeften te voorspellen.</li>
+      <li><strong>Over-provisioning vs. Under-provisioning:</strong> balans vinden tussen prestaties en kosten.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>⚙️ Baseline-metrics Vastleggen</h2>
+    <ol>
+      <li>Identificeer kritieke servers, applicaties en services.</li>
+      <li>Gebruik Performance Monitor om key counters te verzamelen:
+        <ul>
+          <li>CPU: \Processor(_Total)\% Processor Time</li>
+          <li>Memory: \Memory\Available MBytes, \Memory\% Committed Bytes In Use</li>
+          <li>Disk: \PhysicalDisk(_Total)\Avg. Disk sec/Read, Avg. Disk sec/Write, Disk Queue Length</li>
+          <li>Network: \Network Interface(*)\Bytes Total/sec, \Current Bandwidth</li>
+        </ul>
+      </li>
+      <li>Verzamel data over representatieve periodes (bijv. 1 week voor productie, 24-48 uur voor test)</li>
+      <li>Documenteer baseline in grafieken of HTML/PDF rapporten voor referentie.</li>
+      <li>Gebruik PowerShell of PerfMon Data Collector Sets voor automatisering:
+        <pre><code class="language-powershell">
+# Voorbeeld: CPU en geheugen baseline verzamelen
+New-PerfCounterDataCollectorSet -Name "BaselineCPU_Mem" -Counters @(
+    "\Processor(_Total)\% Processor Time",
+    "\Memory\Available MBytes"
+) -SampleInterval 60 -Duration 86400 -OutputPath "C:\BaselineData"
+        </code></pre>
+      </li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>📈 Capaciteitsplanning</h2>
+    <ul>
+      <li>Analyseer historische data om huidige resource usage te begrijpen.</li>
+      <li>Identificeer piekbelasting en bottlenecks.</li>
+      <li>Voorspel toekomstige groei op basis van trends, nieuwe projecten en gebruikersaantallen.</li>
+      <li>Plan resources met marge voor piekbelasting (headroom 20-30% aanbevolen).</li>
+      <li>Optimaliseer serverconfiguraties:
+        <ul>
+          <li>CPU: cores toewijzen op basis van workload</li>
+          <li>Memory: RAM uitbreiden voor hoge geheugenintensieve applicaties</li>
+          <li>Storage: voldoende IOPS en capaciteit met RAID of Storage Spaces</li>
+          <li>Network: voldoende bandwidth en lage latency</li>
+        </ul>
+      </li>
+      <li>Documenteer capaciteitsplannen inclusief toekomstige uitbreiding, upgrade-momenten en budgettering.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>🔧 Tools & Hulpmiddelen</h2>
+    <ul>
+      <li>Performance Monitor (PerfMon) voor real-time en historische metrics</li>
+      <li>Resource Monitor voor proces-specifieke insights</li>
+      <li>PowerShell scripts voor geautomatiseerde data collectie en rapportage</li>
+      <li>Windows Admin Center dashboards voor overzicht van server performance</li>
+      <li>SCOM of andere monitoring suites voor trendanalyse en capacity alerts</li>
+      <li>Excel/Power BI voor visualisatie van trends en voorspelling van groei</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>💡 Best Practices</h2>
+    <ul>
+      <li>Leg baseline-metrics systematisch vast voor alle kritieke servers en workloads.</li>
+      <li>Automatiseer data-verzameling en grafische rapportage.</li>
+      <li>Gebruik trendanalyse voor proactieve capaciteitsplanning.</li>
+      <li>Houd rekening met piekbelasting en toekomstige groei bij resource allocatie.</li>
+      <li>Documenteer alle resultaten, aannames en voorspellingen voor management en IT teams.</li>
+      <li>Controleer regelmatig de baseline en pas aan bij nieuwe workloads of veranderingen.</li>
+      <li>Integreer capaciteitsplanning met monitoring en alerting systemen.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>📌 Voorbeelden</h2>
+    <ul>
+      <li>CPU-baseline: gemiddelde 30%, piek 70% → extra cores plannen voor toekomstige groei</li>
+      <li>Memory-baseline: 8GB gebruikt van 16GB → plan uitbreiding bij +50% gebruikers of nieuwe VM's</li>
+      <li>Disk IOPS: 2000 IOPS gemiddeld, piek 5000 IOPS → Storage Spaces mirror + SSD caching toevoegen</li>
+      <li>Network throughput: 1Gbps LAN, piek 750Mbps → voldoende headroom voor nieuwe servers of backup traffic</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>🧾 Conclusie</h2>
+    <p>
+      Capaciteitsplanning en baseline-metrics zijn essentieel om Windows Server-omgevingen efficiënt, betrouwbaar en schaalbaar te houden.  
+      Door systematisch data te verzamelen, trends te analyseren en resources proactief te plannen, kan downtime worden verminderd en kan IT-budget effectief worden benut.
+    </p>
+  </section>
+</section>

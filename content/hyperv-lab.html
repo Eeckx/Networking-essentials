@@ -1,0 +1,242 @@
+<article>
+  <h1>Hyper-V Lab Implementatie</h1>
+
+  <section>
+    <h2>🎯 Doelstelling</h2>
+    <p>
+      Deze handleiding beschrijft hoe je een volledige <strong>Hyper-V labomgeving</strong> opzet voor test- of opleidingsdoeleinden.
+      De labomgeving wordt gehost op <strong>Windows 10/11 (Pro of Enterprise)</strong> en bevat één of meerdere virtuele servers
+      (zoals Active Directory, DHCP, DNS, RDS) en optioneel client-VM’s.
+    </p>
+    <p>
+      Het doel is een veilige, geïsoleerde omgeving te creëren waar je IT-rollen, Windows-services en netwerkinfrastructuren kunt configureren
+      zonder invloed op het productie-netwerk.
+    </p>
+  </section>
+
+<section class="infra-table">
+  <h3>🧩 Benodigde infrastructuur</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Component</th>
+        <th>Minimumvereisten</th>
+        <th>Aanbevolen</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Processor (CPU)</td>
+        <td>4 cores met VT-x/AMD-V</td>
+        <td>8+ cores met SLAT-ondersteuning</td>
+      </tr>
+      <tr>
+        <td>RAM-geheugen</td>
+        <td>16 GB</td>
+        <td>32 GB of meer</td>
+      </tr>
+      <tr>
+        <td>Opslag</td>
+        <td>256 GB SSD</td>
+        <td>512 GB NVMe SSD of groter</td>
+      </tr>
+      <tr>
+        <td>Netwerk</td>
+        <td>1× Gigabit NIC</td>
+        <td>2× Gigabit (LAN + Internet)</td>
+      </tr>
+      <tr>
+        <td>Besturingssysteem</td>
+        <td>Windows 10/11 Pro</td>
+        <td>Windows 10/11 Enterprise</td>
+      </tr>
+      <tr>
+        <td>BIOS/UEFI</td>
+        <td>Virtualisatie ingeschakeld</td>
+        <td>Secure Boot actief</td>
+      </tr>
+      <tr>
+        <td>GPU</td>
+        <td>Optioneel</td>
+        <td>Dedicated GPU bij zware workloads</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+  <section>
+    <h2>🌐 Netwerkontwerp</h2>
+    <ul>
+      <li><strong>Subnet:</strong> 10.0.0.0/24 (intern labnetwerk)</li>
+      <li><strong>Internettoegang:</strong> via NAT of externe virtuele switch</li>
+      <li><strong>Poorten:</strong> 135, 445, 3389, 53, 80, 443</li>
+      <li><strong>Domeinnaamvoorbeeld:</strong> lab.local</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>🧠 Achtergrondinformatie</h2>
+    <p>
+      <strong>Hyper-V</strong> is Microsoft’s ingebouwde hypervisor waarmee fysieke hardware wordt gevirtualiseerd in logische, geïsoleerde omgevingen (VM’s).
+      Het vormt een kernonderdeel van moderne IT-infrastructuren omdat het:
+    </p>
+    <ul>
+      <li>Kosten bespaart (geen extra hardware nodig)</li>
+      <li>Flexibiliteit biedt in testomgevingen</li>
+      <li>Realistische productieomgevingen simuleert</li>
+      <li>Eenvoudig integreert met Active Directory en netwerkservices</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>🏗️ Implementatiestappen</h2>
+
+    <h3>Stap 1 – Controleer systeemvereisten</h3>
+    <ol>
+      <li>Open <strong>Taakbeheer → Prestaties</strong> → controleer dat <em>Virtualisatie: Ingeschakeld</em> is.</li>
+      <li>In BIOS/UEFI:
+        <ul>
+          <li>Zet <strong>Intel VT-x / AMD-V</strong> aan.</li>
+          <li>Activeer <strong>SLAT</strong> (Second Level Address Translation).</li>
+          <li>Zet <strong>Hyper-Threading</strong> aan (indien beschikbaar).</li>
+        </ul>
+      </li>
+    </ol>
+
+    <h3>Stap 2 – Installeer Hyper-V</h3>
+    <ol>
+      <li>Open <em>Windows Features → Hyper-V inschakelen</em>.</li>
+      <li>Schakel in:
+        <ul>
+          <li>✅ Hyper-V Management Tools</li>
+          <li>✅ Hyper-V Platform</li>
+        </ul>
+      </li>
+      <li>Klik <strong>OK</strong> en herstart de computer.</li>
+    </ol>
+
+    <pre><code class="language-powershell">
+Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All
+    </code></pre>
+
+    <h3>Stap 3 – Maak een virtuele switch aan</h3>
+    <ol>
+      <li>Open <strong>Hyper-V Manager → Virtual Switch Manager</strong>.</li>
+      <li>Kies type: External / Internal / Private.</li>
+      <li>Geef naam, bv. <em>LabSwitch</em>.</li>
+      <li>Koppel juiste netwerkadapter.</li>
+    </ol>
+
+    <h3>Stap 4 – Maak je eerste virtuele machine</h3>
+    <ol>
+      <li>Klik <strong>Nieuw → Virtuele machine</strong>.</li>
+      <li>Naam: <code>DC01</code> (Domain Controller)</li>
+      <li>Selecteer <strong>Generation 2</strong>.</li>
+      <li>Geheugen: minimaal 4 GB.</li>
+      <li>Netwerk: <em>LabSwitch</em>.</li>
+      <li>Nieuwe VHDX (40 GB).</li>
+      <li>Voeg ISO toe van <strong>Windows Server 2022</strong>.</li>
+    </ol>
+
+    <pre><code class="language-powershell">
+Rename-Computer -NewName "DC01" -Restart
+    </code></pre>
+
+    <h3>Stap 5 – Domein en basisrollen installeren</h3>
+    <ol>
+      <li>Installeer <strong>Active Directory Domain Services</strong>.</li>
+      <li>Promoot tot domeincontroller:</li>
+    </ol>
+
+    <pre><code class="language-powershell">
+Install-ADDSForest -DomainName "lab.local" -SafeModeAdministratorPassword (Read-Host -AsSecureString "Password")
+    </code></pre>
+
+    <p>Herstart → aanmeldgegevens: <code>lab\administrator</code></p>
+
+    <h3>Stap 6 – Extra servers of clients toevoegen</h3>
+    <ul>
+      <li><code>SRV-FILE01</code> → File Services</li>
+      <li><code>SRV-WEB01</code> → IIS Web Server</li>
+      <li><code>SRV-RDS01</code> → Remote Desktop Services</li>
+      <li><code>CLIENT01</code> → Windows 10/11 testclient</li>
+    </ul>
+
+    <pre><code class="language-powershell">
+Add-Computer -DomainName "lab.local" -Restart
+    </code></pre>
+  </section>
+
+  <section>
+    <h2>🔐 Beveiliging en isolatie</h2>
+    <ul>
+      <li>Gebruik <strong>Internal/Private switch</strong> om lab van productie-LAN te isoleren.</li>
+      <li>Vergrendel host via <strong>Windows Defender Application Control</strong>.</li>
+      <li>Maak <strong>snapshots (Checkpoints)</strong> vóór grote wijzigingen.</li>
+      <li>Schakel RDP alleen in indien nodig.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>🧰 Aanvullende configuraties</h2>
+    <table>
+      <thead>
+        <tr><th>Taak</th><th>Beschrijving</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>DHCP</td><td>Dynamisch IP-beheer in je labsubnet</td></tr>
+        <tr><td>DNS</td><td>Domeinnaamresolutie voor interne servers</td></tr>
+        <tr><td>WSUS</td><td>Test interne update-distributie</td></tr>
+        <tr><td>File Server</td><td>SMB-shares voor gedeelde opslag</td></tr>
+        <tr><td>Group Policy</td><td>Beheer gebruikersinstellingen centraal</td></tr>
+        <tr><td>Backup</td><td>Gebruik Windows Server Backup voor snapshots</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="infra-table">
+    <h3>📊 Probleemoplossing</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Probleem</th>
+        <th>Mogelijke oplossing</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Hyper-V service start niet</td>
+        <td>Controleer of virtualisatie in BIOS aanstaat</td>
+      </tr>
+      <tr>
+        <td>VM start traag</td>
+        <td>Verhoog toegewezen RAM of schakel dynamisch geheugen in</td>
+      </tr>
+      <tr>
+        <td>Geen netwerktoegang</td>
+        <td>Controleer Virtual Switch instellingen</td>
+      </tr>
+      <tr>
+        <td>Host vertraagd bij meerdere VM's</td>
+        <td>Gebruik SSD/NVMe-opslag</td>
+      </tr>
+      <tr>
+        <td>VM's verliezen domeinverbinding</td>
+        <td>Controleer tijdsync en DNS-configuratie</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+  <section>
+    <h2>🧾 Conclusie</h2>
+    <p>
+      Met deze implementatie heb je een volledig functioneel <strong>Hyper-V testlab</strong> voor Windows Server 2022.
+      Deze omgeving is ideaal voor experimenteren met serverrollen, netwerkinstellingen en beveiligingsbeleid — zonder risico voor productieomgevingen.
+    </p>
+  </section>
+
+  <footer>
+
+  </footer>
+</article>

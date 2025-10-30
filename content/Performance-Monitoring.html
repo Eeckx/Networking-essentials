@@ -1,0 +1,150 @@
+<section>
+  <h1>🌐 Performance Monitoring – Inclusief netwerkprestaties</h1>
+
+  <section>
+    <h2>🎯 Doelstelling</h2>
+    <p>
+      Deze handleiding behandelt het monitoren van Windows Server-prestaties inclusief **CPU, geheugen, disk** en **netwerk**.
+      Je leert hoe je bottlenecks opspoort, historische data verzamelt, alerts configureert en netwerkverkeer analyseert.
+    </p>
+  </section>
+
+  <section>
+    <h2>🧰 Voorwaarden</h2>
+    <ul>
+      <li>Windows Server 2019, 2022 of nieuwer</li>
+      <li>Administrator rechten op de server</li>
+      <li>Kennis van kritische serverrollen (IIS, SQL, RDS, File Services) is handig</li>
+      <li>Network Interface Cards (NICs) correct geconfigureerd met statisch of DHCP-adres</li>
+      <li>Netwerktoegang voor remote monitoring (indien nodig)</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>📈 Netwerk Performance Counters</h2>
+    <p>Windows Performance Monitor biedt veel counters specifiek voor netwerkgebruik:</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Category</th>
+          <th>Counter</th>
+          <th>Wat het meet</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Network Interface</td>
+          <td>Bytes Total/sec</td>
+          <td>Totale hoeveelheid data in/out per seconde</td>
+        </tr>
+        <tr>
+          <td>Network Interface</td>
+          <td>Packets/sec</td>
+          <td>Aantal verzonden en ontvangen packets per seconde</td>
+        </tr>
+        <tr>
+          <td>Network Interface</td>
+          <td>Current Bandwidth</td>
+          <td>Maximale snelheid van de netwerkinterface</td>
+        </tr>
+        <tr>
+          <td>Network Interface</td>
+          <td>Output Queue Length</td>
+          <td>Aantal pakketten wachtend in de uitgaande wachtrij (indicatie van congestie)</td>
+        </tr>
+        <tr>
+          <td>TCPv4/TCPv6</td>
+          <td>Segments/sec, Connections Established</td>
+          <td>TCP-verkeer en actieve verbindingen monitoren</td>
+        </tr>
+        <tr>
+          <td>IP</td>
+          <td>Datagrams/sec, Errors/sec</td>
+          <td>IP-pakketten en fouten tellen</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>⚙️ Configuratie in Performance Monitor</h2>
+    <ol>
+      <li>Open <strong>PerfMon</strong> → Real-time grafiek of Data Collector Set (DCS).</li>
+      <li>Klik op <strong>+ Add</strong> → selecteer <strong>Network Interface</strong>.</li>
+      <li>Kies counters zoals <strong>Bytes Total/sec</strong> of <strong>Output Queue Length</strong>.</li>
+      <li>Kies de netwerkinterface(s) die je wilt monitoren (bijv. LAN of DMZ NIC).</li>
+      <li>Configureer DCS om historische logs te bewaren voor trending en analyse.</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>🔁 Real-time en historische monitoring</h2>
+    <ul>
+      <li><strong>Real-time grafieken:</strong> direct inzicht in netwerkbelasting</li>
+      <li><strong>Data Collector Sets:</strong> historische logging in CSV of BLG-bestanden</li>
+      <li>Analyseer pieken, gemiddeld gebruik en bottlenecks over tijd</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>⚡ Alerts en automatische acties</h2>
+    <ul>
+      <li>Stel thresholds in, bijvoorbeeld:
+        <ul>
+          <li>Output Queue Length > 10 → indicatie netwerkcongestie</li>
+          <li>Bytes/sec boven 80% van interfacecapaciteit → waarschuwing</li>
+        </ul>
+      </li>
+      <li>Acties bij alerts:
+        <ul>
+          <li>Event log schrijven</li>
+          <li>PowerShell script uitvoeren (bijv. netwerkstatistieken dumpen)</li>
+          <li>E-mail of Teams notificatie via Task Scheduler</li>
+        </ul>
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>🧰 Aanvullende netwerktools</h2>
+    <ul>
+      <li><strong>Resource Monitor → Network tab:</strong> per proces netwerkgebruik bekijken</li>
+      <li><strong>PowerShell:</strong>
+        <pre><code class="language-powershell">
+Get-NetAdapterStatistics -Name "Ethernet0"
+Get-NetTCPConnection | Measure-Object
+        </code></pre>
+      </li>
+      <li><strong>Performance Monitor + TCP/IP Counters:</strong> fouten en retransmissies detecteren</li>
+      <li><strong>Wireshark / Microsoft Message Analyzer:</strong> diepgaande packet capture voor troubleshooting</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>📉 Baselines en trending</h2>
+    <ul>
+      <li>Meet normaal netwerkverkeer over een periode (bijv. 1 week) → baseline creëren</li>
+      <li>Vergelijk nieuwe waarden met baseline om afwijkingen, congestie of bottlenecks te detecteren</li>
+      <li>Gebruik historische DCS-logs voor capacity planning</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>💡 Best Practices</h2>
+    <ul>
+      <li>Monitor altijd zowel inbound als outbound verkeer</li>
+      <li>Combineer serverload en netwerkload voor totaalbeeld</li>
+      <li>Configureer alerts alleen voor kritische thresholds om false positives te vermijden</li>
+      <li>Gebruik meerdere NIC’s voor server vs monitoring traffic bij hoge belasting</li>
+      <li>Documenteer baselines en netwerkprestaties per serverrol</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>🧾 Conclusie</h2>
+    <p>
+      Door netwerkprestaties te monitoren naast CPU, geheugen en disk, krijg je een volledig overzicht van server- en netwerkbelasting.
+      Dit helpt bij troubleshooting, capacity planning, bottleneck-detectie en het waarborgen van optimale beschikbaarheid van services.
+    </p>
+  </section>
+</section>

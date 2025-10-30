@@ -1,0 +1,113 @@
+<section>
+  <h1>🖥️ Modern Endpoint Management (MEM) – Windows & Devices</h1>
+
+  <section>
+    <h2>🎯 Doelstelling</h2>
+    <p>
+      Dit lab behandelt Modern Endpoint Management (MEM) voor Windows- en andere devices.  
+      Het doel is om devices veilig, up-to-date en compliant te houden met een uniforme cloud-gebaseerde beheerstrategie.
+    </p>
+  </section>
+
+  <section>
+    <h2>🧰 Kernconcepten</h2>
+    <ul>
+      <li><strong>Modern Endpoint Management:</strong> Cloud-gebaseerd beheer van devices, apps en gebruikers, vaak via Microsoft Intune / Endpoint Manager.</li>
+      <li><strong>Device Enrollment:</strong> registratie van devices in Intune voor centraal beheer.</li>
+      <li><strong>Compliance & Security Policies:</strong> configuratie van beveiliging, patching, antivirus en encryptie via cloud.</li>
+      <li><strong>Application Management:</strong> distributie en update van software via cloud of self-service portals.</li>
+      <li><strong>Conditional Access:</strong> toegang tot bedrijfsresources afhankelijk van device compliance en security.</li>
+      <li><strong>Reporting & Monitoring:</strong> realtime inzichten in device status, compliance, en incidenten.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>⚙️ Device Enrollment & Configuration</h2>
+    <ol>
+      <li>Voorbereiding:
+        <ul>
+          <li>Azure AD Connect of pure Azure AD omgeving</li>
+          <li>Microsoft Intune licenties</li>
+          <li>Devices compatibel met MEM (Windows 10/11, macOS, iOS, Android)</li>
+        </ul>
+      </li>
+      <li>Device registratie:
+        <ul>
+          <li>Azure AD Join of Hybrid Azure AD Join</li>
+          <li>Automatisch enrolment via MDM policy</li>
+          <li>PowerShell of script-based enrollment voor bulk devices</li>
+        </ul>
+      </li>
+      <li>Device configuratie:
+        <ul>
+          <li>Configuration profiles: Wi-Fi, VPN, e-mail, security settings</li>
+          <li>Compliance policies: encryption, antivirus, firewall, updates</li>
+          <li>Deployment profiles: Autopilot voor nieuwe devices</li>
+        </ul>
+      </li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>📊 Application Management</h2>
+    <ul>
+      <li>Distributie via Intune: MSI, EXE, APPX, Win32 apps</li>
+      <li>Self-service portal voor eindgebruikers</li>
+      <li>Automatische updates voor apps en Office 365</li>
+      <li>Deployment rings en phased rollout voor kritieke updates</li>
+      <li>Compliance reporting: welke devices hebben de juiste app-versies</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>🔒 Security & Compliance</h2>
+    <ul>
+      <li>Endpoint protection: Microsoft Defender Antivirus & Firewall</li>
+      <li>Device encryption: BitLocker management via Intune</li>
+      <li>Conditional Access policies: toegang op basis van device compliance</li>
+      <li>Update management: Windows Update for Business via MEM</li>
+      <li>Monitoring van threats via Microsoft Defender for Endpoint</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>📈 Monitoring & Reporting</h2>
+    <ul>
+      <li>Real-time device status en compliance dashboard in Intune</li>
+      <li>Alerts bij non-compliant devices of security incidents</li>
+      <li>Device health reports: patching, antivirus status, encryption</li>
+      <li>Integration met Microsoft Sentinel voor advanced threat analytics</li>
+      <li>Audit logging en export naar SIEM voor governance</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>💡 Best Practices</h2>
+    <ul>
+      <li>Automatiseer enrollment via Autopilot of MDM policies</li>
+      <li>Implementeer phased rollout voor updates en apps</li>
+      <li>Gebruik Conditional Access voor zero-trust security</li>
+      <li>Houd devices compliant met policies, incl. encryption en antivirus</li>
+      <li>Documenteer alle policies en profielen in centrale knowledge base</li>
+      <li>Monitor devices continu en plan proactieve remediation</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>📌 Voorbeelden</h2>
+    <ul>
+      <li>Windows 11 laptops in bedrijf: Azure AD Join + Intune Autopilot enrollment, compliance policies + antivirus + BitLocker</li>
+      <li>Remote werknemers: Conditional Access + VPN + MFA voor beveiligde toegang</li>
+      <li>App distributie: Office 365 apps automatisch uitgerold via MEM, phased rollout voor kritieke updates</li>
+      <li>Monitoring: Intune dashboards gecombineerd met Microsoft Defender for Endpoint voor threat alerts</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>🧾 Conclusie</h2>
+    <p>
+      Modern Endpoint Management (MEM) biedt een cloud-native, uniforme en veilige manier om alle devices binnen een organisatie te beheren.  
+      Door device enrollment, compliance, application management, security policies en monitoring centraal te regelen via Microsoft Intune en Azure AD, kunnen organisaties efficiënt, compliant en future-proof werken.
+    </p>
+  </section>
+</section>

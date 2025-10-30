@@ -1,0 +1,188 @@
+<article>
+  <h1>Hyper-V Installatie en Configuratie Lab</h1>
+
+  <section>
+    <h2>🎯 Doelstelling</h2>
+    <p>
+      Deze handleiding helpt je stap voor stap Hyper-V te installeren en configureren op Windows 10/11 Pro of Enterprise.
+      Je leert virtuele switches aanmaken, virtuele machines configureren en een veilige, geïsoleerde testomgeving opzetten.
+    </p>
+  </section>
+
+  <section class="infra-table">
+    <h3>🧩 Benodigde infrastructuur</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Component</th>
+          <th>Minimumvereisten</th>
+          <th>Aanbevolen</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>CPU</td>
+          <td>4 cores met VT-x/AMD-V</td>
+          <td>8 cores met SLAT</td>
+        </tr>
+        <tr>
+          <td>RAM</td>
+          <td>8 GB</td>
+          <td>16 GB of meer</td>
+        </tr>
+        <tr>
+          <td>Opslag</td>
+          <td>256 GB SSD</td>
+          <td>512 GB NVMe SSD</td>
+        </tr>
+        <tr>
+          <td>OS</td>
+          <td>Windows 10/11 Pro</td>
+          <td>Windows 10/11 Enterprise</td>
+        </tr>
+        <tr>
+          <td>Netwerk</td>
+          <td>1× NIC</td>
+          <td>2× NIC (LAN + Internet)</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>🏗️ Installatiestappen</h2>
+
+    <h3>Stap 1 – Virtualisatie controleren</h3>
+    <ol>
+      <li>Open <strong>Taakbeheer → Prestaties → CPU</strong> en controleer dat <em>Virtualisatie: Ingeschakeld</em> staat.</li>
+      <li>Indien uitgeschakeld, herstart en open BIOS/UEFI:
+        <ul>
+          <li>Schakel Intel VT-x of AMD-V in</li>
+          <li>Activeer SLAT (Second Level Address Translation)</li>
+          <li>Schakel Hyper-Threading in (indien aanwezig)</li>
+        </ul>
+      </li>
+    </ol>
+
+    <h3>Stap 2 – Hyper-V inschakelen</h3>
+    <ol>
+      <li>Open <strong>Start → Windows Features inschakelen of uitschakelen</strong>.</li>
+      <li>Vink aan:
+        <ul>
+          <li>Hyper-V Platform</li>
+          <li>Hyper-V Management Tools</li>
+        </ul>
+      </li>
+      <li>Klik <strong>OK</strong> en herstart het systeem.</li>
+      <li>Alternatief via PowerShell:
+        <pre><code class="language-powershell">
+Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All
+        </code></pre>
+      </li>
+    </ol>
+
+    <h3>Stap 3 – Virtuele switch aanmaken</h3>
+    <ol>
+      <li>Open <strong>Hyper-V Manager → Virtual Switch Manager</strong>.</li>
+      <li>Kies switch type:
+        <ul>
+          <li><strong>External:</strong> Verbindt VM direct met fysiek netwerk</li>
+          <li><strong>Internal:</strong> VM kan host bereiken, geen externe toegang</li>
+          <li><strong>Private:</strong> Alleen VM-naar-VM communicatie</li>
+        </ul>
+      </li>
+      <li>Geef een naam, bijvoorbeeld <code>LabSwitch</code>.</li>
+      <li>Koppel de juiste fysieke netwerkadapter (voor External switch).</li>
+      <li>PowerShell alternatief:
+        <pre><code class="language-powershell">
+New-VMSwitch -Name "LabSwitch" -NetAdapterName "Ethernet0" -AllowManagementOS $true
+        </code></pre>
+      </li>
+    </ol>
+
+    <h3>Stap 4 – Virtuele machine aanmaken</h3>
+    <ol>
+      <li>Open <strong>Hyper-V Manager → Nieuw → Virtuele machine</strong>.</li>
+      <li>Naam en locatie opgeven (bijv. <code>VM01</code>).</li>
+      <li>Generation kiezen:
+        <ul>
+          <li><strong>Generation 1:</strong> Oudere OS ondersteuning</li>
+          <li><strong>Generation 2:</strong> UEFI, Secure Boot, moderne OS</li>
+        </ul>
+      </li>
+      <li>RAM instellen (minimaal 2–4 GB, bij voorkeur dynamisch geheugen inschakelen)</li>
+      <li>Koppel netwerkadapter aan eerder gemaakte switch <code>LabSwitch</code></li>
+      <li>Virtuele harde schijf aanmaken (VHDX, minimaal 40 GB)</li>
+      <li>ISO van OS toevoegen en VM starten</li>
+      <li>Optioneel: PowerShell alternatief:
+        <pre><code class="language-powershell">
+New-VM -Name "VM01" -MemoryStartupBytes 4GB -Generation 2 -NewVHDPath "C:\HyperV\VM01.vhdx" -NewVHDSizeBytes 40GB -SwitchName "LabSwitch"
+        </code></pre>
+      </li>
+    </ol>
+
+    <h3>Stap 5 – OS installatie en basisconfiguratie</h3>
+    <ol>
+      <li>Installeer het besturingssysteem op de VM via de gekoppelde ISO.</li>
+      <li>Configureer hostname, tijdzone en netwerk (DHCP of statisch IP).</li>
+      <li>Installeer Hyper-V Integration Services (indien OS vereist).</li>
+      <li>Maak een eerste snapshot/checkpoint voor herstelpunten.</li>
+    </ol>
+
+    <h3>Stap 6 – VM beheer en onderhoud</h3>
+    <ul>
+      <li>CPU, RAM en schijfruimte aanpassen via VM-instellingen</li>
+      <li>Checkpoints maken vóór belangrijke wijzigingen</li>
+      <li>VM’s starten, stoppen, pauzeren of resetten via Hyper-V Manager of PowerShell</li>
+      <li>Monitor resourcegebruik op host om vertraging te voorkomen</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>🔐 Veiligheid en isolatie</h2>
+    <ul>
+      <li>Gebruik Internal of Private switch voor lab isolatie</li>
+      <li>Beperk RDP-toegang tot test-VM’s</li>
+      <li>Host en VM’s up-to-date houden</li>
+      <li>Snapshots maken voor herstelpunten</li>
+    </ul>
+  </section>
+
+  <section class="infra-table">
+    <h3>📊 Probleemoplossing</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Probleem</th>
+          <th>Oplossing</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Hyper-V start niet</td>
+          <td>Controleer BIOS/UEFI virtualisatie-instellingen en Windows Features</td>
+        </tr>
+        <tr>
+          <td>Geen netwerk in VM</td>
+          <td>Controleer Virtual Switch en netwerkadapter</td>
+        </tr>
+        <tr>
+          <td>VM traag</td>
+          <td>RAM verhogen, dynamisch geheugen inschakelen, virtuele CPU verhogen</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>🧾 Conclusie</h2>
+    <p>
+      Na deze stappen is Hyper-V volledig geïnstalleerd en geconfigureerd. Je kunt nu virtuele machines maken, beheren
+      en een veilige testomgeving opzetten zonder risico voor productieomgevingen.
+    </p>
+  </section>
+
+    <footer>
+      
+  </footer>
+</article>

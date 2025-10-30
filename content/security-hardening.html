@@ -1,0 +1,108 @@
+<section>
+  <h1>🛡️ Security Hardening – Windows Server</h1>
+
+  <section>
+    <h2>🎯 Doelstelling</h2>
+    <p>
+      Dit lab behandelt hoe je Windows Server veilig configureert en beschermt tegen aanvallen en ongeautoriseerde toegang.  
+      We behandelen best practices, tools en strategieën voor een robuuste security hardening.
+    </p>
+  </section>
+
+  <section>
+    <h2>🧰 Kernconcepten</h2>
+    <ul>
+      <li><strong>Principle of Least Privilege:</strong> gebruikers en processen krijgen alleen de rechten die ze nodig hebben.</li>
+      <li><strong>Defense in Depth:</strong> meerdere lagen van beveiliging, inclusief netwerk, OS, applicaties en gebruikers.</li>
+      <li><strong>Secure Baselines:</strong> vooraf gedefinieerde veilige configuraties van servers.</li>
+      <li><strong>Audit & Monitoring:</strong> continu toezicht op security events en anomalieën.</li>
+      <li><strong>Patch & Update Management:</strong> systemen up-to-date houden om kwetsbaarheden te minimaliseren.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>⚙️ Security Hardening Stappen</h2>
+    <ol>
+      <li><strong>Server Role & Feature Minimalisatie:</strong> installeer alleen benodigde roles/features om attack surface te verkleinen.</li>
+      <li><strong>Windows Firewall:</strong> configureer inbound/outbound regels, beperk poorten tot wat noodzakelijk is.</li>
+      <li><strong>User Account Hardening:</strong>
+        <ul>
+          <li>Verwijder standaard accounts of wijzig standaardnamen.</li>
+          <li>Gebruik sterke wachtwoorden en MFA waar mogelijk.</li>
+          <li>Voer accounts lockout policies in.</li>
+        </ul>
+      </li>
+      <li><strong>Service & Process Hardening:</strong>
+        <ul>
+          <li>Stop ongebruikte services.</li>
+          <li>Gebruik AppLocker of Windows Defender Application Control (WDAC) voor applicatiebeperkingen.</li>
+        </ul>
+      </li>
+      <li><strong>Group Policy Hardening:</strong>
+        <ul>
+          <li>Beveilig domain controllers via GPO.</li>
+          <li>Configureer security baselines via Microsoft Security Compliance Toolkit.</li>
+          <li>Harde wachtwoordpolicy, auditpolicy, account lockout en user rights assignments instellen.</li>
+        </ul>
+      </li>
+      <li><strong>BitLocker & Disk Encryption:</strong> bescherm gegevens bij diefstal van hardware.</li>
+      <li><strong>Secure Network Configuration:</strong>
+        <ul>
+          <li>Schakel SMBv1 uit.</li>
+          <li>Gebruik TLS/HTTPS voor alle communicatie.</li>
+          <li>Beperk RDP-toegang via firewall en Network Level Authentication (NLA).</li>
+        </ul>
+      </li>
+      <li><strong>Anti-Malware:</strong>
+        <ul>
+          <li>Windows Defender/ATP inschakelen en real-time protection configureren.</li>
+          <li>Regelmatige malware scans plannen.</li>
+        </ul>
+      </li>
+      <li><strong>Auditing & Logging:</strong>
+        <ul>
+          <li>Activeer en configureer Security Event Logs.</li>
+          <li>Gebruik Windows Event Forwarding of SIEM integratie voor centrale monitoring.</li>
+        </ul>
+      </li>
+      <li><strong>Patch & Update Management:</strong> hou servers up-to-date via WSUS of SCCM.</li>
+      <li><strong>Backup & Recovery:</strong> configureer regelmatige back-ups en test herstelprocedures.</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>🔧 Tools & Resources</h2>
+    <ul>
+      <li><strong>Microsoft Security Compliance Toolkit:</strong> downloadbare security baselines.</li>
+      <li><strong>PowerShell:</strong> automatisering van hardening taken:
+        <pre><code class="language-powershell">
+# Voorbeeld: SMBv1 uitschakelen
+Set-SmbServerConfiguration -EnableSMB1Protocol $false -Force
+        </code></pre>
+      </li>
+      <li><strong>Windows Defender / ATP:</strong> anti-malware bescherming en exploit guard.</li>
+      <li><strong>AppLocker / WDAC:</strong> restricties op applicaties en scripts.</li>
+      <li><strong>Event Forwarding / SIEM:</strong> centrale logging en monitoring.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>💡 Best Practices</h2>
+    <ul>
+      <li>Gebruik security baselines van Microsoft als uitgangspunt.</li>
+      <li>Implementeer hardening in een testomgeving voordat productie wordt aangepast.</li>
+      <li>Documenteer alle hardening configuraties en GPO-instellingen.</li>
+      <li>Monitor continu en update policies op basis van nieuwe bedreigingen.</li>
+      <li>Beperk administratieve rechten tot minimaal noodzakelijke accounts.</li>
+      <li>Integreer met patch management en monitoring voor defense-in-depth.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>🧾 Conclusie</h2>
+    <p>
+      Security hardening van Windows Server vermindert risico’s, beschermt gevoelige data en ondersteunt compliance.  
+      Door minimale installaties, strikte policies, encryptie, anti-malware, auditing en patchbeheer te combineren, creëer je een robuuste en veilige serveromgeving.
+    </p>
+  </section>
+</section>

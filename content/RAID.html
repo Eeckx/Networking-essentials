@@ -1,0 +1,177 @@
+<section>
+  <h1>💾 RAID Configuration – Redundantie en performance voor Windows Server</h1>
+
+  <section>
+    <h2>🎯 Doelstelling</h2>
+    <p>
+      Dit lab behandelt hoe je **RAID (Redundant Array of Independent/Inexpensive Disks)** configureert in Windows Server,
+      inclusief software RAID via Storage Spaces en hardware RAID via RAID-controllers.  
+      Je leert de verschillende RAID-niveaus, voordelen, nadelen en configuratie-opties.
+    </p>
+  </section>
+
+  <section>
+    <h2>🧰 Voorwaarden</h2>
+    <ul>
+      <li>Windows Server 2019, 2022 of nieuwer</li>
+      <li>Administrator rechten</li>
+      <li>Minimaal 2 fysieke of virtuele disks (meer voor hogere RAID-niveaus)</li>
+      <li>Voor hardware RAID: ondersteunde RAID-controller en beheer software</li>
+      <li>Voor software RAID: Storage Spaces of Disk Management feature</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>⚙️ Installatie / voorbereiding</h2>
+    <ul>
+      <li>Controleer dat fysieke disks beschikbaar zijn (geen partities of volumes)</li>
+      <li>Voor software RAID: installeer Storage Spaces via Server Manager → File and Storage Services → Storage Services → Storage Spaces</li>
+      <li>PowerShell alternatief:
+        <pre><code class="language-powershell">
+Install-WindowsFeature FS-FileServer, Storage-Services
+        </code></pre>
+      </li>
+      <li>Voor hardware RAID: configureer disks in BIOS/RAID-controller utility (Dell PERC, HP Smart Array, etc.)</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>📝 RAID types en eigenschappen</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>RAID Level</th>
+          <th>Minimum Disks</th>
+          <th>Redundancy</th>
+          <th>Performance</th>
+          <th>Opslag efficiëntie</th>
+          <th>Gebruiksscenario</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>RAID 0 (Striping)</td>
+          <td>2</td>
+          <td>Geen</td>
+          <td>+ Hoog (parallelle schrijfacties)</td>
+          <td>100%</td>
+          <td>High performance, geen kritieke data</td>
+        </tr>
+        <tr>
+          <td>RAID 1 (Mirroring)</td>
+          <td>2</td>
+          <td>1 kopie per disk</td>
+          <td>Normaal tot + (lezen van beide disks)</td>
+          <td>50%</td>
+          <td>OS, kritische applicaties, kleine servers</td>
+        </tr>
+        <tr>
+          <td>RAID 5 (Striping + Parity)</td>
+          <td>3</td>
+          <td>1 disk kan falen</td>
+          <td>+ lezen, - schrijven (parity berekening)</td>
+          <td>(N-1)/N</td>
+          <td>Bestandsservers, algemene data</td>
+        </tr>
+        <tr>
+          <td>RAID 6 (Striping + Double Parity)</td>
+          <td>4</td>
+          <td>2 disks kunnen falen</td>
+          <td>+ lezen, - schrijven</td>
+          <td>(N-2)/N</td>
+          <td>High availability data opslag</td>
+        </tr>
+        <tr>
+          <td>RAID 10 (1+0, Mirrored Stripes)</td>
+          <td>4</td>
+          <td>1 disk per mirror kan falen</td>
+          <td>+ Hoog (lees/schrijf)</td>
+          <td>50%</td>
+          <td>Database servers, performance + redundantie</td>
+        </tr>
+        <tr>
+          <td>RAID 01 (0+1, Striped Mirrors)</td>
+          <td>4</td>
+          <td>1 mirror kan falen</td>
+          <td>+ Lezen, matig schrijven</td>
+          <td>50%</td>
+          <td>High performance + redundantie, minder populair dan RAID 10</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>🛠️ Software RAID configuratie via Storage Spaces</h2>
+    <ol>
+      <li>Open Server Manager → File and Storage Services → Storage Pools → Tasks → New Storage Pool</li>
+      <li>Selecteer beschikbare fysieke disks en geef pool een naam</li>
+      <li>Maak een virtual disk (Storage Space):
+        <ul>
+          <li>Kies resiliency type: Simple (RAID 0), Mirror (RAID 1/10), Parity (RAID 5/6)</li>
+          <li>Kies provisioning: Thin of Fixed</li>
+        </ul>
+      </li>
+      <li>Formatteer en mount het volume (NTFS/ReFS)</li>
+      <li>PowerShell voorbeeld:
+        <pre><code class="language-powershell">
+New-StoragePool -FriendlyName "RAIDPool" -PhysicalDisks (Get-PhysicalDisk -CanPool $true)
+New-VirtualDisk -StoragePoolFriendlyName "RAIDPool" -FriendlyName "VD01" -ResiliencySettingName Mirror -Size 1TB
+New-Volume -VirtualDisk (Get-VirtualDisk -FriendlyName "VD01") -FileSystem NTFS -FriendlyName "Data" -DriveLetter E
+        </code></pre>
+      </li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>🖥️ Hardware RAID configuratie</h2>
+    <ul>
+      <li>Start server en open RAID-controller BIOS/UEFI utility</li>
+      <li>Selecteer disks en RAID type (0,1,5,10 etc.)</li>
+      <li>Configureer stripe size en cache opties</li>
+      <li>Initialiseer array en schrijf metadata</li>
+      <li>Na boot: initializeer volume in Disk Management of Storage Spaces voor gebruik in Windows</li>
+      <li>Controleer status van array in controller utility of via PowerShell (Get-PhysicalDisk / Get-StoragePool)</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>📊 Monitoring en beheer</h2>
+    <ul>
+      <li>Controleer health van virtual disks en pools:
+        <pre><code class="language-powershell">
+Get-StoragePool
+Get-VirtualDisk
+Get-PhysicalDisk | Select FriendlyName, OperationalStatus
+        </code></pre>
+      </li>
+      <li>Fouten automatisch repareren met:
+        <pre><code class="language-powershell">
+Repair-VirtualDisk -FriendlyName "VD01"
+        </code></pre>
+      </li>
+      <li>Hardware RAID: status via RAID controller management software</li>
+      <li>Event Viewer → Applications and Services Logs → Microsoft → Windows → StorageSpaces-Driver voor software RAID errors</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>💡 Best Practices</h2>
+    <ul>
+      <li>Kies RAID type afhankelijk van workload: Mirror/RAID 10 voor databases, Parity/RAID 5 voor algemene data</li>
+      <li>Gebruik identieke disks voor consistente performance</li>
+      <li>Monitor regelmatig health en capacity</li>
+      <li>Maak altijd back-ups, RAID is geen vervanging voor back-up</li>
+      <li>Voor S2D: cluster nodes identiek configureren en netwerkbandbreedte voldoende (RDMA aanbevolen)</li>
+      <li>Documenteer RAID-configuratie, controller instellingen en drive mapping</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>🧾 Conclusie</h2>
+    <p>
+      RAID biedt zowel performance-verbetering als redundantie voor Windows Server omgevingen.  
+      Door de juiste RAID-niveaus te kiezen, monitoring in te stellen en best practices te volgen, kan je storage betrouwbaar en efficiënt inzetten voor diverse workloads.
+    </p>
+  </section>
+</section>

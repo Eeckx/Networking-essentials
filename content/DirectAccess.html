@@ -1,0 +1,201 @@
+<section>
+  <h1>🌐 DirectAccess – Transparante en veilige externe verbindingen voor domeinapparaten</h1>
+
+  <section>
+    <h2>🎯 Doelstelling</h2>
+    <p>
+      In deze handleiding leer je hoe je <strong>DirectAccess</strong> installeert en configureert.
+      DirectAccess zorgt ervoor dat <strong>domein-joined clients automatisch en veilig verbinding maken met het interne netwerk</strong>
+      zodra ze internettoegang hebben — zonder handmatige VPN-verbinding.
+      Dit biedt continue connectiviteit voor beheer, Group Policy, updates en gebruikersproductiviteit.
+    </p>
+  </section>
+
+  <section>
+    <h2>🧰 Voorwaarden</h2>
+    <ul>
+      <li>Windows Server 2019, 2022 of nieuwer</li>
+      <li>Server heeft twee netwerkinterfaces:
+        <ul>
+          <li>één intern (LAN)</li>
+          <li>één extern (internet / DMZ / publieke IP)</li>
+        </ul>
+      </li>
+      <li>Server is lid van een Active Directory-domein</li>
+      <li>Een publiek of interne <strong>CA-certificaatinfrastructuur (PKI)</strong></li>
+      <li>DNS correct geconfigureerd (inclusief interne en externe namen)</li>
+      <li>Windows 10/11 Enterprise clients (Pro wordt niet ondersteund)</li>
+      <li>IPv6 ingeschakeld (DirectAccess gebruikt IPv6/IPsec-tunnels)</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>⚙️ Installatie van de Remote Access rol</h2>
+    <ol>
+      <li>Open <strong>Server Manager → Add Roles and Features</strong>.</li>
+      <li>Kies <strong>Role-based or feature-based installation</strong>.</li>
+      <li>Selecteer <strong>Remote Access</strong>.</li>
+      <li>Onder <strong>Role Services</strong> vink aan:
+        <ul>
+          <li><strong>DirectAccess and VPN (RAS)</strong></li>
+        </ul>
+      </li>
+      <li>Klik op <strong>Install</strong>.</li>
+      <li>PowerShell alternatief:
+        <pre><code class="language-powershell">
+Install-WindowsFeature RemoteAccess, DirectAccess-VPN, Routing -IncludeManagementTools
+        </code></pre>
+      </li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>🚀 Configuratie via de Remote Access Setup Wizard</h2>
+    <p>
+      Na installatie open je <strong>Server Manager → Tools → Remote Access Management</strong>.
+      De wizard helpt je DirectAccess en VPN in te stellen in enkele stappen.
+    </p>
+
+    <h3>Stap 1 – Installatieoptie</h3>
+    <ul>
+      <li>Kies <strong>Deploy DirectAccess only</strong> (geen VPN).</li>
+      <li>Gebruik je server met 2 netwerkadapters? Dan kan deze rechtstreeks verkeer routeren.</li>
+    </ul>
+
+    <h3>Stap 2 – Configure Remote Clients</h3>
+    <ul>
+      <li>Selecteer welke <strong>domeingroepen</strong> DirectAccess mogen gebruiken (bijv. <code>DA-Clients</code>).</li>
+      <li>De wizard maakt automatisch een Group Policy Object (GPO) aan voor deze groep.</li>
+    </ul>
+
+    <h3>Stap 3 – Configure Remote Access Server</h3>
+    <ul>
+      <li>Selecteer de netwerkinterfaces:
+        <ul>
+          <li>Extern: internet-facing interface (publiek IP of NAT)</li>
+          <li>Intern: LAN-interface</li>
+        </ul>
+      </li>
+      <li>Vul de externe FQDN in, bijv. <code>da.contoso.com</code>.</li>
+      <li>Selecteer een geldig <strong>SSL-certificaat</strong> dat overeenkomt met deze naam.</li>
+      <li>De wizard genereert automatisch de IPsec-tunnels en netwerkconnectiviteitregels.</li>
+    </ul>
+
+    <h3>Stap 4 – Infrastructure Servers</h3>
+    <ul>
+      <li>Geef interne servers op voor beheer en connectiviteit:
+        <ul>
+          <li>DNS-server</li>
+          <li>Managementserver (voor updates en policies)</li>
+        </ul>
+      </li>
+      <li>Optioneel: activeer <strong>Network Location Server (NLS)</strong> op een interne webserver.</li>
+      <li>De NLS detecteert of een client binnen of buiten het bedrijfsnetwerk zit.</li>
+    </ul>
+
+    <h3>Stap 5 – Application Servers (optioneel)</h3>
+    <ul>
+      <li>Je kunt specifieke interne servers beschermen met end-to-end IPsec (bijv. HR-applicaties).</li>
+      <li>Dit is optioneel en vereist extra certificaten en configuratie.</li>
+    </ul>
+
+    <p>Klik tenslotte op <strong>Finish</strong> om de configuratie te voltooien.</p>
+  </section>
+
+  <section>
+    <h2>🔐 Certificaten en IPsec-beveiliging</h2>
+    <p>
+      DirectAccess gebruikt <strong>IPsec-tunnels</strong> (IPv6 over IPv4 via IP-HTTPS) en vereist dus een SSL-certificaat
+      dat overeenkomt met de externe naam van de server (bijv. <code>da.contoso.com</code>).
+    </p>
+    <ul>
+      <li>Certificaten kunnen afkomstig zijn van een interne AD CS of een publieke CA.</li>
+      <li>Clients vertrouwen automatisch op interne certificaten als ze lid zijn van het domein.</li>
+      <li>Controleer dat het certificaat zowel <strong>Server Authentication</strong> bevat als een geldig <strong>CRL-pad</strong>.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>🧭 Clientconfiguratie</h2>
+    <p>
+      Domein-clients ontvangen automatisch hun DirectAccess-instellingen via Group Policy.
+    </p>
+    <ul>
+      <li>De GPO’s worden gemaakt tijdens de wizard:
+        <ul>
+          <li><strong>DirectAccess Client Settings</strong></li>
+          <li><strong>DirectAccess Server Settings</strong></li>
+        </ul>
+      </li>
+      <li>Clients moeten lid zijn van de opgegeven AD-groep (bijv. <code>DA-Clients</code>).</li>
+      <li>Controleer na policy-update (<code>gpupdate /force</code>) de status via:
+        <pre><code class="language-powershell">
+Get-DAConnectionStatus
+        </code></pre>
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>🌍 Netwerk en firewall</h2>
+    <p>De volgende poorten moeten openstaan naar de DirectAccess-server:</p>
+    <ul>
+      <li>TCP 443 – IP-HTTPS (hoofdprotocol)</li>
+      <li>UDP 3544 – Teredo (optioneel, fallback)</li>
+      <li>IPv6 – intern verkeer (via IPsec)</li>
+    </ul>
+    <p>
+      Bij gebruik van NAT of één enkele interface kan DirectAccess ook werken in een "Edge" configuratie,
+      waarbij de server rechtstreeks via 443 verbindingen ontvangt.
+    </p>
+  </section>
+
+  <section>
+    <h2>🧠 Controle en troubleshooting</h2>
+    <ul>
+      <li>Gebruik op de client <code>Get-DAConnectionStatus</code> of <code>netsh interface httpstunnel show interfaces</code>.</li>
+      <li>Controleer in Event Viewer:
+        <ul>
+          <li><strong>Applications and Services Logs → Microsoft → Windows → RemoteAccess</strong></li>
+        </ul>
+      </li>
+      <li>Gebruik op de server <strong>Remote Access Management Console → Operations Status</strong>.</li>
+      <li>Ping interne servers via hostname om connectiviteit te testen.</li>
+      <li>Controleer dat de Network Location Server bereikbaar is op het interne netwerk.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>⚡ Beheer en monitoring</h2>
+    <ul>
+      <li>Gebruik de <strong>Remote Access Management Console</strong> om connecties te monitoren.</li>
+      <li>Integreer met <strong>Network Policy Server (NPS)</strong> voor extra authenticatie of accounting.</li>
+      <li>Gebruik PowerShell voor rapportering:
+        <pre><code class="language-powershell">
+Get-RemoteAccessConnectionStatistics
+        </code></pre>
+      </li>
+      <li>Plan certificaatvernieuwingen tijdig (IP-HTTPS vereist geldig SSL-certificaat).</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>💡 Best Practices</h2>
+    <ul>
+      <li>Gebruik een <strong>publiek certificaat</strong> voor de externe naam (minder CRL-problemen).</li>
+      <li>Beperk DirectAccess tot specifieke <strong>beheerde apparaten</strong> via AD-groepen.</li>
+      <li>Zorg dat <strong>DNS en NLS</strong> betrouwbaar zijn.</li>
+      <li>Gebruik <strong>dual-NIC</strong> waar mogelijk (scheiding LAN/Internet).</li>
+      <li>Overweeg migratie naar <strong>Always On VPN</strong> voor moderne Windows 10/11 ondersteuning (zelfde concept, meer flexibiliteit).</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>🧾 Conclusie</h2>
+    <p>
+      Met DirectAccess krijgen domein-clients <strong>naadloze, continue en beveiligde verbinding</strong> met het interne netwerk.
+      Beheerders kunnen apparaten beheren, updates pushen en policies afdwingen, zelfs wanneer gebruikers extern werken —
+      zonder handmatige VPN-verbinding.
+    </p>
+  </section>
+</section>

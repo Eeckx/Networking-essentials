@@ -1,0 +1,92 @@
+<section>
+  <h1>💻 RDS Licensing Modus – Windows Server</h1>
+
+  <section>
+    <h2>🎯 Doelstelling</h2>
+    <p>
+      Dit lab behandelt de configuratie en werking van Remote Desktop Services (RDS) licentiemodi in Windows Server.  
+      Het doel is om compliant gebruik van RDS te waarborgen, licenties correct toe te wijzen en gebruikers toegang te geven tot RDS-sessies.
+    </p>
+  </section>
+
+  <section>
+    <h2>🧰 Kernconcepten</h2>
+    <ul>
+      <li><strong>RDS Licensing:</strong> mechanismen waarmee Windows Server licenties beheert voor Remote Desktop Services.</li>
+      <li><strong>Licensing Server:</strong> server die RDS CALs (Client Access Licenses) beheert en toewijst.</li>
+      <li><strong>RDS CAL:</strong> licentie die een gebruiker of device toestaat om een RDS-sessie te starten.</li>
+      <li><strong>Licensing Modus:</strong> bepaalt hoe licenties worden toegewezen: per gebruiker of per apparaat.</li>
+      <li><strong>Compliance:</strong> voldoende CALs aanwezig voor alle gebruikers/devices; controleren via RD Licensing Manager.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>⚙️ RDS Licensing Modi</h2>
+    <ul>
+      <li><strong>Per Device (Per apparaat):</strong>
+        <ul>
+          <li>Elke fysieke of virtuele machine die een RDS-sessie start, vereist een CAL.</li>
+          <li>Geschikt voor gedeelde werkplekken, labomgevingen of kiosk devices.</li>
+          <li>Licenties blijven toegewezen aan het device, onafhankelijk van gebruiker.</li>
+        </ul>
+      </li>
+      <li><strong>Per User (Per gebruiker):</strong>
+        <ul>
+          <li>Elke gebruiker die toegang heeft tot RDS-sessies, vereist een CAL.</li>
+          <li>Gebruiker kan vanaf meerdere devices inloggen met dezelfde CAL.</li>
+          <li>Geschikt voor werknemers met meerdere devices (laptop, desktop, tablet).</li>
+        </ul>
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>🔧 Configuratie van RDS Licensing</h2>
+    <ol>
+      <li>Installeer de <strong>Remote Desktop Licensing Role</strong> via Server Manager of PowerShell:
+        <pre><code class="language-powershell">
+Install-WindowsFeature -Name RDS-Licensing -IncludeManagementTools
+        </code></pre>
+      </li>
+      <li>Open <strong>Remote Desktop Licensing Manager</strong> en voeg de licenties toe (per User of Device).</li>
+      <li>Koppel de RDSH servers aan de licentieserver:
+        <ul>
+          <li>Server Manager → Remote Desktop Services → Collections → Properties → RD Licensing</li>
+          <li>Selecteer licentieserver en configureer modus (Per User / Per Device)</li>
+        </ul>
+      </li>
+      <li>Controleer dat licenties beschikbaar zijn en dat RD Session Host correct de CALs toewijst.</li>
+      <li>Activeer licenties indien nodig via RD Licensing Manager (online of via telefoon).</li>
+      <li>Verifieer toegewezen CALs en gebruiksstatistieken regelmatig.</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>📊 Best Practices</h2>
+    <ul>
+      <li>Kies de licentiemodus op basis van gebruikerspatroon: <em>Per User</em> voor meerdere devices per gebruiker, <em>Per Device</em> voor gedeelde terminals.</li>
+      <li>Documenteer alle toegewezen CALs en controleer compliance periodiek.</li>
+      <li>Zorg dat de licentieserver altijd online en bereikbaar is door RD Session Host servers.</li>
+      <li>Gebruik RD Licensing Diagnoser om problemen te detecteren.</li>
+      <li>Plan toekomstige groei: reserveer extra CALs voor nieuwe gebruikers/devices.</li>
+      <li>Integreer met monitoring voor waarschuwingen bij bijna uitgeputte licenties.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>📌 Voorbeelden</h2>
+    <ul>
+      <li>Per User: 100 medewerkers hebben elk toegang tot RDS via desktop + laptop → 100 User CALs nodig</li>
+      <li>Per Device: 10 gedeelde werkstations in lab → 10 Device CALs voldoende, ongeacht aantal gebruikers</li>
+      <li>Mix scenario: meerdere RDSH servers in farm, 50 User CALs centraal toegewezen via licentieserver</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>🧾 Conclusie</h2>
+    <p>
+      De juiste RDS Licensing modus (Per User of Per Device) is essentieel voor compliance en correcte toegang tot Remote Desktop Services.  
+      Door licenties correct te configureren, regelmatig te controleren en te documenteren, blijft de omgeving veilig, compliant en schaalbaar.
+    </p>
+  </section>
+</section>

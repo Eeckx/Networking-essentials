@@ -1,0 +1,172 @@
+<article>
+  <h1>Hyper-V Virtual Switch en Netwerkconfiguratie Lab</h1>
+
+  <section>
+    <h2>🎯 Doelstelling</h2>
+    <p>
+      In deze handleiding leer je hoe je virtuele switches configureert in Hyper-V en hoe je netwerkconnectiviteit instelt
+      voor virtuele machines. Je leert externe, interne en private switches te gebruiken en netwerkinstellingen zoals IP-configuratie te beheren.
+    </p>
+  </section>
+
+  <section class="infra-table">
+    <h3>🧩 Benodigde infrastructuur</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Component</th>
+          <th>Minimumvereisten</th>
+          <th>Aanbevolen</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Host OS</td>
+          <td>Windows 10/11 Pro of Enterprise</td>
+          <td>Windows 10/11 Enterprise</td>
+        </tr>
+        <tr>
+          <td>Hyper-V</td>
+          <td>Ingeschakeld via Windows Features</td>
+          <td>Laatste updates geïnstalleerd</td>
+        </tr>
+        <tr>
+          <td>VM’s</td>
+          <td>1 of meer met Windows/Linux</td>
+          <td>2 of meer VM’s om netwerk te testen</td>
+        </tr>
+        <tr>
+          <td>Netwerkadapter</td>
+          <td>1× fysieke NIC</td>
+          <td>2× NIC (LAN + Internet)</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>🏗️ Stappenplan Virtual Switch en Netwerkconfiguratie</h2>
+
+    <h3>Stap 1 – Hyper-V Manager openen</h3>
+    <ol>
+      <li>Open <strong>Start → Hyper-V Manager</strong>.</li>
+      <li>Controleer dat je host zichtbaar is in de linker navigatiekolom.</li>
+    </ol>
+
+    <h3>Stap 2 – Virtuele switch maken</h3>
+    <ol>
+      <li>Klik in de rechterkolom op <strong>Virtual Switch Manager</strong>.</li>
+      <li>Kies switch type:
+        <ul>
+          <li><strong>External:</strong> Verbinding met fysiek netwerk, VM heeft toegang tot LAN/internet</li>
+          <li><strong>Internal:</strong> Verbinding tussen host en VM’s, geen externe toegang</li>
+          <li><strong>Private:</strong> Alleen VM naar VM communicatie, host niet verbonden</li>
+        </ul>
+      </li>
+      <li>Geef een duidelijke naam, bijvoorbeeld <code>LabSwitch_External</code>.</li>
+      <li>Koppel de juiste fysieke netwerkadapter bij een External switch.</li>
+      <li>Klik <strong>Apply → OK</strong> om de switch aan te maken.</li>
+      <li>PowerShell alternatief:
+        <pre><code class="language-powershell">
+New-VMSwitch -Name "LabSwitch_External" -NetAdapterName "Ethernet0" -AllowManagementOS $true
+        </code></pre>
+      </li>
+    </ol>
+
+    <h3>Stap 3 – Virtuele machine koppelen aan switch</h3>
+    <ol>
+      <li>Selecteer een VM en klik <strong>Settings → Network Adapter</strong>.</li>
+      <li>Kies de eerder aangemaakte switch in het dropdown-menu.</li>
+      <li>Klik <strong>Apply → OK</strong>.</li>
+      <li>PowerShell alternatief:
+        <pre><code class="language-powershell">
+Connect-VMNetworkAdapter -VMName "VM01" -SwitchName "LabSwitch_External"
+        </code></pre>
+      </li>
+    </ol>
+
+    <h3>Stap 4 – IP-configuratie van VM</h3>
+    <ol>
+      <li>Start de VM en open netwerkconfiguratie (Windows: <strong>Settings → Network → Ethernet → Properties</strong>).</li>
+      <li>Kies tussen:
+        <ul>
+          <li><strong>DHCP:</strong> Automatisch een IP-adres verkrijgen</li>
+          <li><strong>Statisch:</strong> Handmatig IP-adres, subnet, gateway en DNS instellen</li>
+        </ul>
+      </li>
+      <li>Test connectiviteit met:
+        <ul>
+          <li>Ping de host</li>
+          <li>Ping andere VM’s</li>
+          <li>Ping internet (indien External switch)</li>
+        </ul>
+      </li>
+      <li>PowerShell alternatief (statisch IP):
+        <pre><code class="language-powershell">
+New-NetIPAddress -InterfaceAlias "Ethernet" -IPAddress 192.168.10.10 -PrefixLength 24 -DefaultGateway 192.168.10.1
+Set-DnsClientServerAddress -InterfaceAlias "Ethernet" -ServerAddresses 192.168.10.1
+        </code></pre>
+      </li>
+    </ol>
+
+    <h3>Stap 5 – Netwerktests</h3>
+    <ul>
+      <li>Ping andere VM’s binnen dezelfde switch (Private/Internal) om communicatie te verifiëren.</li>
+      <li>Controleer dat External switch toegang geeft tot LAN en internet.</li>
+      <li>Test host ↔ VM verbinding bij Internal switch.</li>
+    </ul>
+
+    <h3>Stap 6 – Geavanceerde opties</h3>
+    <ul>
+      <li>VLAN tagging instellen voor gesegmenteerde netwerken</li>
+      <li>QoS (bandbreedtebeperking) configureren via Hyper-V switch</li>
+      <li>Gebruik van NIC Teaming voor redundantie</li>
+      <li>Snapshots maken van VM’s vóór netwerkconfiguratie wijzigingen</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>🔐 Veiligheid en isolatie</h2>
+    <ul>
+      <li>Gebruik Internal of Private switches voor test-VM’s om netwerkrisico te minimaliseren</li>
+      <li>Controleer firewall-instellingen van host en VM’s</li>
+      <li>Beperk toegang via RDP/SSH tot testdoeleinden</li>
+      <li>Maak regelmatig snapshots voor herstelpunten</li>
+    </ul>
+  </section>
+
+  <section class="infra-table">
+    <h3>📊 Probleemoplossing</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Probleem</th>
+          <th>Oplossing</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>VM kan geen IP krijgen</td>
+          <td>Controleer switch type, DHCP-server of statische instellingen</td>
+        </tr>
+        <tr>
+          <td>Geen connectiviteit tussen VM’s</td>
+          <td>Zorg dat ze aan dezelfde switch zijn gekoppeld en dezelfde VLAN gebruiken</td>
+        </tr>
+        <tr>
+          <td>Internet niet bereikbaar (External switch)</td>
+          <td>Controleer fysieke NIC, host netwerkconfiguratie en firewall</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>🧾 Conclusie</h2>
+    <p>
+      Na deze lab-oefening kun je Hyper-V virtuele switches aanmaken, VM’s koppelen en netwerkconfiguratie beheren.
+      Je kunt veilige en geïsoleerde testomgevingen opzetten, VLAN’s en IP-adressen instellen en connectiviteit testen.
+    </p>
+  </section>
+
+</article>

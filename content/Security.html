@@ -1,0 +1,178 @@
+<section>
+  <h1>🛡️ Windows Defender & Security – Bescherming en hardening van Windows Server</h1>
+
+  <section>
+    <h2>🎯 Doelstelling</h2>
+    <p>
+      Deze handleiding behandelt hoe je <strong>Windows Defender Antivirus</strong> en andere ingebouwde beveiligingsfeatures configureert en beheert
+      om servers te beschermen tegen malware, ransomware en andere bedreigingen. Daarnaast worden best practices besproken voor hardening, monitoring en incident response.
+    </p>
+  </section>
+
+  <section>
+    <h2>🧰 Voorwaarden</h2>
+    <ul>
+      <li>Windows Server 2019, 2022 of nieuwer</li>
+      <li>Administrator rechten</li>
+      <li>Internettoegang voor updates (Microsoft Defender-signatures)</li>
+      <li>Active Directory en Group Policy (optioneel, voor centrale beheer)</li>
+      <li>PowerShell kennis voor geavanceerde configuratie en scripts</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>⚙️ Installatie en activering</h2>
+    <ul>
+      <li>Windows Defender is standaard geïnstalleerd op moderne Windows Servers.</li>
+      <li>Controleer status via PowerShell:
+        <pre><code class="language-powershell">
+Get-MpComputerStatus
+        </code></pre>
+      </li>
+      <li>Installeer de feature indien niet aanwezig:
+        <pre><code class="language-powershell">
+Install-WindowsFeature -Name Windows-Defender-Features
+        </code></pre>
+      </li>
+      <li>Activeer real-time bescherming:
+        <pre><code class="language-powershell">
+Set-MpPreference -DisableRealtimeMonitoring $false
+        </code></pre>
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>🛡️ Configuratie van Windows Defender Antivirus</h2>
+    <ul>
+      <li>Real-time bescherming inschakelen (verplicht voor continue bescherming)</li>
+      <li>Cloud-delivery en automatische sample submission voor nieuwste detecties:
+        <pre><code class="language-powershell">
+Set-MpPreference -MAPSReporting Advanced
+Set-MpPreference -SubmitSamplesConsent SendSafeSamples
+        </code></pre>
+      </li>
+      <li>Exclusies instellen voor kritieke toepassingen of storage (indien nodig):
+        <pre><code class="language-powershell">
+Add-MpPreference -ExclusionPath "C:\HyperV\VMs"
+Add-MpPreference -ExclusionProcess "vmms.exe"
+Add-MpPreference -ExclusionExtension ".vhdx"
+        </code></pre>
+      </li>
+      <li>Periodieke scans plannen via Task Scheduler of via PowerShell:
+        <pre><code class="language-powershell">
+Set-MpPreference -ScanScheduleDay 0 -ScanScheduleTime 03:00
+        </code></pre>
+        <small>(0 = zondag, 1 = maandag, etc.)</small>
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>💾 Updates & Signatures</h2>
+    <ul>
+      <li>Windows Defender gebruikt **Microsoft Update** voor signature updates.</li>
+      <li>Handmatige update via PowerShell:
+        <pre><code class="language-powershell">
+Update-MpSignature
+        </code></pre>
+      </li>
+      <li>Controleer laatste update:
+        <pre><code class="language-powershell">
+Get-MpComputerStatus | Select-Object AntivirusSignatureLastUpdated
+        </code></pre>
+      </li>
+      <li>Integratie met WSUS mogelijk voor interne update-distributie</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>🧰 Security Policies & Hardening</h2>
+    <ul>
+      <li>Configureer via **Group Policy** of **Local Security Policy**:
+        <ul>
+          <li>Exploit Guard (Attack Surface Reduction)</li>
+          <li>Controlled Folder Access (bescherming tegen ransomware)</li>
+          <li>Network Protection en SmartScreen</li>
+          <li>Credential Guard en Device Guard (indien Hyper-V geactiveerd)</li>
+        </ul>
+      </li>
+      <li>PowerShell configuratie voorbeelden:
+        <pre><code class="language-powershell">
+Set-MpPreference -AttackSurfaceReductionOnlyExclusions @()
+Set-MpPreference -EnableControlledFolderAccess Enabled
+        </code></pre>
+      </li>
+      <li>Audit policies inschakelen via GPO om verdachte activiteit te loggen</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>🔍 Monitoring en Logging</h2>
+    <ul>
+      <li>Event Viewer logs:
+        <ul>
+          <li>Applications and Services Logs → Microsoft → Windows → Windows Defender → Operational</li>
+        </ul>
+      </li>
+      <li>PowerShell voor status en recente malware detecties:
+        <pre><code class="language-powershell">
+Get-MpThreatDetection
+Get-MpComputerStatus
+        </code></pre>
+      </li>
+      <li>Alerts instellen via Event Forwarding of SIEM-integratie</li>
+      <li>Rapporten genereren met PowerShell:
+        <pre><code class="language-powershell">
+Get-MpComputerStatus | Select-Object AntivirusEnabled,RealTimeProtectionEnabled,QuickScanAge
+        </code></pre>
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>⚡ Scans en Remediation</h2>
+    <ul>
+      <li>Quick scan: <code>Start-MpScan -ScanType QuickScan</code></li>
+      <li>Full scan: <code>Start-MpScan -ScanType FullScan</code></li>
+      <li>Specifieke folder of file: <code>Start-MpScan -ScanPath "C:\Data"</code></li>
+      <li>Quarantaine beheren:
+        <pre><code class="language-powershell">
+Get-MpThreat | Format-Table ThreatID,Action,Category
+Remove-MpThreat -ThreatID 214764
+        </code></pre>
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>🔐 Integratie met andere securityfeatures</h2>
+    <ul>
+      <li>Windows Firewall (per host of via GPO)</li>
+      <li>BitLocker voor disk-encryptie</li>
+      <li>Credential Guard & Device Guard</li>
+      <li>Advanced Threat Protection (ATP) of Microsoft Defender for Endpoint voor enterprise bescherming</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>💡 Best Practices</h2>
+    <ul>
+      <li>Houd real-time bescherming altijd aan (exceptie alleen voor kritieke performance scenarios)</li>
+      <li>Plan regelmatige full scans tijdens onderhoudsvensters</li>
+      <li>Integreer met centrale logging/SIEM voor volledige zichtbaarheid</li>
+      <li>Beperk uitzonderingen tot strikt noodzakelijke paden of processen</li>
+      <li>Controleer regelmatig signature updates en scan logs</li>
+      <li>Combineer met hardening maatregelen zoals Exploit Guard en Controlled Folder Access</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>🧾 Conclusie</h2>
+    <p>
+      Windows Defender biedt moderne, ingebouwde bescherming voor servers zonder extra software.
+      In combinatie met policies, monitoring, alerts en hardening kun je een veilige en beheerbare serveromgeving creëren,
+      die beschermd is tegen malware, ransomware en andere bedreigingen.
+    </p>
+  </section>
+</section>

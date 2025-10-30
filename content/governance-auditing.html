@@ -1,0 +1,105 @@
+<section>
+  <h1>📋 Governance & Auditing – Windows Server</h1>
+
+  <section>
+    <h2>🎯 Doelstelling</h2>
+    <p>
+      Dit lab behandelt hoe je governance- en auditingpraktijken toepast in Windows Server-omgevingen.  
+      Het doel is om compliance, security en operationele transparantie te waarborgen door policies, logging en controlemechanismen.
+    </p>
+  </section>
+
+  <section>
+    <h2>🧰 Kernconcepten</h2>
+    <ul>
+      <li><strong>Governance:</strong> beleid en processen die bepalen hoe IT-resources beheerd, gebruikt en gecontroleerd worden.</li>
+      <li><strong>Auditing:</strong> systematisch vastleggen en analyseren van acties op servers en netwerken voor compliance en security.</li>
+      <li><strong>Compliance:</strong> voldoen aan interne en externe regelgeving, standaarden en security frameworks (bijv. ISO 27001, NIST, GDPR).</li>
+      <li><strong>Accountability:</strong> traceren van wie wat doet, inclusief veranderingen aan kritieke systemen.</li>
+      <li><strong>Separation of Duties:</strong> beperken van risico door verantwoordelijkheden te verdelen (bijv. admin vs backup operator).</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>⚙️ Governance Mechanismen</h2>
+    <ul>
+      <li>Gebruik **Group Policy Objects (GPO)** om consistent beleid toe te passen (wachtwoordbeleid, account lockout, auditing instellingen).</li>
+      <li>Rollen en rechten beperken volgens **Least Privilege**.</li>
+      <li>Documenteer processen en verantwoordelijkheden in **runbooks** en interne policies.</li>
+      <li>Implementeer **change management** en **approval flows** voor kritieke wijzigingen.</li>
+      <li>Regelmatige **reviews van users, groups en privileges** uitvoeren.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>🔍 Auditing Configuratie</h2>
+    <ul>
+      <li>Activeer audit policies via GPO:
+        <ul>
+          <li>Account logon events (success/failure)</li>
+          <li>Account management (create, delete, modify)</li>
+          <li>Directory service access (AD object changes)</li>
+          <li>Policy change (GPO wijziging)</li>
+          <li>Logon/logoff events</li>
+          <li>Object access (file/folder, registry)</li>
+        </ul>
+      </li>
+      <li>Gebruik **Advanced Audit Policy Configuration** voor granulariteit.</li>
+      <li>Event Viewer: Security log, System log, Application log.</li>
+      <li>PowerShell voorbeeld voor event query:
+        <pre><code class="language-powershell">
+# Laat de laatste 50 mislukte logins zien
+Get-EventLog -LogName Security -InstanceId 4625 -Newest 50
+        </code></pre>
+      </li>
+      <li>Forward security logs naar centrale **SIEM** voor correlatie en compliance monitoring.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>📊 Reporting & Compliance</h2>
+    <ul>
+      <li>Maak periodieke rapporten voor:
+        <ul>
+          <li>Inactive accounts</li>
+          <li>Privileged accounts changes</li>
+          <li>Failed login attempts</li>
+          <li>Policy changes</li>
+        </ul>
+      </li>
+      <li>Gebruik PowerShell, Windows Admin Center of SCOM voor rapportage.</li>
+      <li>Documenteer incidenten en afwijkingen, inclusief acties en RCA.</li>
+      <li>Controleer compliance tegen interne en externe standaarden (ISO 27001, NIST, GDPR).</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>💡 Best Practices</h2>
+    <ul>
+      <li>Implementeer auditing standaard op alle domain controllers en kritieke servers.</li>
+      <li>Gebruik SIEM voor centralisatie en correlatie van security events.</li>
+      <li>Controleer regelmatig GPO-instellingen en privileges van accounts.</li>
+      <li>Documenteer governance processen en update periodiek.</li>
+      <li>Integreer auditing met change management voor volledige accountability.</li>
+      <li>Houd audit logs veilig, immutabel en bewaakretentie volgens compliance eisen.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>📌 Voorbeelden</h2>
+    <ul>
+      <li>Audit van AD objecten: detecteer wie wachtwoorden heeft gereset of groepen heeft aangepast.</li>
+      <li>File server auditing: log toegang tot gevoelige mappen en detecteer ongeoorloofde toegang.</li>
+      <li>RDS/Hyper-V audit: monitor wie VM's start/stop zet of configuraties wijzigt.</li>
+      <li>Compliance rapport: lijst van accounts die niet voldoen aan MFA- of wachtwoordbeleid.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>🧾 Conclusie</h2>
+    <p>
+      Governance & Auditing zorgen voor transparantie, compliance en security in Windows Server omgevingen.  
+      Door GPO’s, auditing policies, SIEM, rapportage en gedocumenteerde procedures te combineren, kan een organisatie veilig, compliant en controleerbaar blijven.
+    </p>
+  </section>
+</section>

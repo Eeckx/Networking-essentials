@@ -1,0 +1,124 @@
+<section>
+  <h1>🛠️ Troubleshooting & Best-practice Documentatie – Windows Server</h1>
+
+  <section>
+    <h2>🎯 Doelstelling</h2>
+    <p>
+      Dit lab behandelt methodes om problemen in Windows Server omgevingen systematisch op te lossen, gecombineerd met het opstellen van uitgebreide documentatie voor best practices.  
+      Het doel is om downtime te minimaliseren, kennis te centraliseren en toekomstige problemen sneller op te lossen.
+    </p>
+  </section>
+
+  <section>
+    <h2>🧰 Kernconcepten</h2>
+    <ul>
+      <li><strong>Systematisch Troubleshooting:</strong> gestructureerde aanpak van problemen om oorzaak snel te identificeren.</li>
+      <li><strong>Best Practices Documentatie:</strong> centrale, actuele richtlijnen en procedures voor configuratie, onderhoud en herstel.</li>
+      <li><strong>Root Cause Analysis (RCA):</strong> achterhalen waarom een probleem zich voordoet om herhaling te voorkomen.</li>
+      <li><strong>Knowledge Base:</strong> interne documentatie van bekende problemen, oplossingen en lessons learned.</li>
+      <li><strong>Monitoring & Logging:</strong> logs en performance metrics gebruiken als basis voor troubleshooting.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>⚙️ Stappen voor Troubleshooting</h2>
+    <ol>
+      <li><strong>Probleem identificeren:</strong> verzamel symptomen, foutmeldingen, tijdstip en impact.</li>
+      <li><strong>Logs analyseren:</strong> gebruik Event Viewer, PowerShell (Get-EventLog, Get-WinEvent), Performance Monitor.</li>
+      <li><strong>Hypotheses opstellen:</strong> mogelijke oorzaken opsommen en prioriteren.</li>
+      <li><strong>Test & Isolatie:</strong> beperk scope tot componenten (server, netwerk, storage, applicatie).</li>
+      <li><strong>Oplossing implementeren:</strong> voer gefaseerde correctie uit, documenteer wijzigingen.</li>
+      <li><strong>Validatie:</strong> controleer of probleem opgelost is en services correct functioneren.</li>
+      <li><strong>RCA & Lessons Learned:</strong> achterhaal root cause en update documentatie of GPO/beleid indien nodig.</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>🔧 Tools & Methoden</h2>
+    <ul>
+      <li><strong>Event Viewer:</strong> Systeem, Security, Application, Setup, Forwarded Events.</li>
+      <li><strong>Performance Monitor:</strong> analyseer CPU, memory, disk, network bottlenecks.</li>
+      <li><strong>Resource Monitor:</strong> proces-specifieke resourceproblemen identificeren.</li>
+      <li><strong>PowerShell:</strong> automatisering van troubleshooting en log queries:
+        <pre><code class="language-powershell">
+# Laat foutmeldingen van afgelopen 24u zien
+Get-EventLog -LogName System -EntryType Error -After (Get-Date).AddDays(-1)
+        </code></pre>
+      </li>
+      <li><strong>Network Tools:</strong> ping, tracert, netstat, ipconfig, Test-NetConnection voor netwerkproblemen.</li>
+      <li><strong>Application Logs:</strong> IIS logs, SQL Server logs, Hyper-V logs, RDS logs.</li>
+      <li><strong>Third-party Tools:</strong> SCOM, SolarWinds, Nagios voor centrale monitoring en alerting.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>📄 Best-practice Documentatie</h2>
+    <ul>
+      <li>Maak template voor documentatie van problemen:
+        <ul>
+          <li>Beschrijving van probleem</li>
+          <li>Datum/tijd en impact</li>
+          <li>Onderzoek & logs</li>
+          <li>Oplossing & implementatie</li>
+          <li>Root Cause Analysis</li>
+          <li>Lessons Learned / Preventieve maatregelen</li>
+        </ul>
+      </li>
+      <li>Documenteer configuraties en policies:
+        <ul>
+          <li>Server roles & features</li>
+          <li>GPO instellingen</li>
+          <li>Storage & networking configuraties</li>
+          <li>Backup & DR procedures</li>
+        </ul>
+      </li>
+      <li>Gebruik centrale kennisbank (SharePoint, Confluence, Wiki) zodat iedereen toegang heeft tot oplossingen.</li>
+      <li>Periodiek review van documentatie om verouderde informatie te verwijderen of aan te passen.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>💡 Voorbeelden van Troubleshooting & Documentatie</h2>
+    <ul>
+      <li><strong>Voorbeeld 1 – Hyper-V VM start niet:</strong>
+        <ul>
+          <li>Symptoom: VM blijft hangen bij starten</li>
+          <li>Logs: Hyper-V-EventID 18506 (VHD/VHDX probleem)</li>
+          <li>Oplossing: VHDX checken, permissies corrigeren, VM opnieuw starten</li>
+          <li>RCA: Onjuiste NTFS permissies op VHDX-bestand</li>
+          <li>Documentatie: update template met foutmelding en oplossing voor toekomstige referentie</li>
+        </ul>
+      </li>
+      <li><strong>Voorbeeld 2 – RDS gebruiker kan niet inloggen:</strong>
+        <ul>
+          <li>Symptoom: login foutmelding “The user profile service failed the logon”</li>
+          <li>Logs: EventID 1500-1515 in Security/Application logs</li>
+          <li>Oplossing: profiel map permissions resetten, eventueel nieuw profiel aanmaken</li>
+          <li>RCA: corrupt profiel door onvoldoende quota of antivirus blokkade</li>
+          <li>Documentatie: noteer oorzaak en stappen in kennisbank</li>
+        </ul>
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>⚡ Best Practices</h2>
+    <ul>
+      <li>Gebruik gestructureerde methodiek bij alle troubleshooting taken.</li>
+      <li>Documenteer alles systematisch in centrale kennisbank.</li>
+      <li>Voer regelmatig review en update van documentatie uit.</li>
+      <li>Combineer monitoring data, logs en performance metrics voor snelle diagnose.</li>
+      <li>Test oplossingen eerst in labomgeving indien mogelijk.</li>
+      <li>Gebruik root cause analysis om herhaling te voorkomen.</li>
+      <li>Automatiseer terugkerende troubleshooting stappen met PowerShell of scripts.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>🧾 Conclusie</h2>
+    <p>
+      Systematisch troubleshooting gecombineerd met uitgebreide best-practice documentatie vermindert downtime, versnelt probleemoplossing en verhoogt kennisdeling binnen de organisatie.  
+      Door tools, logs, monitoring en centrale kennisbanken te gebruiken, kunnen Windows Server omgevingen effectief beheerd en onderhouden worden.
+    </p>
+  </section>
+</section>

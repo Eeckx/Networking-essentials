@@ -1,0 +1,110 @@
+<section>
+  <h1>📊 Geavanceerde Monitoring & Logging – Windows Server</h1>
+
+  <section>
+    <h2>🎯 Doelstelling</h2>
+    <p>
+      Dit lab behandelt hoe je Windows Server en de omgeving op een geavanceerde manier monitort en logt.  
+      Je leert tools, methoden en best practices om performance, events en security centraal en real-time te beheren.
+    </p>
+  </section>
+
+  <section>
+    <h2>🧰 Tools & Technologieën</h2>
+    <ul>
+      <li><strong>Event Viewer:</strong> logs van systeem, applicaties, beveiliging en hardware.</li>
+      <li><strong>Performance Monitor (PerfMon):</strong> real-time metrics en datacollectie voor CPU, RAM, disk, netwerk en applicaties.</li>
+      <li><strong>Reliability Monitor:</strong> overzicht van systeemstabiliteit en falen.</li>
+      <li><strong>Windows Admin Center / Remote Server Management:</strong> centrale monitoring van meerdere servers.</li>
+      <li><strong>PowerShell / Get-Counter / Get-EventLog:</strong> scripting en automatisering van monitoring.</li>
+      <li><strong>Data Collector Sets:</strong> voor lange-termijn performance logging.</li>
+      <li><strong>Third-party tools:</strong> System Center Operations Manager (SCOM), Grafana, Prometheus, ELK stack.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>⚙️ Event Logging</h2>
+    <ul>
+      <li>Gebruik Event Viewer om logs te bekijken: Systeem, Beveiliging, Applicatie, Setup, Forwarded Events.</li>
+      <li>PowerShell voorbeeld om laatste 100 errors te tonen:
+        <pre><code class="language-powershell">
+Get-EventLog -LogName System -EntryType Error -Newest 100
+        </code></pre>
+      </li>
+      <li>Automatische alerts via Task Scheduler of SCOM bij kritieke events.</li>
+      <li>Event Forwarding: verzamel logs centraal van meerdere servers naar één collector.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>🖥️ Performance Monitoring</h2>
+    <ul>
+      <li>Gebruik Performance Monitor (PerfMon) voor metrics zoals CPU%, RAM, Disk Queue Length, Network Utilization.</li>
+      <li>Data Collector Sets configureren voor lange-termijn monitoring:
+        <pre><code class="language-powershell">
+# Voorbeeld: CPU usage loggen elke minuut
+$counter = "\Processor(_Total)\% Processor Time"
+$logFile = "C:\PerfLogs\CPU.csv"
+Get-Counter -Counter $counter -SampleInterval 60 -MaxSamples 1440 | Export-Csv $logFile
+        </code></pre>
+      </li>
+      <li>Analyseer historische data voor trends, capacity planning of bottleneck detectie.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>🔐 Security Logging</h2>
+    <ul>
+      <li>Audit Policies configureren via Group Policy: login attempts, privilege changes, object access.</li>
+      <li>PowerShell voorbeeld om mislukte logins te controleren:
+        <pre><code class="language-powershell">
+Get-EventLog -LogName Security -InstanceId 4625 -After (Get-Date).AddDays(-1)
+        </code></pre>
+      </li>
+      <li>Forward security logs naar SIEM-oplossing voor centrale analyse (Splunk, ELK, Azure Sentinel).</li>
+      <li>Configureer alerts voor brute force, account lockout of privilege escalations.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>🌐 Network Monitoring</h2>
+    <ul>
+      <li>Gebruik Performance Monitor counters: Network Interface\Bytes Total/sec, TCPv4\Connections Established.</li>
+      <li>PowerShell voorbeeld:
+        <pre><code class="language-powershell">
+Get-NetAdapterStatistics
+        </code></pre>
+      </li>
+      <li>Wireshark of Microsoft Message Analyzer voor diepgaande packet capture.</li>
+      <li>Configureer SNMP traps voor alerts bij netwerkapparatuur.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>📦 Centralisatie & Automatisering</h2>
+    <ul>
+      <li>Gebruik Windows Event Forwarding (WEF) of SCOM voor gecentraliseerde logverzameling.</li>
+      <li>Automatiseer rapporten met PowerShell scripts of Scheduled Tasks.</li>
+      <li>Integratie met SIEM: correlateer security events met performance data.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>⚡ Best Practices</h2>
+    <ul>
+      <li>Logniveau afstemmen: genoeg detail, maar niet te veel (om storage en performance te sparen).</li>
+      <li>Regelmatig logs archiveren en back-uppen.</li>
+      <li>Stel alerts in bij kritieke events en thresholds.</li>
+      <li>Gebruik standaard counters en consistent datacollectie-schema voor trendanalyse.</li>
+      <li>Test en documenteer monitoring en logging configuraties voor replicatie in andere servers/labs.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>🧾 Conclusie</h2>
+    <p>
+      Geavanceerde monitoring en logging zorgen voor proactief beheer van Windows Server omgevingen.  
+      Door Event Viewer, PerfMon, PowerShell, Data Collector Sets en SIEM te combineren, kan je performance, security en stabiliteit centraal monitoren en historisch analyseren.
+    </p>
+  </section>
+</section>
