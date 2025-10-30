@@ -1,116 +1,140 @@
-<section>
-  <h1>💾 Windows Server Backup – Installatie, Configuratie en Herstel</h1>
+<article>
+  <h1>💾 Windows Server Backup – Lab & Configuratie</h1>
 
   <section>
     <h2>🎯 Doelstelling</h2>
     <p>
-      In dit lab leer je hoe je <strong>Windows Server Backup</strong> installeert, configureert en gebruikt voor zowel handmatige als geplande back-ups.
-      Daarnaast leer je hoe je bestanden, systeemstatus en volledige servers kunt herstellen.
-      Deze tool is essentieel voor het beveiligen van kritieke data en systeemherstel na fouten of dataverlies.
+      Dit lab behandelt het plannen, configureren en beheren van back-ups in Windows Server omgevingen.  
+      Het doel is een betrouwbare en herhaalbare back-upstrategie te implementeren voor servers, volumes en kritische data, inclusief herstelprocedures.
     </p>
   </section>
 
   <section>
-    <h2>🧰 Installatie</h2>
-    <ol>
-      <li>Open <strong>Server Manager → Add Roles and Features</strong>.</li>
-      <li>Kies <strong>Role-based or feature-based installation</strong>.</li>
-      <li>Navigeer naar <strong>Features</strong> en vink <strong>Windows Server Backup</strong> aan.</li>
-      <li>Klik <strong>Next → Install</strong> en wacht tot de installatie voltooid is.</li>
-      <li>PowerShell alternatief:
+    <h2>🧰 Kernconcepten</h2>
+    <ul>
+      <li><strong>Back-up Types:</strong> Full Server, System State, Bare Metal Recovery, Volume-level en File-level backups.</li>
+      <li><strong>Scheduling:</strong> Dagelijks, wekelijks of aangepaste back-up schema’s.</li>
+      <li><strong>Opslaglocaties:</strong> Lokale schijven, externe disks, netwerkshares of cloud-integratie.</li>
+      <li><strong>Retention:</strong> Hoeveel back-ups bewaard worden en wanneer oude backups verwijderd worden.</li>
+      <li><strong>Recovery:</strong> File-level restore, system restore, bare-metal recovery en disaster recovery scenarios.</li>
+      <li><strong>Security:</strong> Encryptie van back-ups, toegangsbeheer en bescherming tegen ransomware.</li>
+    </ul>
+  </section>
+
+  <section class="infra-table">
+    <h2>⚙️ Configuratie Stappen</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Stap</th>
+          <th>Beschrijving</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Installatie</td>
+          <td>Server Manager → Add Roles and Features → Windows Server Backup installeren.</td>
+        </tr>
+        <tr>
+          <td>Back-up Wizard</td>
+          <td>Start de Windows Server Backup console → Local Backup → Backup Once of Backup Schedule.</td>
+        </tr>
+        <tr>
+          <td>Back-up Type</td>
+          <td>Kies Full Server, System State of Custom backups afhankelijk van wat beschermd moet worden.</td>
+        </tr>
+        <tr>
+          <td>Opslaglocatie</td>
+          <td>Lokale disk, externe drive of netwerkshare instellen als back-up bestemming. Zorg dat er voldoende ruimte is.</td>
+        </tr>
+        <tr>
+          <td>Schema</td>
+          <td>Dagelijks, wekelijks of aangepast schema configureren. Vermijd piekuren indien mogelijk.</td>
+        </tr>
+        <tr>
+          <td>Bevestiging</td>
+          <td>Controleer instellingen en activeer de back-up job. Test indien mogelijk de eerste back-up direct.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>📈 Performance & Optimalisatie</h2>
+    <ul>
+      <li>Gebruik aparte volumes of disks voor back-ups om I/O van productie te isoleren.</li>
+      <li>Voor grote servers, gebruik incremental backups om tijd en opslag te besparen.</li>
+      <li>Zorg voor voldoende netwerkbandbreedte bij netwerkback-ups.</li>
+      <li>Gebruik SSD/NVMe voor snelle back-up doelsystemen indien beschikbaar.</li>
+      <li>Plan back-ups buiten piekuren om performance impact te minimaliseren.</li>
+      <li>Controleer regelmatig back-up logs voor fouten of vertragingen.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>🔧 Monitoring & Analyse</h2>
+    <ul>
+      <li>Event Viewer: controleer Windows Logs → Application en Backup events voor waarschuwingen.</li>
+      <li>PowerShell: status van back-ups controleren:
         <pre><code class="language-powershell">
-Install-WindowsFeature -Name Windows-Server-Backup
+Get-WBJob | Select-Object Status, StartTime, EndTime
+Get-WBBackupSet | Format-Table -Property Name, Status, CreationTime
         </code></pre>
       </li>
-      <li>Na installatie: open de tool via <strong>Server Manager → Tools → Windows Server Backup</strong>.</li>
-    </ol>
-  </section>
-
-  <section>
-    <h2>🗂️ Soorten back-ups</h2>
-    <ul>
-      <li><strong>Full Server Backup:</strong> Back-upt alle volumes, inclusief systeemstatus en configuratie.</li>
-      <li><strong>Custom Backup:</strong> Specifieke mappen, bestanden of volumes.</li>
-      <li><strong>System State Backup:</strong> Alleen systeembestanden, AD, registry, boot files, enz.</li>
-      <li><strong>Bare Metal Recovery (BMR):</strong> Volledige serverherstel inclusief OS en bootomgeving.</li>
+      <li>Windows Admin Center of SCOM kan gebruikt worden voor gecentraliseerde monitoring van back-ups.</li>
+      <li>Controleer regelmatig opslaglocaties voor vrije ruimte, integriteit en juiste permissies.</li>
+      <li>Test herstelprocedures periodiek (file-level, system state, bare-metal) om te verzekeren dat back-ups geldig zijn.</li>
     </ul>
   </section>
 
   <section>
-    <h2>🧭 Back-up configureren</h2>
-    <h3>Stap 1 – Nieuwe back-up aanmaken</h3>
-    <ol>
-      <li>Open <strong>Windows Server Backup</strong>.</li>
-      <li>Klik <strong>Local Backup → Backup Schedule…</strong> om een geplande back-up in te stellen.</li>
-      <li>Kies <strong>Full Server</strong> (aanbevolen) of <strong>Custom</strong> voor specifieke mappen.</li>
-      <li>Kies <strong>Once a day</strong> of meerdere tijdstippen per dag (voor servers met veel wijzigingen).</li>
-      <li>Selecteer het back-updoel:
-        <ul>
-          <li><strong>Dedicated hard disk</strong> – beste optie (maakt automatisch beheer aan).</li>
-          <li><strong>Volume</strong> – goed alternatief voor gedeelde schijven.</li>
-          <li><strong>Network share (UNC path)</strong> – voor offsite of centrale back-ups (bijv. \\FileServer\Backups).</li>
-        </ul>
-      </li>
-      <li>Voltooi de wizard en start de eerste back-up.</li>
-    </ol>
-
-    <h3>PowerShell alternatief</h3>
-    <pre><code class="language-powershell">
-# Volledige back-up naar D:\Backups
-wbadmin start backup -backupTarget:D: -include:C: -allCritical -quiet
-    </code></pre>
-  </section>
-
-  <section>
-    <h2>📅 Geplande back-ups beheren</h2>
+    <h2>💡 Best Practices</h2>
     <ul>
-      <li>Controleer bestaande schema’s via <strong>Windows Server Backup → Local Backup → Scheduled Backup</strong>.</li>
-      <li>Gebruik <code>wbadmin get versions</code> om bestaande back-ups te bekijken.</li>
-      <li>Controleer back-up logs via <code>Event Viewer → Applications and Services Logs → Microsoft → Windows → Backup</code>.</li>
-      <li>Wijzig schema’s indien nodig (tijdstip of doel wijzigen via <strong>Backup Schedule Wizard</strong>).</li>
+      <li>Ontwikkel een backup-strategie gebaseerd op RPO/RTO van de organisatie.</li>
+      <li>Gebruik off-host storage voor kritische servers (NAS, SAN of cloud) om dataverlies bij serverfalen te voorkomen.</li>
+      <li>Implementeer retention policies om opslag efficiënt te gebruiken en oude backups veilig te verwijderen.</li>
+      <li>Combineer Windows Server Backup met System State en Bare-Metal backups voor volledige serverbescherming.</li>
+      <li>Documenteer alle backup jobs, schema’s en herstelprocedures voor compliance en auditing.</li>
+      <li>Beveilig back-ups met toegangscontrole en encryptie indien mogelijk.</li>
     </ul>
+  </section>
 
-    <pre><code class="language-powershell">
-# Back-up schema wijzigen
-wbadmin enable backup -addtarget:\\BackupServer\DailyBackups -schedule:09:00,21:00 -include:C: -allCritical -quiet
-    </code></pre>
+  <section class="infra-table">
+    <h2>📊 Probleemoplossing</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Probleem</th>
+          <th>Mogelijke oplossing</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Back-up mislukt</td>
+          <td>Controleer event logs, vrije schijfruimte, netwerkconnectiviteit en permissies op de back-up locatie.</td>
+        </tr>
+        <tr>
+          <td>Back-up duurt te lang</td>
+          <td>Gebruik incremental backups, snellere opslagmedia, of plan back-ups buiten piekuren.</td>
+        </tr>
+        <tr>
+          <td>Geen toegang tot back-up locatie</td>
+          <td>Controleer netwerkshares, permissies en of de storage bereikbaar is.</td>
+        </tr>
+        <tr>
+          <td>Herstel mislukt</td>
+          <td>Controleer integriteit van back-up en test herstelprocedures. Herstel naar een testomgeving indien nodig.</td>
+        </tr>
+      </tbody>
+    </table>
   </section>
 
   <section>
-    <h2>🧾 Herstelopties</h2>
-
-    <h3>1️⃣ Bestanden of mappen herstellen</h3>
-    <ol>
-      <li>Open <strong>Windows Server Backup → Local Backup → Recover…</strong>.</li>
-      <li>Kies bronlocatie van de back-up (lokaal of netwerk).</li>
-      <li>Selecteer <strong>Files and Folders</strong> en het gewenste herstelpunt.</li>
-      <li>Kies waar de bestanden worden hersteld:
-        <ul>
-          <li><strong>Original location</strong> – overschrijft bestaande bestanden.</li>
-          <li><strong>Alternate location</strong> – herstelt naar andere map.</li>
-        </ul>
-      </li>
-    </ol>
-
-    <h3>2️⃣ Systeemstatus of volledige server herstellen</h3>
-    <ul>
-      <li>Gebruik de optie <strong>System State</strong> in de herstelwizard.</li>
-      <li>Of start de server via <strong>Windows Recovery Environment (WinRE)</strong> en kies <strong>Repair your computer → System Image Recovery</strong>.</li>
-    </ul>
-
-    <h3>3️⃣ PowerShell herstel</h3>
-    <pre><code class="language-powershell">
-# Lijst beschikbare back-ups
-wbadmin get versions
-
-# Herstel systeembestanden
-wbadmin start recovery -version:10/30/2025-09:00 -itemType:File -items:C:\Data -recoveryTarget:D:\Restore
-    </code></pre>
+    <h2>🧾 Conclusie</h2>
+    <p>
+      Een goed ontworpen Windows Server Backup strategie zorgt voor betrouwbare bescherming van data en snelle herstelmogelijkheden bij incidenten.  
+      Door best practices, monitoring en regelmatige tests te combineren, kunnen servers optimale beschikbaarheid en dataintegriteit garanderen.
+    </p>
   </section>
 
-  <section>
-    <h2>🧠 Best practices</h2>
-    <ul>
-      <li>Gebruik een <strong>dedicated back-upschijf</strong> of netwerkshare.</li>
-      <li>Activeer **offsite of offline rotatie** (verwijder schijven periodiek om ransomware te vermijden).</li>
-      <li>Controleer regelmatig of de back-ups succesvol voltooien (Event Viewer + test restore!).</li>
+</article>
