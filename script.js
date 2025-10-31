@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
         li.style.color = '#000';
       } else {
         li.style.backgroundColor = 'transparent';
-        li.style.color = '#1495d1ff';
+        li.style.color = '#020202ff';
       }
     });
   });
