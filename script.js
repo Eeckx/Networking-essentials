@@ -12,3 +12,24 @@ document.querySelectorAll('.sidebar a').forEach(link => {
       });
   });
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+  const searchInput = document.getElementById('search-input');
+  const tocList = document.getElementById('toc-list');
+  const items = Array.from(tocList.querySelectorAll('li'));
+
+  searchInput.addEventListener('input', () => {
+    const query = searchInput.value.toLowerCase();
+
+    items.forEach(li => {
+      const text = li.textContent.toLowerCase();
+      if (query && text.includes(query)) {
+        li.style.backgroundColor = '#00bcd4'; // highlight color
+        li.style.color = '#000'; // text color for readability
+      } else {
+        li.style.backgroundColor = 'transparent';
+        li.style.color = '#ccc';
+      }
+    });
+  });
+});
