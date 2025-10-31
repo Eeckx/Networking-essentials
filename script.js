@@ -23,11 +23,11 @@ document.addEventListener('DOMContentLoaded', () => {
     items.forEach(li => {
       const text = li.textContent.toLowerCase();
       if (query && text.includes(query)) {
-        li.style.backgroundColor = '#00bcd4';
+        li.style.backgroundColor = '#7c9fa3ff';
         li.style.color = '#000';
       } else {
         li.style.backgroundColor = 'transparent';
-        li.style.color = '#ccc';
+        li.style.color = '#1495d1ff';
       }
     });
   });
