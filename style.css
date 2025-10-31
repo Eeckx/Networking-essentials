@@ -53,7 +53,7 @@ body {
 }
 
 .sidebar a {
-  color: #ccc;
+  color: #d46600;
   text-decoration: none;
   transition: 0.3s;
 }
@@ -104,7 +104,7 @@ h1, h2 {
 .infra-table table {
   width: 100%;
   border-collapse: collapse;
-  color: #c9d1d9;
+  color: #ffffff;
 }
 
 .infra-table th,

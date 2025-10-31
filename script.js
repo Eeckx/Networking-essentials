@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
     items.forEach(li => {
       const text = li.textContent.toLowerCase();
       if (query && text.includes(query)) {
-        li.style.backgroundColor = '#7c9fa3ff';
+        li.style.backgroundColor = '#787975ff';
         li.style.color = '#000';
       } else {
         li.style.backgroundColor = 'transparent';
