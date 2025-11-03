@@ -187,17 +187,7 @@ h1, h2 {
    TOGGLE BUTTON
 ========================== */
 .toggle-btn {
-  display: none;
-  background-color: #2c2c3c;
-  color: #00bcd4;
-  text-align: left;
-  padding: 10px 15px;
-  cursor: pointer;
-  border-bottom: 2px solid #3a3a4a;
-  font-size: 1.2rem;
-  position: relative;
-  z-index: 1100;
-  transition: background-color 0.3s, color 0.3s;
+  display: none; /* hidden by default for desktop */
 }
 
 /* ==========================
@@ -220,9 +210,22 @@ h1, h2 {
   }
 }
 
-@media (min-width: 601px) and (max-width: 900px) {
+/* Tablet and mobile */
+@media (max-width: 900px) {
   .toggle-btn {
     display: block;
+    position: fixed; /* stays visible while scrolling */
+    top: 10px;
+    left: 10px;
+    z-index: 1100;
+    background-color: #2c2c3c;
+    color: #00bcd4;
+    text-align: left;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-bottom: 2px solid #3a3a4a;
+    font-size: 1.2rem;
+    border-radius: 5px;
   }
 
   .sidebar {
@@ -230,39 +233,6 @@ h1, h2 {
     top: 0;
     left: 0;
     width: 60%;
-    height: 100%;
-    transform: translateX(-100%);
-    transition: transform 0.3s ease-in-out;
-  }
-
-  .sidebar.active {
-    transform: translateX(0);
-  }
-
-  body {
-    flex-direction: column;
-    height: auto;
-  }
-
-  .container {
-    flex-direction: column;
-  }
-
-  .content {
-    padding: 1.5rem;
-  }
-}
-
-@media (max-width: 600px) {
-  .toggle-btn {
-    display: block;
-  }
-
-  .sidebar {
-    width: 75%;
-    position: fixed;
-    top: 0;
-    left: 0;
     height: 100%;
     transform: translateX(-100%);
     transition: transform 0.3s ease-in-out;
@@ -302,5 +272,12 @@ h1, h2 {
     outline: none;
     border-color: #00bcd4;
     background-color: #353545;
+  }
+}
+
+/* Small mobile */
+@media (max-width: 600px) {
+  .sidebar {
+    width: 75%;
   }
 }
