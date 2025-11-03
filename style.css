@@ -25,7 +25,8 @@ body {
   background-color: #1e1e2f;
   color: #e0e0e0;
   display: flex;
-  height: 100vh;
+  flex-direction: column;
+  min-height: 100vh;
   transition: background-color 0.3s, color 0.3s;
 }
 
@@ -98,21 +99,18 @@ h1, h2 {
 }
 
 /* ==========================
-   FLEX TABLES (INFRASTRUCTURE & CONFIGS)
+   FLEX TABLES
 ========================== */
-.infra-table {
-  margin: 2em auto;
-  width: 100%;
-  max-width: 100%;
+.infra-flex {
+  margin: 2em 0;
   background: #0d1117;
   border: 1px solid #30363d;
   border-radius: 10px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
   font-family: "Segoe UI", "Fira Code", monospace;
-  transition: transform 0.2s;
 }
 
-.infra-table h3 {
+.infra-flex h3 {
   background: #161b22;
   color: #58a6ff;
   margin: 0;
@@ -121,41 +119,57 @@ h1, h2 {
   border-bottom: 1px solid #30363d;
 }
 
-/* Flex wrapper */
-.infra-flex-wrapper {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-}
-
-/* Flex rows for header and content */
 .infra-flex-row {
   display: flex;
   border-bottom: 1px solid #21262d;
+  flex-wrap: wrap;
+  transition: background 0.2s;
 }
 
 .infra-flex-row.header {
-  background-color: #161b22;
   font-weight: 600;
   color: #79c0ff;
+  background: #161b22;
 }
 
-.infra-flex-row > div {
+.infra-flex-row div {
   flex: 1;
   padding: 0.8em 1.5em;
-  word-break: break-word;
+  min-width: 150px;
 }
 
-/* Highlight first column */
-.infra-flex-row > div:first-child {
+.infra-flex-row:hover {
+  background: #161b22;
+}
+
+.infra-flex-row div:first-child {
   color: #a5d6ff;
   font-weight: 500;
-  white-space: nowrap;
 }
 
-/* Hover effect */
-.infra-flex-row:not(.header):hover > div {
-  background-color: #161b22;
+/* Mobile: stack rows and show data-labels */
+@media (max-width: 600px) {
+  .infra-flex-row {
+    flex-direction: column;
+  }
+
+  .infra-flex-row.header {
+    display: none;
+  }
+
+  .infra-flex-row div {
+    padding: 0.5em 1em;
+    border-bottom: 1px solid #21262d;
+    position: relative;
+  }
+
+  .infra-flex-row div::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: #58a6ff;
+    display: inline-block;
+    width: 140px;
+  }
 }
 
 /* ==========================
@@ -189,19 +203,7 @@ h1, h2 {
 /* ==========================
    RESPONSIVE DESIGN
 ========================== */
-
-/* --- Desktop --- */
 @media (min-width: 901px) {
-  .toggle-btn {
-    display: none;
-  }
-
-  .sidebar {
-    display: block;
-    position: relative;
-    transform: none;
-  }
-
   body {
     flex-direction: row;
     height: 100vh;
@@ -210,9 +212,14 @@ h1, h2 {
   .container {
     flex-direction: row;
   }
+
+  .sidebar {
+    display: block;
+    position: relative;
+    transform: none;
+  }
 }
 
-/* --- Tablets (601px - 900px) --- */
 @media (min-width: 601px) and (max-width: 900px) {
   .toggle-btn {
     display: block;
@@ -246,7 +253,6 @@ h1, h2 {
   }
 }
 
-/* --- Phones (max-width: 600px) --- */
 @media (max-width: 600px) {
   .toggle-btn {
     display: block;
@@ -296,15 +302,5 @@ h1, h2 {
     outline: none;
     border-color: #00bcd4;
     background-color: #353545;
-  }
-
-  /* Flex tables mobile adjustment */
-  .infra-flex-row > div {
-    padding: 0.4em 0.6em;
-  }
-
-  .infra-table h3 {
-    font-size: 1.1rem;
-    padding: 0.8em 1em;
   }
 }
