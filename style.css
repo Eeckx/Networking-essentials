@@ -96,14 +96,19 @@ h1, h2 {
 /* ==========================
    TABLES
 ========================== */
+.infra-table-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch; /* voor vloeiend scrollen op iOS */
+}
+
 .infra-table {
   margin: 2em auto;
-  max-width: 900px;
+  width: 100%;
+  max-width: 100%;
   background: #0d1117;
   border: 1px solid #30363d;
   border-radius: 10px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-  overflow: hidden;
   font-family: "Segoe UI", "Fira Code", monospace;
 }
 
@@ -257,6 +262,12 @@ h1, h2 {
 
   #search-input {
     font-size: 16px;
+  }
+
+  /* Tabellen scrollbaar maken op mobiel */
+  .infra-table-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .infra-table {
