@@ -2,6 +2,8 @@ document.querySelectorAll('.sidebar a').forEach(link => {
   link.addEventListener('click', e => {
     e.preventDefault();
     const page = e.currentTarget.getAttribute('data-page');
+
+    // Pagina laden
     fetch(`content/${page}.html`)
       .then(res => res.text())
       .then(html => {
@@ -10,6 +12,12 @@ document.querySelectorAll('.sidebar a').forEach(link => {
       .catch(err => {
         document.getElementById('content-area').innerHTML = `<p>⚠️ Kon de pagina niet laden.</p>`;
       });
+
+    // Sidebar automatisch sluiten op mobiel met animatie
+    if (window.innerWidth <= 768) {
+      const sidebar = document.querySelector('.sidebar');
+      sidebar.classList.remove('active'); // start transitie
+    }
   });
 });
 
@@ -31,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   });
-}); // <-- this closing was missing
+});
 
 function toggleSidebar() {
   document.querySelector('.sidebar').classList.toggle('active');
