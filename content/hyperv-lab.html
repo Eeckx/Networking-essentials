@@ -14,59 +14,51 @@
     </p>
   </section>
 
-<section class="infra-table">
   <section class="infra-table">
-  <h3>🧩 Benodigde infrastructuur</h3>
-  <div class="infra-table-wrapper">
-    <table>
-      <thead>
-        <tr>
-          <th>Component</th>
-          <th>Minimumvereisten</th>
-          <th>Aanbevolen</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Processor (CPU)</td>
-          <td>4 cores met VT-x/AMD-V</td>
-          <td>8+ cores met SLAT-ondersteuning</td>
-        </tr>
-        <tr>
-          <td>RAM-geheugen</td>
-          <td>16 GB</td>
-          <td>32 GB of meer</td>
-        </tr>
-        <tr>
-          <td>Opslag</td>
-          <td>256 GB SSD</td>
-          <td>512 GB NVMe SSD of groter</td>
-        </tr>
-        <tr>
-          <td>Netwerk</td>
-          <td>1× Gigabit NIC</td>
-          <td>2× Gigabit (LAN + Internet)</td>
-        </tr>
-        <tr>
-          <td>Besturingssysteem</td>
-          <td>Windows 10/11 Pro</td>
-          <td>Windows 10/11 Enterprise</td>
-        </tr>
-        <tr>
-          <td>BIOS/UEFI</td>
-          <td>Virtualisatie ingeschakeld</td>
-          <td>Secure Boot actief</td>
-        </tr>
-        <tr>
-          <td>GPU</td>
-          <td>Optioneel</td>
-          <td>Dedicated GPU bij zware workloads</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</section>
-</section>
+    <h3>🧩 Benodigde infrastructuur</h3>
+    <div class="infra-flex-wrapper">
+      <div class="infra-flex-row header">
+        <div>Component</div>
+        <div>Minimumvereisten</div>
+        <div>Aanbevolen</div>
+      </div>
+      <div class="infra-flex-row">
+        <div>Processor (CPU)</div>
+        <div>4 cores met VT-x/AMD-V</div>
+        <div>8+ cores met SLAT-ondersteuning</div>
+      </div>
+      <div class="infra-flex-row">
+        <div>RAM-geheugen</div>
+        <div>16 GB</div>
+        <div>32 GB of meer</div>
+      </div>
+      <div class="infra-flex-row">
+        <div>Opslag</div>
+        <div>256 GB SSD</div>
+        <div>512 GB NVMe SSD of groter</div>
+      </div>
+      <div class="infra-flex-row">
+        <div>Netwerk</div>
+        <div>1× Gigabit NIC</div>
+        <div>2× Gigabit (LAN + Internet)</div>
+      </div>
+      <div class="infra-flex-row">
+        <div>Besturingssysteem</div>
+        <div>Windows 10/11 Pro</div>
+        <div>Windows 10/11 Enterprise</div>
+      </div>
+      <div class="infra-flex-row">
+        <div>BIOS/UEFI</div>
+        <div>Virtualisatie ingeschakeld</div>
+        <div>Secure Boot actief</div>
+      </div>
+      <div class="infra-flex-row">
+        <div>GPU</div>
+        <div>Optioneel</div>
+        <div>Dedicated GPU bij zware workloads</div>
+      </div>
+    </div>
+  </section>
 
   <section>
     <h2>🌐 Netwerkontwerp</h2>
@@ -181,58 +173,69 @@ Add-Computer -DomainName "lab.local" -Restart
     </ul>
   </section>
 
-  <section>
-    <h2>🧰 Aanvullende configuraties</h2>
-    <table>
-      <thead>
-        <tr><th>Taak</th><th>Beschrijving</th></tr>
-      </thead>
-      <tbody>
-        <tr><td>DHCP</td><td>Dynamisch IP-beheer in je labsubnet</td></tr>
-        <tr><td>DNS</td><td>Domeinnaamresolutie voor interne servers</td></tr>
-        <tr><td>WSUS</td><td>Test interne update-distributie</td></tr>
-        <tr><td>File Server</td><td>SMB-shares voor gedeelde opslag</td></tr>
-        <tr><td>Group Policy</td><td>Beheer gebruikersinstellingen centraal</td></tr>
-        <tr><td>Backup</td><td>Gebruik Windows Server Backup voor snapshots</td></tr>
-      </tbody>
-    </table>
+  <section class="infra-table">
+    <h3>🧰 Aanvullende configuraties</h3>
+    <div class="infra-flex-wrapper">
+      <div class="infra-flex-row header">
+        <div>Taak</div>
+        <div>Beschrijving</div>
+      </div>
+      <div class="infra-flex-row">
+        <div>DHCP</div>
+        <div>Dynamisch IP-beheer in je labsubnet</div>
+      </div>
+      <div class="infra-flex-row">
+        <div>DNS</div>
+        <div>Domeinnaamresolutie voor interne servers</div>
+      </div>
+      <div class="infra-flex-row">
+        <div>WSUS</div>
+        <div>Test interne update-distributie</div>
+      </div>
+      <div class="infra-flex-row">
+        <div>File Server</div>
+        <div>SMB-shares voor gedeelde opslag</div>
+      </div>
+      <div class="infra-flex-row">
+        <div>Group Policy</div>
+        <div>Beheer gebruikersinstellingen centraal</div>
+      </div>
+      <div class="infra-flex-row">
+        <div>Backup</div>
+        <div>Gebruik Windows Server Backup voor snapshots</div>
+      </div>
+    </div>
   </section>
 
   <section class="infra-table">
     <h3>📊 Probleemoplossing</h3>
-    <div class="infra-table-wrapper">
-  <table>
-    <thead>
-      <tr>
-        <th>Probleem</th>
-        <th>Mogelijke oplossing</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Hyper-V service start niet</td>
-        <td>Controleer of virtualisatie in BIOS aanstaat</td>
-      </tr>
-      <tr>
-        <td>VM start traag</td>
-        <td>Verhoog toegewezen RAM of schakel dynamisch geheugen in</td>
-      </tr>
-      <tr>
-        <td>Geen netwerktoegang</td>
-        <td>Controleer Virtual Switch instellingen</td>
-      </tr>
-      <tr>
-        <td>Host vertraagd bij meerdere VM's</td>
-        <td>Gebruik SSD/NVMe-opslag</td>
-      </tr>
-      <tr>
-        <td>VM's verliezen domeinverbinding</td>
-        <td>Controleer tijdsync en DNS-configuratie</td>
-      </tr>
-    </tbody>
-  </table>
-  </div>
-</section>
+    <div class="infra-flex-wrapper">
+      <div class="infra-flex-row header">
+        <div>Probleem</div>
+        <div>Mogelijke oplossing</div>
+      </div>
+      <div class="infra-flex-row">
+        <div>Hyper-V service start niet</div>
+        <div>Controleer of virtualisatie in BIOS aanstaat</div>
+      </div>
+      <div class="infra-flex-row">
+        <div>VM start traag</div>
+        <div>Verhoog toegewezen RAM of schakel dynamisch geheugen in</div>
+      </div>
+      <div class="infra-flex-row">
+        <div>Geen netwerktoegang</div>
+        <div>Controleer Virtual Switch instellingen</div>
+      </div>
+      <div class="infra-flex-row">
+        <div>Host vertraagd bij meerdere VM's</div>
+        <div>Gebruik SSD/NVMe-opslag</div>
+      </div>
+      <div class="infra-flex-row">
+        <div>VM's verliezen domeinverbinding</div>
+        <div>Controleer tijdsync en DNS-configuratie</div>
+      </div>
+    </div>
+  </section>
 
   <section>
     <h2>🧾 Conclusie</h2>
@@ -242,7 +245,5 @@ Add-Computer -DomainName "lab.local" -Restart
     </p>
   </section>
 
-  <footer>
-
-  </footer>
+  <footer></footer>
 </article>
