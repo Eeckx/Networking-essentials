@@ -9,44 +9,39 @@
     </p>
   </section>
 
-  <section class="infra-table">
+  <!-- Benodigde infrastructuur -->
+  <section class="infra-flex">
     <h3>🧩 Benodigde infrastructuur</h3>
-    <table>
-      <thead>
-        <tr>
-          <th>Component</th>
-          <th>Minimumvereisten</th>
-          <th>Aanbevolen</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>CPU</td>
-          <td>4 cores met VT-x/AMD-V</td>
-          <td>8 cores met SLAT</td>
-        </tr>
-        <tr>
-          <td>RAM</td>
-          <td>8 GB</td>
-          <td>16 GB of meer</td>
-        </tr>
-        <tr>
-          <td>Opslag</td>
-          <td>256 GB SSD</td>
-          <td>512 GB NVMe SSD</td>
-        </tr>
-        <tr>
-          <td>OS</td>
-          <td>Windows 10/11 Pro</td>
-          <td>Windows 10/11 Enterprise</td>
-        </tr>
-        <tr>
-          <td>Netwerk</td>
-          <td>1× NIC</td>
-          <td>2× NIC (LAN + Internet)</td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="infra-flex-row header">
+      <div>Component</div>
+      <div>Minimumvereisten</div>
+      <div>Aanbevolen</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Component">CPU</div>
+      <div data-label="Minimumvereisten">4 cores met VT-x/AMD-V</div>
+      <div data-label="Aanbevolen">8 cores met SLAT</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Component">RAM</div>
+      <div data-label="Minimumvereisten">8 GB</div>
+      <div data-label="Aanbevolen">16 GB of meer</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Component">Opslag</div>
+      <div data-label="Minimumvereisten">256 GB SSD</div>
+      <div data-label="Aanbevolen">512 GB NVMe SSD</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Component">OS</div>
+      <div data-label="Minimumvereisten">Windows 10/11 Pro</div>
+      <div data-label="Aanbevolen">Windows 10/11 Enterprise</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Component">Netwerk</div>
+      <div data-label="Minimumvereisten">1× NIC</div>
+      <div data-label="Aanbevolen">2× NIC (LAN + Internet)</div>
+    </div>
   </section>
 
   <section>
@@ -148,30 +143,25 @@ New-VM -Name "VM01" -MemoryStartupBytes 4GB -Generation 2 -NewVHDPath "C:\HyperV
     </ul>
   </section>
 
-  <section class="infra-table">
+  <!-- Probleemoplossing -->
+  <section class="infra-flex">
     <h3>📊 Probleemoplossing</h3>
-    <table>
-      <thead>
-        <tr>
-          <th>Probleem</th>
-          <th>Oplossing</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Hyper-V start niet</td>
-          <td>Controleer BIOS/UEFI virtualisatie-instellingen en Windows Features</td>
-        </tr>
-        <tr>
-          <td>Geen netwerk in VM</td>
-          <td>Controleer Virtual Switch en netwerkadapter</td>
-        </tr>
-        <tr>
-          <td>VM traag</td>
-          <td>RAM verhogen, dynamisch geheugen inschakelen, virtuele CPU verhogen</td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="infra-flex-row header">
+      <div>Probleem</div>
+      <div>Oplossing</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Probleem">Hyper-V start niet</div>
+      <div data-label="Oplossing">Controleer BIOS/UEFI virtualisatie-instellingen en Windows Features</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Probleem">Geen netwerk in VM</div>
+      <div data-label="Oplossing">Controleer Virtual Switch en netwerkadapter</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Probleem">VM traag</div>
+      <div data-label="Oplossing">RAM verhogen, dynamisch geheugen inschakelen, virtuele CPU verhogen</div>
+    </div>
   </section>
 
   <section>
@@ -182,7 +172,6 @@ New-VM -Name "VM01" -MemoryStartupBytes 4GB -Generation 2 -NewVHDPath "C:\HyperV
     </p>
   </section>
 
-    <footer>
-      
+  <footer>
   </footer>
 </article>

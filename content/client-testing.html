@@ -1,4 +1,4 @@
-<article>
+<article class="content">
   <h1>Hyper-V Client Testing & Validation Lab</h1>
 
   <section>
@@ -9,34 +9,32 @@
     </p>
   </section>
 
-  <section class="infra-table">
+  <section class="infra-flex">
     <h3>🧩 Benodigde infrastructuur</h3>
-    <table>
-      <thead>
-        <tr>
-          <th>Component</th>
-          <th>Minimumvereisten</th>
-          <th>Aanbevolen</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Hyper-V VM</td>
-          <td>Windows 10/11 of Linux werkstation, 2 vCPU, 4 GB RAM</td>
-          <td>Windows 10/11 Pro/Enterprise, 4 vCPU, 8 GB RAM</td>
-        </tr>
-        <tr>
-          <td>Netwerk</td>
-          <td>Internal of External switch</td>
-          <td>Internal + External switch voor test en internet toegang</td>
-        </tr>
-        <tr>
-          <td>Servers</td>
-          <td>AD, DNS, DHCP, File Server, Web Server</td>
-          <td>Volledig getest en operationeel</td>
-        </tr>
-      </tbody>
-    </table>
+
+    <div class="infra-flex-row header">
+      <div>Component</div>
+      <div>Minimumvereisten</div>
+      <div>Aanbevolen</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Component">Hyper-V VM</div>
+      <div data-label="Minimumvereisten">Windows 10/11 of Linux werkstation, 2 vCPU, 4 GB RAM</div>
+      <div data-label="Aanbevolen">Windows 10/11 Pro/Enterprise, 4 vCPU, 8 GB RAM</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Component">Netwerk</div>
+      <div data-label="Minimumvereisten">Internal of External switch</div>
+      <div data-label="Aanbevolen">Internal + External switch voor test en internet toegang</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Component">Servers</div>
+      <div data-label="Minimumvereisten">AD, DNS, DHCP, File Server, Web Server</div>
+      <div data-label="Aanbevolen">Volledig getest en operationeel</div>
+    </div>
   </section>
 
   <section>
@@ -61,12 +59,12 @@ ping 8.8.8.8
     <h3>Stap 2 – AD-integratie en login</h3>
     <ul>
       <li>Log in op het domein (indien aanwezig) met een gebruikersaccount.</li>
-      <li>Controleer dat groepsbeleidsobjecten (GPO’s) correct worden toegepast:
+      <li>Controleer dat GPO’s correct worden toegepast:
         <pre><code class="language-powershell">
 gpresult /r
         </code></pre>
       </li>
-      <li>Verifieer dat gebruiker toegang heeft tot netwerkshares.</li>
+      <li>Verifieer toegang tot netwerkshares.</li>
     </ul>
 
     <h3>Stap 3 – File Server validatie</h3>
@@ -78,7 +76,7 @@ dir Z:\
         </code></pre>
       </li>
       <li>Lees- en schrijfrechten controleren.</li>
-      <li>Controleer toegang tot gedeelde printers (indien Print Server aanwezig).</li>
+      <li>Controleer toegang tot gedeelde printers.</li>
     </ul>
 
     <h3>Stap 4 – Web- en applicatieserver testen</h3>
@@ -94,25 +92,27 @@ http://WEB01.lab.local
 
     <h3>Stap 5 – DHCP en DNS validatie</h3>
     <ul>
-      <li>Controleer dat de client een geldig IP-adres krijgt via DHCP:</li>
+      <li>Controleer dat de client een geldig IP-adres krijgt via DHCP:
         <pre><code class="language-powershell">
 ipconfig /all
         </code></pre>
-      <li>DNS-resolutie testen naar interne servers en domeincontrollers:</li>
+      </li>
+      <li>DNS-resolutie testen:
         <pre><code class="language-powershell">
 nslookup DC01.lab.local
 nslookup FILE01.lab.local
         </code></pre>
+      </li>
     </ul>
 
     <h3>Stap 6 – Automatisering en PowerShell tests</h3>
     <ul>
-      <li>Ping meerdere servers tegelijk met Test-Connection:
+      <li>Ping meerdere servers tegelijk:
         <pre><code class="language-powershell">
 Test-Connection -ComputerName DC01, FILE01, WEB01
         </code></pre>
       </li>
-      <li>Controleer netwerkshares via PowerShell:
+      <li>Controleer netwerkshares:
         <pre><code class="language-powershell">
 Get-PSDrive -PSProvider FileSystem
         </code></pre>
@@ -130,7 +130,7 @@ Get-NetIPConfiguration
       <li>Controleer dat applicaties correct starten en verbinding maken met servers.</li>
       <li>Controleer toegang tot gedeelde documenten, printers en interne webservices.</li>
       <li>Test printjobs, bestandsoverdracht en interne webapplicaties.</li>
-      <li>Noteer eventuele vertragingen of fouten voor troubleshooting.</li>
+      <li>Noteer vertragingen of fouten voor troubleshooting.</li>
     </ul>
   </section>
 
@@ -144,34 +144,33 @@ Get-NetIPConfiguration
     </ul>
   </section>
 
-  <section class="infra-table">
+  <section class="infra-flex">
     <h3>📊 Probleemoplossing</h3>
-    <table>
-      <thead>
-        <tr>
-          <th>Probleem</th>
-          <th>Oplossing</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Geen netwerkconnectiviteit</td>
-          <td>Controleer virtuele switch, IP-configuratie, firewall, en netwerkadapter</td>
-        </tr>
-        <tr>
-          <td>Login op domein mislukt</td>
-          <td>Controleer AD, DNS-instellingen en gebruikersaccount</td>
-        </tr>
-        <tr>
-          <td>Geen toegang tot gedeelde folders</td>
-          <td>Controleer share- en NTFS-permissies, netwerkconnectiviteit</td>
-        </tr>
-        <tr>
-          <td>Webserver onbereikbaar</td>
-          <td>Controleer IIS configuratie, bindings, firewall en DNS</td>
-        </tr>
-      </tbody>
-    </table>
+
+    <div class="infra-flex-row header">
+      <div>Probleem</div>
+      <div>Oplossing</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Probleem">Geen netwerkconnectiviteit</div>
+      <div data-label="Oplossing">Controleer virtuele switch, IP-configuratie, firewall, en netwerkadapter</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Probleem">Login op domein mislukt</div>
+      <div data-label="Oplossing">Controleer AD, DNS-instellingen en gebruikersaccount</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Probleem">Geen toegang tot gedeelde folders</div>
+      <div data-label="Oplossing">Controleer share- en NTFS-permissies, netwerkconnectiviteit</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Probleem">Webserver onbereikbaar</div>
+      <div data-label="Oplossing">Controleer IIS configuratie, bindings, firewall en DNS</div>
+    </div>
   </section>
 
   <section>

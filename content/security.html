@@ -4,163 +4,196 @@
   <section>
     <h2>🎯 Doelstelling</h2>
     <p>
-      Deze handleiding behandelt hoe je <strong>Windows Defender Antivirus</strong> en andere ingebouwde beveiligingsfeatures configureert en beheert
-      om servers te beschermen tegen malware, ransomware en andere bedreigingen. Daarnaast worden best practices besproken voor hardening, monitoring en incident response.
+      Configureer en beheer Windows Defender Antivirus en andere ingebouwde beveiligingsfeatures om servers te beschermen tegen malware, ransomware en andere bedreigingen.
+      Inclusief hardening, monitoring en incident response.
     </p>
   </section>
 
-  <section>
-    <h2>🧰 Voorwaarden</h2>
-    <ul>
-      <li>Windows Server 2019, 2022 of nieuwer</li>
-      <li>Administrator rechten</li>
-      <li>Internettoegang voor updates (Microsoft Defender-signatures)</li>
-      <li>Active Directory en Group Policy (optioneel, voor centrale beheer)</li>
-      <li>PowerShell kennis voor geavanceerde configuratie en scripts</li>
-    </ul>
+  <section class="infra-flex">
+    <h2>🧰 Installatie en activering</h2>
+    <div class="infra-flex-row header">
+      <div>Actie</div>
+      <div>PowerShell / Opmerkingen</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Controleer status van Windows Defender</div>
+      <div data-label="PowerShell / Opmerkingen"><code>Get-MpComputerStatus</code></div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Installeer Defender-feature indien niet aanwezig</div>
+      <div data-label="PowerShell / Opmerkingen"><code>Install-WindowsFeature -Name Windows-Defender-Features</code></div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Activeer real-time bescherming</div>
+      <div data-label="PowerShell / Opmerkingen"><code>Set-MpPreference -DisableRealtimeMonitoring $false</code></div>
+    </div>
   </section>
 
-  <section>
-    <h2>⚙️ Installatie en activering</h2>
-    <ul>
-      <li>Windows Defender is standaard geïnstalleerd op moderne Windows Servers.</li>
-      <li>Controleer status via PowerShell:
-        <pre><code class="language-powershell">
-Get-MpComputerStatus
-        </code></pre>
-      </li>
-      <li>Installeer de feature indien niet aanwezig:
-        <pre><code class="language-powershell">
-Install-WindowsFeature -Name Windows-Defender-Features
-        </code></pre>
-      </li>
-      <li>Activeer real-time bescherming:
-        <pre><code class="language-powershell">
-Set-MpPreference -DisableRealtimeMonitoring $false
-        </code></pre>
-      </li>
-    </ul>
-  </section>
+  <section class="infra-flex">
+    <h2>🛡️ Configuratie Antivirus & Exclusions</h2>
+    <div class="infra-flex-row header">
+      <div>Actie</div>
+      <div>PowerShell / Opmerkingen</div>
+    </div>
 
-  <section>
-    <h2>🛡️ Configuratie van Windows Defender Antivirus</h2>
-    <ul>
-      <li>Real-time bescherming inschakelen (verplicht voor continue bescherming)</li>
-      <li>Cloud-delivery en automatische sample submission voor nieuwste detecties:
-        <pre><code class="language-powershell">
-Set-MpPreference -MAPSReporting Advanced
-Set-MpPreference -SubmitSamplesConsent SendSafeSamples
-        </code></pre>
-      </li>
-      <li>Exclusies instellen voor kritieke toepassingen of storage (indien nodig):
-        <pre><code class="language-powershell">
-Add-MpPreference -ExclusionPath "C:\HyperV\VMs"
-Add-MpPreference -ExclusionProcess "vmms.exe"
-Add-MpPreference -ExclusionExtension ".vhdx"
-        </code></pre>
-      </li>
-      <li>Periodieke scans plannen via Task Scheduler of via PowerShell:
-        <pre><code class="language-powershell">
-Set-MpPreference -ScanScheduleDay 0 -ScanScheduleTime 03:00
-        </code></pre>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Cloud-delivery & sample submission</div>
+      <div data-label="PowerShell / Opmerkingen">
+        <code>Set-MpPreference -MAPSReporting Advanced</code><br>
+        <code>Set-MpPreference -SubmitSamplesConsent SendSafeSamples</code>
+      </div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Exclusies instellen</div>
+      <div data-label="PowerShell / Opmerkingen">
+        <code>Add-MpPreference -ExclusionPath "C:\HyperV\VMs"</code><br>
+        <code>Add-MpPreference -ExclusionProcess "vmms.exe"</code><br>
+        <code>Add-MpPreference -ExclusionExtension ".vhdx"</code>
+      </div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Periodieke scans plannen</div>
+      <div data-label="PowerShell / Opmerkingen">
+        <code>Set-MpPreference -ScanScheduleDay 0 -ScanScheduleTime 03:00</code><br>
         <small>(0 = zondag, 1 = maandag, etc.)</small>
-      </li>
-    </ul>
+      </div>
+    </div>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>💾 Updates & Signatures</h2>
-    <ul>
-      <li>Windows Defender gebruikt **Microsoft Update** voor signature updates.</li>
-      <li>Handmatige update via PowerShell:
-        <pre><code class="language-powershell">
-Update-MpSignature
-        </code></pre>
-      </li>
-      <li>Controleer laatste update:
-        <pre><code class="language-powershell">
-Get-MpComputerStatus | Select-Object AntivirusSignatureLastUpdated
-        </code></pre>
-      </li>
-      <li>Integratie met WSUS mogelijk voor interne update-distributie</li>
-    </ul>
+    <div class="infra-flex-row header">
+      <div>Actie</div>
+      <div>PowerShell / Opmerkingen</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Handmatig updaten signatures</div>
+      <div data-label="PowerShell / Opmerkingen"><code>Update-MpSignature</code></div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Laatste update controleren</div>
+      <div data-label="PowerShell / Opmerkingen"><code>Get-MpComputerStatus | Select AntivirusSignatureLastUpdated</code></div>
+    </div>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>🧰 Security Policies & Hardening</h2>
-    <ul>
-      <li>Configureer via **Group Policy** of **Local Security Policy**:
-        <ul>
-          <li>Exploit Guard (Attack Surface Reduction)</li>
-          <li>Controlled Folder Access (bescherming tegen ransomware)</li>
-          <li>Network Protection en SmartScreen</li>
-          <li>Credential Guard en Device Guard (indien Hyper-V geactiveerd)</li>
-        </ul>
-      </li>
-      <li>PowerShell configuratie voorbeelden:
-        <pre><code class="language-powershell">
-Set-MpPreference -AttackSurfaceReductionOnlyExclusions @()
-Set-MpPreference -EnableControlledFolderAccess Enabled
-        </code></pre>
-      </li>
-      <li>Audit policies inschakelen via GPO om verdachte activiteit te loggen</li>
-    </ul>
+    <div class="infra-flex-row header">
+      <div>Feature / Actie</div>
+      <div>PowerShell / Opmerkingen</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Feature / Actie">Exploit Guard / Attack Surface Reduction</div>
+      <div data-label="PowerShell / Opmerkingen"><code>Set-MpPreference -AttackSurfaceReductionOnlyExclusions @()</code></div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Feature / Actie">Controlled Folder Access (ransomware bescherming)</div>
+      <div data-label="PowerShell / Opmerkingen"><code>Set-MpPreference -EnableControlledFolderAccess Enabled</code></div>
+    </div>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>🔍 Monitoring en Logging</h2>
-    <ul>
-      <li>Event Viewer logs:
-        <ul>
-          <li>Applications and Services Logs → Microsoft → Windows → Windows Defender → Operational</li>
-        </ul>
-      </li>
-      <li>PowerShell voor status en recente malware detecties:
-        <pre><code class="language-powershell">
-Get-MpThreatDetection
-Get-MpComputerStatus
-        </code></pre>
-      </li>
-      <li>Alerts instellen via Event Forwarding of SIEM-integratie</li>
-      <li>Rapporten genereren met PowerShell:
-        <pre><code class="language-powershell">
-Get-MpComputerStatus | Select-Object AntivirusEnabled,RealTimeProtectionEnabled,QuickScanAge
-        </code></pre>
-      </li>
-    </ul>
+    <div class="infra-flex-row header">
+      <div>Actie</div>
+      <div>PowerShell / Opmerkingen</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Bekijk Event Viewer logs</div>
+      <div data-label="PowerShell / Opmerkingen">Applications and Services Logs → Microsoft → Windows → Windows Defender → Operational</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Controleer status en detecties</div>
+      <div data-label="PowerShell / Opmerkingen">
+        <code>Get-MpThreatDetection</code><br>
+        <code>Get-MpComputerStatus</code>
+      </div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Rapport genereren</div>
+      <div data-label="PowerShell / Opmerkingen">
+        <code>Get-MpComputerStatus | Select AntivirusEnabled,RealTimeProtectionEnabled,QuickScanAge</code>
+      </div>
+    </div>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>⚡ Scans en Remediation</h2>
-    <ul>
-      <li>Quick scan: <code>Start-MpScan -ScanType QuickScan</code></li>
-      <li>Full scan: <code>Start-MpScan -ScanType FullScan</code></li>
-      <li>Specifieke folder of file: <code>Start-MpScan -ScanPath "C:\Data"</code></li>
-      <li>Quarantaine beheren:
-        <pre><code class="language-powershell">
-Get-MpThreat | Format-Table ThreatID,Action,Category
-Remove-MpThreat -ThreatID 214764
-        </code></pre>
-      </li>
-    </ul>
+    <div class="infra-flex-row header">
+      <div>Type Scan / Actie</div>
+      <div>PowerShell</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Type Scan / Actie">Quick scan</div>
+      <div data-label="PowerShell"><code>Start-MpScan -ScanType QuickScan</code></div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Type Scan / Actie">Full scan</div>
+      <div data-label="PowerShell"><code>Start-MpScan -ScanType FullScan</code></div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Type Scan / Actie">Specifieke folder/file</div>
+      <div data-label="PowerShell"><code>Start-MpScan -ScanPath "C:\Data"</code></div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Type Scan / Actie">Quarantaine beheren</div>
+      <div data-label="PowerShell">
+        <code>Get-MpThreat | Format-Table ThreatID,Action,Category</code><br>
+        <code>Remove-MpThreat -ThreatID 214764</code>
+      </div>
+    </div>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>🔐 Integratie met andere securityfeatures</h2>
-    <ul>
-      <li>Windows Firewall (per host of via GPO)</li>
-      <li>BitLocker voor disk-encryptie</li>
-      <li>Credential Guard & Device Guard</li>
-      <li>Advanced Threat Protection (ATP) of Microsoft Defender for Endpoint voor enterprise bescherming</li>
-    </ul>
+    <div class="infra-flex-row header">
+      <div>Feature</div>
+      <div>Opmerkingen</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Feature">Windows Firewall</div>
+      <div data-label="Opmerkingen">Per host of via GPO</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Feature">BitLocker</div>
+      <div data-label="Opmerkingen">Disk-encryptie</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Feature">Credential Guard & Device Guard</div>
+      <div data-label="Opmerkingen">Extra bescherming bij Hyper-V</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Feature">Microsoft Defender ATP / Endpoint</div>
+      <div data-label="Opmerkingen">Enterprise bescherming en detectie</div>
+    </div>
   </section>
 
   <section>
     <h2>💡 Best Practices</h2>
     <ul>
-      <li>Houd real-time bescherming altijd aan (exceptie alleen voor kritieke performance scenarios)</li>
-      <li>Plan regelmatige full scans tijdens onderhoudsvensters</li>
-      <li>Integreer met centrale logging/SIEM voor volledige zichtbaarheid</li>
+      <li>Real-time bescherming altijd aan, exceptie alleen voor kritieke performance scenarios</li>
+      <li>Regelmatige full scans plannen tijdens onderhoudsvensters</li>
+      <li>Integratie met centrale logging / SIEM voor volledige zichtbaarheid</li>
       <li>Beperk uitzonderingen tot strikt noodzakelijke paden of processen</li>
       <li>Controleer regelmatig signature updates en scan logs</li>
       <li>Combineer met hardening maatregelen zoals Exploit Guard en Controlled Folder Access</li>
@@ -170,9 +203,7 @@ Remove-MpThreat -ThreatID 214764
   <section>
     <h2>🧾 Conclusie</h2>
     <p>
-      Windows Defender biedt moderne, ingebouwde bescherming voor servers zonder extra software.
-      In combinatie met policies, monitoring, alerts en hardening kun je een veilige en beheerbare serveromgeving creëren,
-      die beschermd is tegen malware, ransomware en andere bedreigingen.
+      Windows Defender biedt moderne, ingebouwde bescherming voor servers. In combinatie met policies, monitoring, alerts en hardening creëer je een veilige en beheerbare serveromgeving die beschermd is tegen malware, ransomware en andere bedreigingen.
     </p>
   </section>
 </section>

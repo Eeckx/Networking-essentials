@@ -1,4 +1,4 @@
-<article>
+<article class="content">
   <h1>Hyper-V Virtuele Machines Aanmaken en Configureren Lab (Inclusief Server-VM’s)</h1>
 
   <section>
@@ -10,44 +10,44 @@
     </p>
   </section>
 
-  <section class="infra-table">
+  <section class="infra-flex">
     <h3>🧩 Benodigde infrastructuur</h3>
-    <table>
-      <thead>
-        <tr>
-          <th>Component</th>
-          <th>Minimumvereisten</th>
-          <th>Aanbevolen</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Host OS</td>
-          <td>Windows 10/11 Pro of Enterprise</td>
-          <td>Windows 10/11 Enterprise met laatste updates</td>
-        </tr>
-        <tr>
-          <td>Hyper-V</td>
-          <td>Ingeschakeld via Windows Features</td>
-          <td>Laatste updates geïnstalleerd</td>
-        </tr>
-        <tr>
-          <td>Opslag</td>
-          <td>Minimaal 256 GB SSD</td>
-          <td>512 GB NVMe SSD of meer</td>
-        </tr>
-        <tr>
-          <td>RAM</td>
-          <td>8 GB</td>
-          <td>16 GB of meer (voor meerdere server-VM’s)</td>
-        </tr>
-        <tr>
-          <td>Virtuele switches</td>
-          <td>Minimaal één</td>
-          <td>Meerdere voor gesegmenteerde netwerken</td>
-        </tr>
-      </tbody>
-    </table>
+
+    <div class="infra-flex-row header">
+      <div>Component</div>
+      <div>Minimumvereisten</div>
+      <div>Aanbevolen</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Component">Host OS</div>
+      <div data-label="Minimumvereisten">Windows 10/11 Pro of Enterprise</div>
+      <div data-label="Aanbevolen">Windows 10/11 Enterprise met laatste updates</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Component">Hyper-V</div>
+      <div data-label="Minimumvereisten">Ingeschakeld via Windows Features</div>
+      <div data-label="Aanbevolen">Laatste updates geïnstalleerd</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Component">Opslag</div>
+      <div data-label="Minimumvereisten">Minimaal 256 GB SSD</div>
+      <div data-label="Aanbevolen">512 GB NVMe SSD of meer</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Component">RAM</div>
+      <div data-label="Minimumvereisten">8 GB</div>
+      <div data-label="Aanbevolen">16 GB of meer (voor meerdere server-VM’s)</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Component">Virtuele switches</div>
+      <div data-label="Minimumvereisten">Minimaal één</div>
+      <div data-label="Aanbevolen">Meerdere voor gesegmenteerde netwerken</div>
+    </div>
   </section>
 
   <section>
@@ -72,18 +72,18 @@ New-VM -Name "ServerVM01" -MemoryStartupBytes 4GB -Generation 2 -NewVHDPath "C:\
     <h3>Stap 3 – OS installeren</h3>
     <ol>
       <li>Start de VM → <strong>Connect</strong>.</li>
-      <li>Installeer het serverbesturingssysteem (Windows Server, Linux Server):  
+      <li>Installeer het serverbesturingssysteem:
         <ul>
           <li>Hostname instellen (bijv. DC01, FILE01)</li>
           <li>IP-configuratie: vaak statisch voor servers</li>
-          <li>Installeer serverrollen indien nodig (Active Directory, DNS, DHCP, IIS, etc.)</li>
+          <li>Installeer serverrollen indien nodig (AD, DNS, DHCP, IIS, etc.)</li>
         </ul>
       </li>
     </ol>
 
     <h3>Stap 4 – VM-instellingen aanpassen</h3>
     <ul>
-      <li>CPU en RAM verhogen voor serverrollen:  
+      <li>CPU en RAM verhogen voor serverrollen:
         <ul>
           <li>Domeincontroller: minimaal 2 vCPU, 4–8 GB RAM</li>
           <li>Bestandsserver: afhankelijk van opslag en gebruikers</li>
@@ -97,10 +97,10 @@ New-VM -Name "ServerVM01" -MemoryStartupBytes 4GB -Generation 2 -NewVHDPath "C:\
 
     <h3>Stap 5 – Serverrollen configureren</h3>
     <ul>
-      <li><strong>Domeincontroller:</strong> Active Directory Domain Services installeren, promotie naar DC, DNS configureren</li>
+      <li><strong>Domeincontroller:</strong> AD DS installeren, promotie naar DC, DNS configureren</li>
       <li><strong>Bestandsserver:</strong> File Server rol installeren, shares aanmaken, permissies instellen</li>
       <li><strong>Webserver:</strong> IIS of Apache installeren, firewallpoorten openzetten, testpagina aanmaken</li>
-      <li>Controleer dat server-VM’s de juiste IP en netwerkconnectiviteit hebben</li>
+      <li>Controleer dat server-VM’s juiste IP en netwerkconnectiviteit hebben</li>
     </ul>
 
     <h3>Stap 6 – Netwerk testen</h3>
@@ -108,7 +108,7 @@ New-VM -Name "ServerVM01" -MemoryStartupBytes 4GB -Generation 2 -NewVHDPath "C:\
       <li>Ping andere VM’s en de host</li>
       <li>Controleer DNS-resolutie bij domeincontrollers</li>
       <li>Controleer toegang tot gedeelde mappen of webservices</li>
-      <li>PowerShell test: 
+      <li>PowerShell test:
         <pre><code class="language-powershell">
 Test-Connection -ComputerName "DC01"
 Test-Connection -ComputerName "FILE01"
@@ -135,34 +135,33 @@ Test-Connection -ComputerName "FILE01"
     </ul>
   </section>
 
-  <section class="infra-table">
+  <section class="infra-flex">
     <h3>📊 Probleemoplossing</h3>
-    <table>
-      <thead>
-        <tr>
-          <th>Probleem</th>
-          <th>Oplossing</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>VM start niet</td>
-          <td>Controleer Hyper-V status, BIOS/UEFI virtualisatie, RAM en CPU instellingen</td>
-        </tr>
-        <tr>
-          <td>Server-VM krijgt geen IP</td>
-          <td>Controleer switch koppeling, DHCP of statisch IP, VLAN instellingen</td>
-        </tr>
-        <tr>
-          <td>Domeincontroller werkt niet correct</td>
-          <td>Controleer AD-installatie, DNS-configuratie en netwerkconnectiviteit</td>
-        </tr>
-        <tr>
-          <td>Bestandsserver shares niet bereikbaar</td>
-          <td>Controleer permissies, firewall en netwerkconnectiviteit</td>
-        </tr>
-      </tbody>
-    </table>
+
+    <div class="infra-flex-row header">
+      <div>Probleem</div>
+      <div>Oplossing</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Probleem">VM start niet</div>
+      <div data-label="Oplossing">Controleer Hyper-V status, BIOS/UEFI virtualisatie, RAM en CPU instellingen</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Probleem">Server-VM krijgt geen IP</div>
+      <div data-label="Oplossing">Controleer switch koppeling, DHCP of statisch IP, VLAN instellingen</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Probleem">Domeincontroller werkt niet correct</div>
+      <div data-label="Oplossing">Controleer AD-installatie, DNS-configuratie en netwerkconnectiviteit</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Probleem">Bestandsserver shares niet bereikbaar</div>
+      <div data-label="Oplossing">Controleer permissies, firewall en netwerkconnectiviteit</div>
+    </div>
   </section>
 
   <section>

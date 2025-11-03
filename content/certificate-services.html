@@ -1,5 +1,5 @@
-<section>
-  <h1>🔐 Active Directory Certificate Services (AD CS) – Installatie, Configuratie en Beheer</h1>
+<article>
+  <h1>🔐 Active Directory Certificate Services (AD CS) – Lab Implementatie</h1>
 
   <section>
     <h2>🎯 Doelstelling</h2>
@@ -10,169 +10,217 @@
     </p>
   </section>
 
-  <section>
-    <h2>🧰 Voorwaarden</h2>
-    <ul>
-      <li>Windows Server met domeinlidmaatschap (<code>lab.local</code> bijvoorbeeld)</li>
-      <li>Administratorrechten</li>
-      <li>Statische IP en correcte DNS-configuratie</li>
-      <li>Servernaam mag niet wijzigen na installatie van AD CS</li>
-    </ul>
+  <section class="infra-flex">
+    <h3>🧰 Voorwaarden</h3>
+
+    <div class="infra-flex-row header">
+      <div>Voorwaarde</div>
+      <div>Beschrijving</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Voorwaarde">Windows Server lid van domein</div>
+      <div data-label="Beschrijving">Bijvoorbeeld <code>lab.local</code></div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Voorwaarde">Administratorrechten</div>
+      <div data-label="Beschrijving">Voor installatie en configuratie van AD CS</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Voorwaarde">Statische IP & DNS</div>
+      <div data-label="Beschrijving">Zorg voor correcte netwerkconfiguratie</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Voorwaarde">Servernaam</div>
+      <div data-label="Beschrijving">Mag niet wijzigen na installatie</div>
+    </div>
   </section>
 
   <section>
-    <h2>⚙️ Installatie van AD CS</h2>
+    <h2>⚙️ Installatie AD CS</h2>
     <ol>
       <li>Open <strong>Server Manager → Add Roles and Features</strong>.</li>
-      <li>Kies <strong>Role-based or feature-based installation</strong>.</li>
-      <li>Selecteer de gewenste server en vink aan:
+      <li>Kies <strong>Role-based or feature-based installation</strong> en selecteer de gewenste server.</li>
+      <li>Vink <strong>Active Directory Certificate Services</strong> aan.</li>
+      <li>Bij rolservices selecteer:
         <ul>
-          <li><strong>Active Directory Certificate Services</strong></li>
-        </ul>
-      </li>
-      <li>Bij de rolservices, vink aan:
-        <ul>
-          <li><strong>Certification Authority (CA)</strong></li>
-          <li><strong>Certification Authority Web Enrollment</strong> (optioneel)</li>
-          <li><strong>Online Responder</strong> (optioneel, voor CRL-verificatie)</li>
+          <li>Certification Authority (CA)</li>
+          <li>Certification Authority Web Enrollment (optioneel)</li>
+          <li>Online Responder (optioneel)</li>
         </ul>
       </li>
       <li>Klik <strong>Next → Install</strong>.</li>
-      <li>PowerShell alternatief:
-        <pre><code class="language-powershell">
-Install-WindowsFeature AD-Certificate -IncludeManagementTools
-        </code></pre>
-      </li>
     </ol>
+
+    <pre><code class="language-powershell">
+Install-WindowsFeature AD-Certificate -IncludeManagementTools
+    </code></pre>
   </section>
 
   <section>
     <h2>🏗️ Configuratie van de Certification Authority</h2>
     <ol>
-      <li>Na installatie, klik in Server Manager op <strong>Configure Active Directory Certificate Services</strong>.</li>
-      <li>Kies het serviceaccount: <strong>Built-in Administrator</strong> of een domeinaccount met CA-rechten.</li>
-      <li>Selecteer <strong>Certification Authority</strong> en klik <strong>Next</strong>.</li>
+      <li>Klik in Server Manager op <strong>Configure Active Directory Certificate Services</strong>.</li>
+      <li>Kies serviceaccount: <strong>Built-in Administrator</strong> of domeinaccount met CA-rechten.</li>
+      <li>Selecteer <strong>Certification Authority</strong>.</li>
       <li>Kies CA-type:
         <ul>
-          <li><strong>Enterprise CA:</strong> integreert met Active Directory → automatische certificaatregistratie (aanbevolen)</li>
-          <li><strong>Standalone CA:</strong> geen AD-integratie, handmatige goedkeuring</li>
+          <li>Enterprise CA (aanbevolen voor automatische registratie)</li>
+          <li>Standalone CA (handmatige goedkeuring)</li>
         </ul>
       </li>
-      <li>Kies <strong>Root CA</strong> (eerste CA in de hiërarchie).</li>
-      <li>Kies “Create a new private key” en laat standaardinstellingen staan:
+      <li>Kies <strong>Root CA</strong> en <strong>Create a new private key</strong>:
         <ul>
           <li>Key length: 2048 of 4096 bits</li>
           <li>Hashing: SHA256</li>
         </ul>
       </li>
-      <li>Geef een <strong>CA Common Name</strong> op, bijvoorbeeld <code>LAB-CA</code>.</li>
-      <li>Bewaar databasebestanden op standaardlocatie (<code>C:\Windows\System32\CertLog</code>).</li>
+      <li>Voer CA Common Name in (bijv. <code>LAB-CA</code>) en laat database op standaardlocatie (<code>C:\Windows\System32\CertLog</code>).</li>
       <li>Voltooi de wizard.</li>
     </ol>
   </section>
 
-  <section>
-    <h2>📜 Certificaatuitgifte testen</h2>
-    <ol>
-      <li>Open <strong>Certification Authority Console (certsrv.msc)</strong>.</li>
-      <li>Klik op <strong>Issued Certificates</strong> om eerder uitgegeven certificaten te zien.</li>
-      <li>Voor handmatige aanvraag:
-        <ul>
-          <li>Open <strong>mmc.exe → Certificates → Computer Account → Personal → Certificates</strong>.</li>
-          <li>Rechtsklik → <strong>All Tasks → Request New Certificate…</strong></li>
-          <li>Kies een template (bijv. Computer of Web Server) → <strong>Enroll</strong>.</li>
-        </ul>
-      </li>
-      <li>Controleer in de CA-console dat het certificaat werd uitgegeven.</li>
-    </ol>
+  <section class="infra-flex">
+    <h3>📜 Certificaatuitgifte testen</h3>
 
-    <h3>PowerShell alternatief:</h3>
-    <pre><code class="language-powershell">
-# Certificaat aanvragen via PowerShell
+    <div class="infra-flex-row header">
+      <div>Taak</div>
+      <div>Beschrijving</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Taak">Open CA-console</div>
+      <div data-label="Beschrijving">certsrv.msc → Issued Certificates bekijken</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Taak">Handmatig certificaat aanvragen</div>
+      <div data-label="Beschrijving">
+        MMC → Certificates → Computer Account → Personal → Request New Certificate → Kies template → Enroll
+      </div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Taak">PowerShell alternatief</div>
+      <div data-label="Beschrijving">
+        <pre><code class="language-powershell">
 certreq -new request.inf request.req
 certreq -submit request.req request.cer
 certreq -accept request.cer
-    </code></pre>
+        </code></pre>
+      </div>
+    </div>
   </section>
 
-  <section>
-    <h2>🔧 Certificatensjablonen (Templates)</h2>
-    <ol>
-      <li>Open de CA-console → <strong>Certificate Templates</strong>.</li>
-      <li>Rechtsklik → <strong>Manage</strong> → opent MMC met alle templates.</li>
-      <li>Kopieer een bestaand template, bijvoorbeeld <strong>Web Server</strong>.</li>
-      <li>Geef een nieuwe naam (bijv. “IIS SSL Template”).</li>
-      <li>Pas aan:
-        <ul>
-          <li><strong>Security-tab:</strong> geef “Domain Computers” of specifieke groepen “Enroll” en “Autoenroll” rechten.</li>
-          <li><strong>Subject Name:</strong> laat door AD bepalen (voor automatische invulling).</li>
-        </ul>
-      </li>
-      <li>Sla op en publiceer het template:
+  <section class="infra-flex">
+    <h3>🔧 Certificatensjablonen (Templates)</h3>
+
+    <div class="infra-flex-row header">
+      <div>Taak</div>
+      <div>Beschrijving</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Taak">Open Templates</div>
+      <div data-label="Beschrijving">CA-console → Certificate Templates → Rechtsklik → Manage</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Taak">Kopieer template</div>
+      <div data-label="Beschrijving">Bijv. Web Server → geef nieuwe naam → pas Security-tab en Subject Name aan</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Taak">Publiceer template</div>
+      <div data-label="Beschrijving">
         <pre><code class="language-powershell">
 certutil -setcatemplates +IIS_SSL_Template
         </code></pre>
-      </li>
-      <li>Nu kunnen servers automatisch een certificaat aanvragen via AD.</li>
-    </ol>
+      </div>
+    </div>
   </section>
 
   <section>
-    <h2>⚙️ Automatische certificaatregistratie (Autoenrollment)</h2>
-    <p>Met Autoenrollment kunnen domeinleden automatisch certificaten aanvragen zonder handmatige actie.</p>
+    <h2>⚙️ Autoenrollment</h2>
     <ol>
-      <li>Open <strong>Group Policy Management Console (gpmc.msc)</strong>.</li>
-      <li>Bewerk het <strong>Default Domain Policy</strong> (of maak een nieuwe GPO).</li>
-      <li>Navigeer naar:
-        <ul>
-          <li><code>Computer Configuration → Policies → Windows Settings → Security Settings → Public Key Policies → Certificate Services Client – Auto-Enrollment</code></li>
-        </ul>
-      </li>
+      <li>Open GPMC → Default Domain Policy (of nieuwe GPO).</li>
+      <li>Navigeer naar: <code>Computer Configuration → Policies → Windows Settings → Security Settings → Public Key Policies → Certificate Services Client – Auto-Enrollment</code></li>
       <li>Stel in op:
         <ul>
-          <li><strong>Configuration Mode:</strong> Enabled</li>
-          <li><strong>Renew expired certificates, update pending certificates</strong></li>
-          <li><strong>Update certificates that use certificate templates</strong></li>
+          <li>Configuration Mode: Enabled</li>
+          <li>Renew expired certificates, update pending certificates</li>
+          <li>Update certificates that use certificate templates</li>
         </ul>
       </li>
-      <li>Voer <code>gpupdate /force</code> uit op clients om het te testen.</li>
-      <li>Controleer certificaten in MMC onder <strong>Personal → Certificates</strong>.</li>
+      <li>Voer <code>gpupdate /force</code> uit op clients.</li>
+      <li>Controleer certificaten in MMC → Personal → Certificates.</li>
     </ol>
   </section>
 
-  <section>
-    <h2>🧩 Certificate Revocation List (CRL)</h2>
-    <p>De CRL (intrekkingslijst) bevat certificaten die niet langer geldig zijn. Clients controleren deze lijst om certificaatvertrouwen te waarborgen.</p>
-    <ul>
-      <li>De CA publiceert de CRL standaard op <code>http://CA-Server/certenroll/</code>.</li>
-      <li>Controleer publicatie via:
-        <pre><code class="language-powershell">
-certutil -crl
-certutil -urlfetch -verify certificate.cer
-        </code></pre>
-      </li>
-      <li>Zorg dat de locatie (CDP/CRL Distribution Point) toegankelijk is voor alle domeinleden.</li>
-    </ul>
+  <section class="infra-flex">
+    <h3>🧩 Certificate Revocation List (CRL)</h3>
+
+    <div class="infra-flex-row header">
+      <div>Taak</div>
+      <div>Beschrijving</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Taak">Controleer CRL-publicatie</div>
+      <div data-label="Beschrijving">certutil -crl → zorg dat CDP toegankelijk is voor domeinleden</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Taak">Verify certificaat</div>
+      <div data-label="Beschrijving">certutil -urlfetch -verify certificate.cer</div>
+    </div>
   </section>
 
-  <section>
-    <h2>🧠 Best practices</h2>
-    <ul>
-      <li>Gebruik een <strong>Enterprise Root CA</strong> enkel voor lab of kleine omgeving — in productie: gebruik hiërarchie (Root + Issuing CA).</li>
-      <li>Bewaar de CA private key offline of beveilig met HSM.</li>
-      <li>Gebruik certificaten met een beperkte levensduur (1 jaar voor servers, 2 jaar voor clients).</li>
-      <li>Implementeer automatische verlenging via GPO’s.</li>
-      <li>Gebruik een aparte Web Enrollment server als je certificaten extern wilt aanvragen.</li>
-      <li>Controleer regelmatig de CRL-publicatie en expiratie.</li>
-    </ul>
+  <section class="infra-flex">
+    <h3>🧠 Best practices</h3>
+
+    <div class="infra-flex-row header">
+      <div>Actie</div>
+      <div>Beschrijving</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Enterprise Root CA</div>
+      <div data-label="Beschrijving">Gebruik enkel voor lab; productie: hiërarchie Root + Issuing CA</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Private Key</div>
+      <div data-label="Beschrijving">Bewaar offline of beveilig met HSM</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Certificaatduur</div>
+      <div data-label="Beschrijving">1 jaar voor servers, 2 jaar voor clients</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Web Enrollment</div>
+      <div data-label="Beschrijving">Gebruik aparte server voor externe aanvragen</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">CRL-publicatie</div>
+      <div data-label="Beschrijving">Controleer regelmatig publicatie en expiratie</div>
+    </div>
   </section>
 
   <section>
     <h2>🧾 Conclusie</h2>
     <p>
-      Active Directory Certificate Services biedt een krachtige, geïntegreerde oplossing om beveiligingscertificaten
-      binnen het domein te beheren. Door correcte configuratie van templates, auto-enrollment en CRL-publicatie
-      kun je SSL, authenticatie en encryptie in je infrastructuur centraal beheren.
+      AD CS biedt een krachtige, geïntegreerde oplossing voor het beheren van certificaten binnen het domein.
+      Door correcte configuratie van templates, auto-enrollment en CRL-publicatie kun je SSL, authenticatie en encryptie
+      centraal beheren in je infrastructuur.
     </p>
   </section>
-</section>
+
+  <footer></footer>
+</article>

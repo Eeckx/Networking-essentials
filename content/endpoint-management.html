@@ -4,110 +4,191 @@
   <section>
     <h2>🎯 Doelstelling</h2>
     <p>
-      Dit lab behandelt Modern Endpoint Management (MEM) voor Windows- en andere devices.  
-      Het doel is om devices veilig, up-to-date en compliant te houden met een uniforme cloud-gebaseerde beheerstrategie.
+      Cloud-gebaseerd beheer van Windows- en andere devices via MEM.  
+      Doel: devices veilig, up-to-date en compliant houden met uniforme beheerstrategie.
     </p>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>🧰 Kernconcepten</h2>
-    <ul>
-      <li><strong>Modern Endpoint Management:</strong> Cloud-gebaseerd beheer van devices, apps en gebruikers, vaak via Microsoft Intune / Endpoint Manager.</li>
-      <li><strong>Device Enrollment:</strong> registratie van devices in Intune voor centraal beheer.</li>
-      <li><strong>Compliance & Security Policies:</strong> configuratie van beveiliging, patching, antivirus en encryptie via cloud.</li>
-      <li><strong>Application Management:</strong> distributie en update van software via cloud of self-service portals.</li>
-      <li><strong>Conditional Access:</strong> toegang tot bedrijfsresources afhankelijk van device compliance en security.</li>
-      <li><strong>Reporting & Monitoring:</strong> realtime inzichten in device status, compliance, en incidenten.</li>
-    </ul>
+    <div class="infra-flex-row header">
+      <div>Concept</div>
+      <div>Beschrijving</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Concept">Modern Endpoint Management</div>
+      <div data-label="Beschrijving">Cloud-gebaseerd beheer van devices, apps en gebruikers via Intune/Endpoint Manager</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Concept">Device Enrollment</div>
+      <div data-label="Beschrijving">Registratie van devices in Intune voor centraal beheer</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Concept">Compliance & Security Policies</div>
+      <div data-label="Beschrijving">Configuratie van beveiliging, patching, antivirus en encryptie via cloud</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Concept">Application Management</div>
+      <div data-label="Beschrijving">Distributie en update van software via cloud of self-service portals</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Concept">Conditional Access</div>
+      <div data-label="Beschrijving">Toegang tot bedrijfsresources afhankelijk van device compliance en security</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Concept">Reporting & Monitoring</div>
+      <div data-label="Beschrijving">Realtime inzichten in device status, compliance en incidenten</div>
+    </div>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>⚙️ Device Enrollment & Configuration</h2>
-    <ol>
-      <li>Voorbereiding:
-        <ul>
-          <li>Azure AD Connect of pure Azure AD omgeving</li>
-          <li>Microsoft Intune licenties</li>
-          <li>Devices compatibel met MEM (Windows 10/11, macOS, iOS, Android)</li>
-        </ul>
-      </li>
-      <li>Device registratie:
-        <ul>
-          <li>Azure AD Join of Hybrid Azure AD Join</li>
-          <li>Automatisch enrolment via MDM policy</li>
-          <li>PowerShell of script-based enrollment voor bulk devices</li>
-        </ul>
-      </li>
-      <li>Device configuratie:
+    <div class="infra-flex-row header">
+      <div>Stap</div>
+      <div>Actie / Voorbeeld</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Stap">1</div>
+      <div data-label="Actie / Voorbeeld">
+        Voorbereiding: Azure AD Connect of pure Azure AD, Intune licenties, compatibele devices (Windows 10/11, macOS, iOS, Android)
+      </div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Stap">2</div>
+      <div data-label="Actie / Voorbeeld">
+        Device registratie: Azure AD Join of Hybrid Azure AD Join, automatisch enrollment via MDM, PowerShell of script-based bulk enrollment
+      </div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Stap">3</div>
+      <div data-label="Actie / Voorbeeld">
+        Device configuratie:
         <ul>
           <li>Configuration profiles: Wi-Fi, VPN, e-mail, security settings</li>
           <li>Compliance policies: encryption, antivirus, firewall, updates</li>
           <li>Deployment profiles: Autopilot voor nieuwe devices</li>
         </ul>
-      </li>
-    </ol>
+      </div>
+    </div>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>📊 Application Management</h2>
-    <ul>
-      <li>Distributie via Intune: MSI, EXE, APPX, Win32 apps</li>
-      <li>Self-service portal voor eindgebruikers</li>
-      <li>Automatische updates voor apps en Office 365</li>
-      <li>Deployment rings en phased rollout voor kritieke updates</li>
-      <li>Compliance reporting: welke devices hebben de juiste app-versies</li>
-    </ul>
+    <div class="infra-flex-row">
+      <div data-label="Actie">App distributie</div>
+      <div data-label="Beschrijving">Via Intune: MSI, EXE, APPX, Win32 apps; phased rollout en self-service portal</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Updates</div>
+      <div data-label="Beschrijving">Automatische updates, Office 365 updates, deployment rings</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Compliance reporting</div>
+      <div data-label="Beschrijving">Rapportage welke devices juiste app-versies hebben</div>
+    </div>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>🔒 Security & Compliance</h2>
-    <ul>
-      <li>Endpoint protection: Microsoft Defender Antivirus & Firewall</li>
-      <li>Device encryption: BitLocker management via Intune</li>
-      <li>Conditional Access policies: toegang op basis van device compliance</li>
-      <li>Update management: Windows Update for Business via MEM</li>
-      <li>Monitoring van threats via Microsoft Defender for Endpoint</li>
-    </ul>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Endpoint Protection</div>
+      <div data-label="Beschrijving">Microsoft Defender Antivirus & Firewall</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Device Encryption</div>
+      <div data-label="Beschrijving">BitLocker management via Intune</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Conditional Access</div>
+      <div data-label="Beschrijving">Toegang gebaseerd op device compliance</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Update Management</div>
+      <div data-label="Beschrijving">Windows Update for Business via MEM</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Threat Monitoring</div>
+      <div data-label="Beschrijving">Microsoft Defender for Endpoint</div>
+    </div>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>📈 Monitoring & Reporting</h2>
-    <ul>
-      <li>Real-time device status en compliance dashboard in Intune</li>
-      <li>Alerts bij non-compliant devices of security incidents</li>
-      <li>Device health reports: patching, antivirus status, encryption</li>
-      <li>Integration met Microsoft Sentinel voor advanced threat analytics</li>
-      <li>Audit logging en export naar SIEM voor governance</li>
-    </ul>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Dashboard</div>
+      <div data-label="Beschrijving">Realtime device status en compliance in Intune</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Alerts</div>
+      <div data-label="Beschrijving">Non-compliant devices of security incidents</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Device Health Reports</div>
+      <div data-label="Beschrijving">Patching, antivirus status, encryption</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Advanced Threat Analytics</div>
+      <div data-label="Beschrijving">Integratie met Microsoft Sentinel</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Audit Logging</div>
+      <div data-label="Beschrijving">Export naar SIEM voor governance</div>
+    </div>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>💡 Best Practices</h2>
-    <ul>
-      <li>Automatiseer enrollment via Autopilot of MDM policies</li>
-      <li>Implementeer phased rollout voor updates en apps</li>
-      <li>Gebruik Conditional Access voor zero-trust security</li>
-      <li>Houd devices compliant met policies, incl. encryption en antivirus</li>
-      <li>Documenteer alle policies en profielen in centrale knowledge base</li>
-      <li>Monitor devices continu en plan proactieve remediation</li>
-    </ul>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Enrollment</div>
+      <div data-label="Beschrijving">Automatiseer via Autopilot of MDM policies</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Updates & Apps</div>
+      <div data-label="Beschrijving">Implementeer phased rollout</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Zero-trust</div>
+      <div data-label="Beschrijving">Gebruik Conditional Access</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Compliance</div>
+      <div data-label="Beschrijving">Houd devices compliant incl. encryption en antivirus</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Documentatie</div>
+      <div data-label="Beschrijving">Policies en profielen centraal bijhouden</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Monitoring</div>
+      <div data-label="Beschrijving">Continu monitoren en proactieve remediation plannen</div>
+    </div>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>📌 Voorbeelden</h2>
-    <ul>
-      <li>Windows 11 laptops in bedrijf: Azure AD Join + Intune Autopilot enrollment, compliance policies + antivirus + BitLocker</li>
-      <li>Remote werknemers: Conditional Access + VPN + MFA voor beveiligde toegang</li>
-      <li>App distributie: Office 365 apps automatisch uitgerold via MEM, phased rollout voor kritieke updates</li>
-      <li>Monitoring: Intune dashboards gecombineerd met Microsoft Defender for Endpoint voor threat alerts</li>
-    </ul>
+    <div class="infra-flex-row">
+      <div data-label="Scenario">Windows 11 laptops</div>
+      <div data-label="Beschrijving">Azure AD Join + Intune Autopilot enrollment, compliance policies, antivirus, BitLocker</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Scenario">Remote werknemers</div>
+      <div data-label="Beschrijving">Conditional Access + VPN + MFA voor beveiligde toegang</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Scenario">App distributie</div>
+      <div data-label="Beschrijving">Office 365 apps automatisch uitgerold via MEM, phased rollout</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Scenario">Monitoring</div>
+      <div data-label="Beschrijving">Intune dashboards + Microsoft Defender for Endpoint voor threat alerts</div>
+    </div>
   </section>
 
   <section>
     <h2>🧾 Conclusie</h2>
     <p>
-      Modern Endpoint Management (MEM) biedt een cloud-native, uniforme en veilige manier om alle devices binnen een organisatie te beheren.  
-      Door device enrollment, compliance, application management, security policies en monitoring centraal te regelen via Microsoft Intune en Azure AD, kunnen organisaties efficiënt, compliant en future-proof werken.
+      MEM biedt een cloud-native, uniforme en veilige manier om alle devices binnen een organisatie te beheren.  
+      Door enrollment, compliance, application management, security policies en monitoring centraal te regelen, werken organisaties efficiënt, compliant en future-proof.
     </p>
   </section>
 </section>

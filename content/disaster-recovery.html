@@ -4,88 +4,204 @@
   <section>
     <h2>🎯 Doelstelling</h2>
     <p>
-      Dit lab behandelt strategieën en technologieën voor **High Availability (HA)** en **Disaster Recovery (DR)** in Windows Server omgevingen.  
-      Je leert hoe je servers, applicaties en data beschermt tegen downtime, storingen en rampen, en hoe je herstelplannen implementeert.
+      Strategieën en technologieën voor High Availability (HA) en Disaster Recovery (DR) in Windows Server.  
+      Bescherming tegen downtime, storingen en rampen, en implementatie van herstelplannen.
     </p>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>🧰 Kernconcepten</h2>
-    <ul>
-      <li><strong>High Availability (HA):</strong> systemen zo configureren dat ze continu beschikbaar zijn bij hardware-, software- of netwerkstoringen.</li>
-      <li><strong>Disaster Recovery (DR):</strong> plannen en implementeren van herstelmethoden bij volledige uitval, rampen of dataverlies.</li>
-      <li><strong>RTO (Recovery Time Objective):</strong> maximale tolerantie voor downtime.</li>
-      <li><strong>RPO (Recovery Point Objective):</strong> maximaal dataverlies dat acceptabel is.</li>
-      <li><strong>Failover & Redundantie:</strong> automatisch overschakelen naar standby systemen of locaties.</li>
-    </ul>
+    <div class="infra-flex-row header">
+      <div>Concept</div>
+      <div>Beschrijving</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Concept">High Availability (HA)</div>
+      <div data-label="Beschrijving">Systemen zo configureren dat ze continu beschikbaar zijn bij hardware-, software- of netwerkstoringen</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Concept">Disaster Recovery (DR)</div>
+      <div data-label="Beschrijving">Plannen en implementeren van herstelmethoden bij volledige uitval, rampen of dataverlies</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Concept">RTO (Recovery Time Objective)</div>
+      <div data-label="Beschrijving">Maximale tolerantie voor downtime</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Concept">RPO (Recovery Point Objective)</div>
+      <div data-label="Beschrijving">Maximaal dataverlies dat acceptabel is</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Concept">Failover & Redundantie</div>
+      <div data-label="Beschrijving">Automatisch overschakelen naar standby systemen of locaties</div>
+    </div>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>⚙️ High Availability Technologieën</h2>
-    <ul>
-      <li><strong>Failover Clustering:</strong> meerdere servers in een cluster die diensten continu beschikbaar houden.  
-          Voorbeelden: File Services, SQL Server, Hyper-V, DHCP, RDS.</li>
-      <li><strong>Network Load Balancing (NLB):</strong> verdelen van inkomend verkeer over meerdere servers voor performance en beschikbaarheid.</li>
-      <li><strong>Storage Spaces Direct (S2D):</strong> gedistribueerde storage met redundantie voor HA en performance.</li>
-      <li><strong>Hyper-V Replica:</strong> replicatie van virtuele machines naar andere hosts voor snelle failover.</li>
-      <li><strong>Database Mirroring / Always On Availability Groups:</strong> voor SQL Server HA.</li>
-      <li><strong>DNS & DHCP redundantie:</strong> meerdere servers om services beschikbaar te houden bij uitval.</li>
-    </ul>
+    <div class="infra-flex-row header">
+      <div>Technologie</div>
+      <div>Beschrijving / Gebruik</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Technologie">Failover Clustering</div>
+      <div data-label="Beschrijving / Gebruik">Meerdere servers in een cluster houden diensten continu beschikbaar (File Services, SQL, Hyper-V, DHCP, RDS)</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Technologie">Network Load Balancing (NLB)</div>
+      <div data-label="Beschrijving / Gebruik">Verdelen inkomend verkeer over meerdere servers voor performance en beschikbaarheid</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Technologie">Storage Spaces Direct (S2D)</div>
+      <div data-label="Beschrijving / Gebruik">Gedistribueerde storage met redundantie voor HA en performance</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Technologie">Hyper-V Replica</div>
+      <div data-label="Beschrijving / Gebruik">Replicatie van virtuele machines naar andere hosts voor snelle failover</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Technologie">Database Mirroring / Always On</div>
+      <div data-label="Beschrijving / Gebruik">SQL Server HA, meerdere replicas voor continue beschikbaarheid</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Technologie">DNS & DHCP redundantie</div>
+      <div data-label="Beschrijving / Gebruik">Meerdere servers om services beschikbaar te houden bij uitval</div>
+    </div>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>💾 Disaster Recovery Strategieën</h2>
-    <ul>
-      <li><strong>Back-ups:</strong> volledige, incrementele of differentiële back-ups.  
-          Tools: Windows Server Backup, Veeam, System Center Data Protection Manager (DPM).</li>
-      <li><strong>Off-site replicatie:</strong> data repliceren naar secundaire locatie of cloud (Azure Site Recovery, Hyper-V Replica).</li>
-      <li><strong>Recovery Testing:</strong> periodiek testen van back-ups en failover procedures.</li>
-      <li><strong>Documentation & Runbooks:</strong> gedetailleerde stappen voor herstelprocessen bij rampen.</li>
-      <li><strong>VM Snapshots / Checkpoints:</strong> tijdelijk herstelpunt bij configuration errors (niet geschikt als volledige DR).</li>
-    </ul>
+    <div class="infra-flex-row header">
+      <div>Strategie</div>
+      <div>Beschrijving / Tools</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Strategie">Back-ups</div>
+      <div data-label="Beschrijving / Tools">Volledig, incrementeel of differentieel; Windows Server Backup, Veeam, DPM</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Strategie">Off-site replicatie</div>
+      <div data-label="Beschrijving / Tools">Data repliceren naar secundaire locatie of cloud (Azure Site Recovery, Hyper-V Replica)</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Strategie">Recovery Testing</div>
+      <div data-label="Beschrijving / Tools">Periodiek testen van back-ups en failover procedures</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Strategie">Documentation & Runbooks</div>
+      <div data-label="Beschrijving / Tools">Gedetailleerde herstelstappen bij rampen</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Strategie">VM Snapshots / Checkpoints</div>
+      <div data-label="Beschrijving / Tools">Tijdelijk herstelpunt bij configuration errors (niet geschikt voor volledige DR)</div>
+    </div>
   </section>
 
-  <section>
-    <h2>🖥️ Voorbeelden van HA & DR implementaties</h2>
-    <ul>
-      <li>File server cluster: 2 nodes met shared storage via S2D → automatische failover bij hardware-uitval.</li>
-      <li>Hyper-V cluster: VM's met Live Migration en Hyper-V Replica naar secundaire locatie → minimale downtime en RTO < 15 minuten.</li>
-      <li>SQL Server Always On: meerdere replicas, read-only voor reporting → continue beschikbaarheid en DR optie.</li>
-      <li>Off-site DR via Azure Site Recovery: replicatie van on-prem Hyper-V VM's naar Azure → herstel bij volledige site-uitval.</li>
-    </ul>
+  <section class="infra-flex">
+    <h2>🖥️ Voorbeelden van Implementaties</h2>
+    <div class="infra-flex-row header">
+      <div>Scenario</div>
+      <div>Beschrijving / Resultaat</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Scenario">File server cluster</div>
+      <div data-label="Beschrijving / Resultaat">2 nodes met shared storage via S2D → automatische failover bij hardware-uitval</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Scenario">Hyper-V cluster</div>
+      <div data-label="Beschrijving / Resultaat">VM's met Live Migration en Hyper-V Replica → minimale downtime, RTO < 15 minuten</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Scenario">SQL Server Always On</div>
+      <div data-label="Beschrijving / Resultaat">Meerdere replicas, read-only voor reporting → continue beschikbaarheid en DR optie</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Scenario">Off-site DR via Azure</div>
+      <div data-label="Beschrijving / Resultaat">Replicatie van on-prem Hyper-V VM's naar Azure → herstel bij volledige site-uitval</div>
+    </div>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>🔧 Best Practices</h2>
-    <ul>
-      <li>Identificeer kritieke applicaties en data, bepaal RTO en RPO per workload.</li>
-      <li>Gebruik geclusterde services en redundante hardware om single points of failure te vermijden.</li>
-      <li>Implementeer regelmatige back-ups en test het herstelplan minstens jaarlijks.</li>
-      <li>Documenteer failover- en herstelprocedures duidelijk en train personeel.</li>
-      <li>Implementeer monitoring en alerts voor hardware, netwerk, storage en applicaties.</li>
-      <li>Combineer lokale HA met off-site DR voor maximale beschikbaarheid.</li>
-      <li>Houd software- en firmwareversies consistent in clusters.</li>
-    </ul>
+    <div class="infra-flex-row header">
+      <div>Actie</div>
+      <div>Tip / Opmerking</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Identificeer kritieke workloads</div>
+      <div data-label="Tip / Opmerking">Bepaal RTO en RPO per workload</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Gebruik geclusterde services</div>
+      <div data-label="Tip / Opmerking">Redundante hardware om single points of failure te vermijden</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Regelmatige back-ups</div>
+      <div data-label="Tip / Opmerking">Test het herstelplan minstens jaarlijks</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Documenteer procedures</div>
+      <div data-label="Tip / Opmerking">Failover- en herstelprocedures duidelijk documenteren en personeel trainen</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Monitoring & alerts</div>
+      <div data-label="Tip / Opmerking">Voor hardware, netwerk, storage en applicaties</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Combineer lokale HA met off-site DR</div>
+      <div data-label="Tip / Opmerking">Maximale beschikbaarheid realiseren</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Versiebeheer cluster software/firmware</div>
+      <div data-label="Tip / Opmerking">Houd consistentie in alle nodes</div>
+    </div>
   </section>
 
   <section>
     <h2>📌 Checklist</h2>
     <ol>
-      <li>Kritische workloads identificeren en RTO/RPO bepalen.</li>
-      <li>Failover Clustering of NLB implementeren voor HA.</li>
-      <li>Hyper-V Replica of database replicatie instellen voor DR.</li>
-      <li>Regelmatige back-ups configureren en testen.</li>
-      <li>Monitoring en alerts configureren voor alle componenten.</li>
-      <li>Runbooks/documentatie opstellen en testen.</li>
-      <li>Periodieke DR-testen uitvoeren en lessons learned implementeren.</li>
+      <li>Kritische workloads identificeren en RTO/RPO bepalen</li>
+      <li>Failover Clustering of NLB implementeren voor HA</li>
+      <li>Hyper-V Replica of database replicatie instellen voor DR</li>
+      <li>Regelmatige back-ups configureren en testen</li>
+      <li>Monitoring en alerts configureren voor alle componenten</li>
+      <li>Runbooks/documentatie opstellen en testen</li>
+      <li>Periodieke DR-testen uitvoeren en lessons learned implementeren</li>
     </ol>
   </section>
 
   <section>
     <h2>🧾 Conclusie</h2>
     <p>
-      Door HA en DR correct te implementeren kunnen Windows Server omgevingen zowel korte als lange uitval overleven met minimale impact.  
-      Het combineren van failover clustering, storage-replicatie, VM-replicatie, off-site backups en duidelijke recovery procedures zorgt voor een robuuste en veerkrachtige infrastructuur.
+      Correcte implementatie van HA en DR zorgt dat Windows Server omgevingen zowel korte als lange uitval overleven met minimale impact.  
+      Combinatie van failover clustering, storage-replicatie, VM-replicatie, off-site backups en duidelijke recovery procedures resulteert in een robuuste en veerkrachtige infrastructuur.
     </p>
   </section>
 </section>

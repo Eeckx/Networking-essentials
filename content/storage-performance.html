@@ -1,141 +1,232 @@
-<article>
+<section>
   <h1>💽 Storage & Prestaties – Windows Server</h1>
 
   <section>
     <h2>🎯 Doelstelling</h2>
     <p>
-      Dit lab behandelt hoe je opslag beheert, configureert en optimaliseert in Windows Server omgevingen.  
-      We bespreken storage types, configuraties, performance tuning en best practices voor betrouwbare en snelle opslag.
+      Opslag beheren, configureren en optimaliseren in Windows Server omgevingen.  
+      Bespreek storage types, configuraties, performance tuning en best practices voor betrouwbare en snelle opslag.
     </p>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>🧰 Kernconcepten</h2>
-    <ul>
-      <li><strong>Storage Types:</strong> Direct Attached Storage (DAS), Storage Area Network (SAN), Network Attached Storage (NAS), en cloud storage.</li>
-      <li><strong>Disk Types:</strong> HDD, SSD, NVMe, met impact op IOPS, latency en throughput.</li>
-      <li><strong>RAID Levels:</strong> redundantie en performance combinaties (RAID 0, 1, 5, 6, 10).</li>
-      <li><strong>Storage Spaces & S2D:</strong> Windows-native virtualisatie van storage met pooling, resiliency en tiering.</li>
-      <li><strong>File Systems:</strong> NTFS en ReFS, inclusief performance en resiliency eigenschappen.</li>
-      <li><strong>Caching & Tiering:</strong> gebruik van SSD caching voor frequently accessed data.</li>
-    </ul>
+    <div class="infra-flex-row header">
+      <div>Concept</div>
+      <div>Beschrijving</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Concept">Storage Types</div>
+      <div data-label="Beschrijving">DAS, SAN, NAS, en cloud storage</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Concept">Disk Types</div>
+      <div data-label="Beschrijving">HDD, SSD, NVMe – impact op IOPS, latency en throughput</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Concept">RAID Levels</div>
+      <div data-label="Beschrijving">Redundantie en performance combinaties (RAID 0, 1, 5, 6, 10)</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Concept">Storage Spaces & S2D</div>
+      <div data-label="Beschrijving">Windows-native virtualisatie van storage met pooling, resiliency en tiering</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Concept">File Systems</div>
+      <div data-label="Beschrijving">NTFS en ReFS, inclusief performance en resiliency eigenschappen</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Concept">Caching & Tiering</div>
+      <div data-label="Beschrijving">SSD caching voor frequently accessed data</div>
+    </div>
   </section>
 
-  <section class="infra-table">
+  <section class="infra-flex">
     <h2>⚙️ Storage Configuraties</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>Type</th>
-          <th>Beschrijving</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Direct Attached Storage (DAS)</td>
-          <td>Lokaal op server aangesloten drives</td>
-        </tr>
-        <tr>
-          <td>SAN</td>
-          <td>Fibre Channel of iSCSI gevirtualiseerde storage</td>
-        </tr>
-        <tr>
-          <td>NAS</td>
-          <td>CIFS/SMB gedeelde storage voor bestanden</td>
-        </tr>
-        <tr>
-          <td>Storage Pools & Spaces</td>
-          <td>Combineer fysieke disks in virtuele volumes met resiliency (Mirror, Parity, Simple)</td>
-        </tr>
-        <tr>
-          <td>Storage Spaces Direct (S2D)</td>
-          <td>Cluster-based storage met hoge performance en hoge beschikbaarheid</td>
-        </tr>
-        <tr>
-          <td>ReFS</td>
-          <td>Optimalisatie voor grote volumes, dataintegriteit en snelle recovery</td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="infra-flex-row header">
+      <div>Type</div>
+      <div>Beschrijving</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Type">Direct Attached Storage (DAS)</div>
+      <div data-label="Beschrijving">Lokaal op server aangesloten drives</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Type">SAN</div>
+      <div data-label="Beschrijving">Fibre Channel of iSCSI gevirtualiseerde storage</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Type">NAS</div>
+      <div data-label="Beschrijving">CIFS/SMB gedeelde storage voor bestanden</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Type">Storage Pools & Spaces</div>
+      <div data-label="Beschrijving">Combineer fysieke disks in virtuele volumes met resiliency (Mirror, Parity, Simple)</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Type">Storage Spaces Direct (S2D)</div>
+      <div data-label="Beschrijving">Cluster-based storage met hoge performance en beschikbaarheid</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Type">ReFS</div>
+      <div data-label="Beschrijving">Optimalisatie voor grote volumes, dataintegriteit en snelle recovery</div>
+    </div>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>📈 Performance Optimalisatie</h2>
-    <ul>
-      <li>Gebruik SSD/NVMe voor hoge IOPS workloads.</li>
-      <li>Kies RAID-niveau afhankelijk van performance vs. redundantie.</li>
-      <li>NTFS: let op impact van deduplicatie, compressie en AD-integratie.</li>
-      <li>Cache & Tiering: implementeer SSD caching of tiering in Storage Spaces voor hot data.</li>
-      <li>Monitoring: gebruik Performance Monitor counters zoals Disk Queue Length, Avg. Disk sec/Read & Write, IOPS.</li>
-      <li>Defragmentatie: alleen voor HDD; SSD gebruik TRIM-support.</li>
-      <li>Network: voor NAS/SAN – zorg voor voldoende bandwidth, lage latency en jumbo frames waar mogelijk.</li>
-    </ul>
+    <div class="infra-flex-row">
+      <div data-label="Tip">SSD/NVMe</div>
+      <div data-label="Beschrijving">Gebruik voor hoge IOPS workloads</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Tip">RAID-niveau</div>
+      <div data-label="Beschrijving">Afhankelijk van performance vs. redundantie</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Tip">NTFS / ReFS</div>
+      <div data-label="Beschrijving">Let op impact van deduplicatie, compressie en AD-integratie</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Tip">Cache & Tiering</div>
+      <div data-label="Beschrijving">SSD caching of tiering voor hot data in Storage Spaces</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Tip">Monitoring</div>
+      <div data-label="Beschrijving">Performance Monitor counters: Disk Queue Length, Avg. Disk sec/Read & Write, IOPS</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Tip">Defragmentatie</div>
+      <div data-label="Beschrijving">Alleen HDD; SSD gebruik TRIM-support</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Tip">Netwerk (NAS/SAN)</div>
+      <div data-label="Beschrijving">Zorg voor voldoende bandwidth, lage latency en jumbo frames waar mogelijk</div>
+    </div>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>🔧 Monitoring & Analyse</h2>
-    <ul>
-      <li>Performance Monitor: real-time monitoring van disk, storage pool en SMB/NFS throughput.</li>
-      <li>Resource Monitor: inzicht in read/write speeds, latency en actieve processen.</li>
-      <li>Event Viewer: waarschuwingen over storage failure, pool degradation of resiliency issues.</li>
-      <li>PowerShell voorbeeld om Storage Pool status te controleren:
+    <div class="infra-flex-row">
+      <div data-label="Tool">Performance Monitor</div>
+      <div data-label="Beschrijving">Real-time monitoring van disk, storage pool en SMB/NFS throughput</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Tool">Resource Monitor</div>
+      <div data-label="Beschrijving">Inzicht in read/write speeds, latency en actieve processen</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Tool">Event Viewer</div>
+      <div data-label="Beschrijving">Waarschuwingen over storage failure, pool degradation of resiliency issues</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Tool">PowerShell</div>
+      <div data-label="Beschrijving">
+        Storage Pool status controleren:<br>
         <pre><code class="language-powershell">
 Get-StoragePool | Get-StorageHealthReport
         </code></pre>
-      </li>
-      <li>Gebruik Windows Admin Center of SCOM voor gecentraliseerde storage monitoring.</li>
-    </ul>
+      </div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Tool">Windows Admin Center / SCOM</div>
+      <div data-label="Beschrijving">Gecentraliseerde storage monitoring</div>
+    </div>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>💡 Best Practices</h2>
-    <ul>
-      <li>Kies juiste RAID-level of Storage Spaces resiliency voor workload.</li>
-      <li>Gebruik SSD/NVMe voor I/O-intensieve applicaties.</li>
-      <li>Implementeer regelmatige monitoring van prestaties en health.</li>
-      <li>Gebruik ReFS voor grote volumes en waar dataintegriteit cruciaal is.</li>
-      <li>Deduplicatie en compressie met mate toepassen afhankelijk van workload.</li>
-      <li>Implementeer backup en snapshot strategieën voor kritische data.</li>
-      <li>Documenteer storage architectuur, volumes, pools en performance metrics.</li>
-    </ul>
+    <div class="infra-flex-row">
+      <div data-label="Actie">RAID / Storage Spaces</div>
+      <div data-label="Tip">Kies juiste resiliency voor workload</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">SSD/NVMe</div>
+      <div data-label="Tip">Gebruik voor I/O-intensieve applicaties</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Monitoring</div>
+      <div data-label="Tip">Regelmatige performance en health check</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">ReFS</div>
+      <div data-label="Tip">Gebruik voor grote volumes en dataintegriteit</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Deduplicatie / compressie</div>
+      <div data-label="Tip">Toepassen afhankelijk van workload</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Backup / Snapshot</div>
+      <div data-label="Tip">Implementeer strategieën voor kritische data</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Documentatie</div>
+      <div data-label="Tip">Documenteer storage architectuur, volumes, pools en performance metrics</div>
+    </div>
   </section>
 
-  <section class="infra-table">
+  <section class="infra-flex">
     <h2>📊 Probleemoplossing</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>Probleem</th>
-          <th>Mogelijke oplossing</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Storage pool degradeert</td>
-          <td>Controleer fysieke disks en resiliency instellingen</td>
-        </tr>
-        <tr>
-          <td>Hoge disk latency</td>
-          <td>Gebruik SSD/NVMe, pas caching en tiering toe</td>
-        </tr>
-        <tr>
-          <td>NAS/SAN netwerk traag</td>
-          <td>Controleer bandwidth, latency, en netwerkconfiguratie</td>
-        </tr>
-        <tr>
-          <td>Defragmentatie mislukt</td>
-          <td>Alleen toepassen op HDD; SSD TRIM ondersteunen</td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="infra-flex-row header">
+      <div>Probleem</div>
+      <div>Mogelijke Oplossing</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Probleem">Storage pool degradeert</div>
+      <div data-label="Mogelijke Oplossing">Controleer fysieke disks en resiliency instellingen</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Probleem">Hoge disk latency</div>
+      <div data-label="Mogelijke Oplossing">Gebruik SSD/NVMe, pas caching en tiering toe</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Probleem">NAS/SAN netwerk traag</div>
+      <div data-label="Mogelijke Oplossing">Controleer bandwidth, latency en netwerkconfiguratie</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Probleem">Defragmentatie mislukt</div>
+      <div data-label="Mogelijke Oplossing">Alleen toepassen op HDD; SSD TRIM ondersteunen</div>
+    </div>
   </section>
 
   <section>
     <h2>🧾 Conclusie</h2>
     <p>
       Storage en performance management zijn cruciaal voor betrouwbare en snelle Windows Server omgevingen.  
-      Door juiste storage types, configuraties, performance tuning en monitoring toe te passen, kunnen servers optimale prestaties leveren en tegelijkertijd data beschermen.
+      Juiste storage types, configuraties, performance tuning en monitoring zorgen voor optimale prestaties en bescherming van data.
     </p>
   </section>
-
-</article>
+</section>

@@ -4,115 +4,158 @@
   <section>
     <h2>🎯 Doelstelling</h2>
     <p>
-      Dit lab behandelt het opzetten van een robuuste back-upstrategie voor verschillende serverrollen in een Windows Server-omgeving.  
-      Het doel is dat kritieke data en services veilig zijn, herstel mogelijk is bij falen, en downtime tot een minimum beperkt blijft.
+      Opzetten van een robuuste back-upstrategie voor verschillende serverrollen.  
+      Doel: kritieke data en services veilig, herstel mogelijk bij falen, downtime minimaliseren.
     </p>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>🧰 Kernconcepten</h2>
-    <ul>
-      <li><strong>Back-up types:</strong> Full, Incremental, Differential, System State</li>
-      <li><strong>Recovery Time Objective (RTO):</strong> maximale downtime toegestaan</li>
-      <li><strong>Recovery Point Objective (RPO):</strong> maximaal dataverlies toegestaan</li>
-      <li><strong>Retention policy:</strong> bewaartermijn van back-ups en versiebeheer</li>
-      <li><strong>Offsite & Cloud backups:</strong> bescherming tegen lokale incidenten (brand, diefstal)</li>
-      <li><strong>Automatisering:</strong> gepland, script- of software-gestuurd back-upproces</li>
-    </ul>
+    <div class="infra-flex-row header">
+      <div>Concept</div>
+      <div>Beschrijving</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Concept">Back-up Types</div>
+      <div data-label="Beschrijving">Full, Incremental, Differential, System State</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Concept">RTO</div>
+      <div data-label="Beschrijving">Maximale downtime toegestaan</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Concept">RPO</div>
+      <div data-label="Beschrijving">Maximaal dataverlies toegestaan</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Concept">Retention Policy</div>
+      <div data-label="Beschrijving">Bewaartermijn van back-ups en versiebeheer</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Concept">Offsite / Cloud Backups</div>
+      <div data-label="Beschrijving">Bescherming tegen lokale incidenten (brand, diefstal)</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Concept">Automatisering</div>
+      <div data-label="Beschrijving">Gepland, script- of software-gestuurd back-upproces</div>
+    </div>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>⚙️ Back-upstrategie per Rol</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>Serverrol</th>
-          <th>Back-up Type</th>
-          <th>Frequentie</th>
-          <th>Belangrijke Opmerkingen</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Domain Controller / Active Directory</td>
-          <td>System State (AD, SYSVOL)</td>
-          <td>Dagelijks of minimaal wekelijks</td>
-          <td>Back-ups op meerdere locaties, test regelmatig restore; gebruik VSS (Volume Shadow Copy)</td>
-        </tr>
-        <tr>
-          <td>File Servers</td>
-          <td>Full + Incremental</td>
-          <td>Full wekelijks, incremental dagelijks</td>
-          <td>Bewaar meerdere versies; implementeer NTFS permissies en ACLs in restore</td>
-        </tr>
-        <tr>
-          <td>Hyper-V / VM Servers</td>
-          <td>VHD/VHDX snapshots + Full VM backup</td>
-          <td>Dagelijks of per workload criticaliteit</td>
-          <td>Gebruik online backup tools compatibel met VM's; check consistency van checkpoints</td>
-        </tr>
-        <tr>
-          <td>SQL / Databases</td>
-          <td>Full, Differential, Transaction Log</td>
-          <td>Full dagelijks, differential/transaction log meerdere keren per dag</td>
-          <td>Test restores regelmatig; combineer met offsite backups</td>
-        </tr>
-        <tr>
-          <td>IIS / Web Servers</td>
-          <td>Full + Configuration + App Data</td>
-          <td>Dagelijks of wekelijks afhankelijk van traffic</td>
-          <td>Includeer SSL-certificaten, website config en databases</td>
-        </tr>
-        <tr>
-          <td>DHCP / DNS / RDS</td>
-          <td>System State + Configuration export</td>
-          <td>Dagelijks of wekelijks</td>
-          <td>Gebruik PowerShell export cmdlets; test restore op testserver</td>
-        </tr>
-        <tr>
-          <td>Certificate Services (PKI)</td>
-          <td>CA Database + System State + Private Key</td>
-          <td>Dagelijks of bij wijzigingen</td>
-          <td>Back-up beveiligd opslaan; sleutel export encryptie verplicht</td>
-        </tr>
-        <tr>
-          <td>Network & Firewall Config</td>
-          <td>Configuration Export / Scripted Backup</td>
-          <td>Bij wijzigingen en wekelijks</td>
-          <td>Automatiseer met PowerShell / CLI; documenteer versie en datum</td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="infra-flex-row header">
+      <div>Serverrol</div>
+      <div>Back-up Type</div>
+      <div>Frequentie</div>
+      <div>Belangrijke Opmerkingen</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Serverrol">Domain Controller / AD</div>
+      <div data-label="Back-up Type">System State (AD, SYSVOL)</div>
+      <div data-label="Frequentie">Dagelijks of minimaal wekelijks</div>
+      <div data-label="Belangrijke Opmerkingen">Back-ups op meerdere locaties, test restore; gebruik VSS</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Serverrol">File Servers</div>
+      <div data-label="Back-up Type">Full + Incremental</div>
+      <div data-label="Frequentie">Full wekelijks, incremental dagelijks</div>
+      <div data-label="Belangrijke Opmerkingen">Bewaar meerdere versies; herstel NTFS permissies en ACLs</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Serverrol">Hyper-V / VM Servers</div>
+      <div data-label="Back-up Type">VHD/VHDX snapshots + Full VM backup</div>
+      <div data-label="Frequentie">Dagelijks of per workload criticaliteit</div>
+      <div data-label="Belangrijke Opmerkingen">Gebruik online backup tools; check consistency van checkpoints</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Serverrol">SQL / Databases</div>
+      <div data-label="Back-up Type">Full, Differential, Transaction Log</div>
+      <div data-label="Frequentie">Full dagelijks, diff/log meerdere keren per dag</div>
+      <div data-label="Belangrijke Opmerkingen">Test restores regelmatig; combineer met offsite backups</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Serverrol">IIS / Web Servers</div>
+      <div data-label="Back-up Type">Full + Configuration + App Data</div>
+      <div data-label="Frequentie">Dagelijks of wekelijks afhankelijk van traffic</div>
+      <div data-label="Belangrijke Opmerkingen">Includeer SSL-certificaten, website config en databases</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Serverrol">DHCP / DNS / RDS</div>
+      <div data-label="Back-up Type">System State + Configuration export</div>
+      <div data-label="Frequentie">Dagelijks of wekelijks</div>
+      <div data-label="Belangrijke Opmerkingen">Gebruik PowerShell export cmdlets; test restore</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Serverrol">Certificate Services (PKI)</div>
+      <div data-label="Back-up Type">CA Database + System State + Private Key</div>
+      <div data-label="Frequentie">Dagelijks of bij wijzigingen</div>
+      <div data-label="Belangrijke Opmerkingen">Back-up beveiligd opslaan; sleutel export encryptie verplicht</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Serverrol">Network & Firewall Config</div>
+      <div data-label="Back-up Type">Configuration Export / Scripted Backup</div>
+      <div data-label="Frequentie">Bij wijzigingen en wekelijks</div>
+      <div data-label="Belangrijke Opmerkingen">Automatiseer met PowerShell / CLI; documenteer versie en datum</div>
+    </div>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>🔧 Best Practices</h2>
-    <ul>
-      <li>Implementeer 3-2-1 regel: 3 kopieën, 2 locaties, 1 offsite/cloud</li>
-      <li>Automatiseer back-ups met Windows Server Backup, Veeam, DPM of andere tools</li>
-      <li>Test regelmatig restore-procedures (Full en Granular restores)</li>
-      <li>Documenteer alle back-upstrategieën, frequenties en retentieperiodes</li>
-      <li>Versleutel back-ups en bewaak toegang tot back-up locaties</li>
-      <li>Integreer back-ups met monitoring voor alerting bij falende jobs</li>
-      <li>Houd rekening met RTO en RPO bij het plannen van frequenties en technologieën</li>
-    </ul>
+    <div class="infra-flex-row">
+      <div data-label="Actie">3-2-1 Regel</div>
+      <div data-label="Beschrijving">3 kopieën, 2 locaties, 1 offsite/cloud</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Automatisering</div>
+      <div data-label="Beschrijving">Windows Server Backup, Veeam, DPM of andere tools</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Test Restore</div>
+      <div data-label="Beschrijving">Regelmatig full en granular restores testen</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Documentatie</div>
+      <div data-label="Beschrijving">Alle strategieën, frequenties en retentieperiodes vastleggen</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Beveiliging</div>
+      <div data-label="Beschrijving">Versleutel back-ups en bewaak toegang tot locaties</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Monitoring</div>
+      <div data-label="Beschrijving">Integreer back-ups met alerts bij falende jobs</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Actie">RTO / RPO</div>
+      <div data-label="Beschrijving">Houd rekening met downtime en dataverlies bij planning</div>
+    </div>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>📌 Voorbeelden</h2>
-    <ul>
-      <li>File server met 1TB data: Full backup wekelijks, incremental dagelijks, retentie 4 weken</li>
-      <li>Hyper-V cluster: VM snapshots dagelijks, Full VM backup wekelijks naar offsite locatie</li>
-      <li>SQL Database: Full backup 02:00 uur, Differential om 10:00 uur en 14:00 uur, Transaction Log elke 30 minuten</li>
-      <li>Certificate Services: Private key back-up encryptie met wachtwoord, offsite opslag en test restore op staging server</li>
-    </ul>
+    <div class="infra-flex-row">
+      <div data-label="Voorbeeld">File Server 1TB</div>
+      <div data-label="Beschrijving">Full backup wekelijks, incremental dagelijks, retentie 4 weken</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Voorbeeld">Hyper-V Cluster</div>
+      <div data-label="Beschrijving">VM snapshots dagelijks, full VM backup wekelijks offsite</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Voorbeeld">SQL Database</div>
+      <div data-label="Beschrijving">Full 02:00, Differential 10:00 & 14:00, Transaction Log elke 30 min</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Voorbeeld">Certificate Services</div>
+      <div data-label="Beschrijving">Private key backup encryptie, offsite opslag, test restore staging server</div>
+    </div>
   </section>
 
   <section>
     <h2>🧾 Conclusie</h2>
     <p>
-      Een rol-gebaseerde back-upstrategie zorgt voor optimale bescherming van data en services in Windows Server omgevingen.  
-      Door de juiste back-up types, frequenties, retentie en testprocedures per rol toe te passen, wordt herstelbaarheid gegarandeerd en risico op downtime of dataverlies beperkt.
+      Een rol-gebaseerde back-upstrategie beschermt data en services optimaal.  
+      Door juiste back-up types, frequenties, retentie en testprocedures per rol toe te passen, wordt herstelbaarheid gegarandeerd en risico op downtime beperkt.
     </p>
   </section>
 </section>

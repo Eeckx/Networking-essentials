@@ -4,102 +4,167 @@
   <section>
     <h2>🎯 Doelstelling</h2>
     <p>
-      Dit lab behandelt hoe je governance- en auditingpraktijken toepast in Windows Server-omgevingen.  
-      Het doel is om compliance, security en operationele transparantie te waarborgen door policies, logging en controlemechanismen.
+      Governance- en auditingpraktijken toepassen in Windows Server omgevingen.  
+      Waarborg compliance, security en operationele transparantie door policies, logging en controlemechanismen.
     </p>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>🧰 Kernconcepten</h2>
-    <ul>
-      <li><strong>Governance:</strong> beleid en processen die bepalen hoe IT-resources beheerd, gebruikt en gecontroleerd worden.</li>
-      <li><strong>Auditing:</strong> systematisch vastleggen en analyseren van acties op servers en netwerken voor compliance en security.</li>
-      <li><strong>Compliance:</strong> voldoen aan interne en externe regelgeving, standaarden en security frameworks (bijv. ISO 27001, NIST, GDPR).</li>
-      <li><strong>Accountability:</strong> traceren van wie wat doet, inclusief veranderingen aan kritieke systemen.</li>
-      <li><strong>Separation of Duties:</strong> beperken van risico door verantwoordelijkheden te verdelen (bijv. admin vs backup operator).</li>
-    </ul>
+    <div class="infra-flex-row header">
+      <div>Concept</div>
+      <div>Beschrijving</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Concept">Governance</div>
+      <div data-label="Beschrijving">Beleid en processen voor beheer, gebruik en controle van IT-resources</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Concept">Auditing</div>
+      <div data-label="Beschrijving">Systematisch vastleggen en analyseren van acties op servers/netwerken</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Concept">Compliance</div>
+      <div data-label="Beschrijving">Voldoen aan interne/externe regelgeving en security frameworks (ISO 27001, NIST, GDPR)</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Concept">Accountability</div>
+      <div data-label="Beschrijving">Traceren wie welke acties uitvoert, inclusief kritieke wijzigingen</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Concept">Separation of Duties</div>
+      <div data-label="Beschrijving">Verantwoordelijkheden verdelen om risico’s te beperken (bv. admin vs backup operator)</div>
+    </div>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>⚙️ Governance Mechanismen</h2>
-    <ul>
-      <li>Gebruik **Group Policy Objects (GPO)** om consistent beleid toe te passen (wachtwoordbeleid, account lockout, auditing instellingen).</li>
-      <li>Rollen en rechten beperken volgens **Least Privilege**.</li>
-      <li>Documenteer processen en verantwoordelijkheden in **runbooks** en interne policies.</li>
-      <li>Implementeer **change management** en **approval flows** voor kritieke wijzigingen.</li>
-      <li>Regelmatige **reviews van users, groups en privileges** uitvoeren.</li>
-    </ul>
+    <div class="infra-flex-row">
+      <div data-label="Mechanisme">GPO Beleid</div>
+      <div data-label="Beschrijving">Consistente toepassing van wachtwoordbeleid, account lockout, auditing instellingen</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Mechanisme">Least Privilege</div>
+      <div data-label="Beschrijving">Beperk rollen en rechten tot wat strikt noodzakelijk is</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Mechanisme">Documentatie & Runbooks</div>
+      <div data-label="Beschrijving">Procesbeschrijvingen en verantwoordelijkheden vastleggen</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Mechanisme">Change Management</div>
+      <div data-label="Beschrijving">Approval flows voor kritieke wijzigingen implementeren</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Mechanisme">Regelmatige Reviews</div>
+      <div data-label="Beschrijving">Users, groups en privileges periodiek controleren</div>
+    </div>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>🔍 Auditing Configuratie</h2>
-    <ul>
-      <li>Activeer audit policies via GPO:
-        <ul>
-          <li>Account logon events (success/failure)</li>
-          <li>Account management (create, delete, modify)</li>
-          <li>Directory service access (AD object changes)</li>
-          <li>Policy change (GPO wijziging)</li>
-          <li>Logon/logoff events</li>
-          <li>Object access (file/folder, registry)</li>
-        </ul>
-      </li>
-      <li>Gebruik **Advanced Audit Policy Configuration** voor granulariteit.</li>
-      <li>Event Viewer: Security log, System log, Application log.</li>
-      <li>PowerShell voorbeeld voor event query:
+    <div class="infra-flex-row">
+      <div data-label="Actie">Audit Policies via GPO</div>
+      <div data-label="Beschrijving">
+        Account logon events, account management, directory service access, policy changes, logon/logoff, object access
+      </div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Advanced Audit Policy Configuration</div>
+      <div data-label="Beschrijving">Granulaire auditing inschakelen voor gedetailleerde controle</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Event Viewer</div>
+      <div data-label="Beschrijving">Security, System en Application logs analyseren</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Actie">PowerShell Query</div>
+      <div data-label="Beschrijving">
         <pre><code class="language-powershell">
-# Laat de laatste 50 mislukte logins zien
 Get-EventLog -LogName Security -InstanceId 4625 -Newest 50
         </code></pre>
-      </li>
-      <li>Forward security logs naar centrale **SIEM** voor correlatie en compliance monitoring.</li>
-    </ul>
+      </div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Actie">SIEM Integratie</div>
+      <div data-label="Beschrijving">Security logs forwarden voor correlatie en compliance monitoring</div>
+    </div>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>📊 Reporting & Compliance</h2>
-    <ul>
-      <li>Maak periodieke rapporten voor:
-        <ul>
-          <li>Inactive accounts</li>
-          <li>Privileged accounts changes</li>
-          <li>Failed login attempts</li>
-          <li>Policy changes</li>
-        </ul>
-      </li>
-      <li>Gebruik PowerShell, Windows Admin Center of SCOM voor rapportage.</li>
-      <li>Documenteer incidenten en afwijkingen, inclusief acties en RCA.</li>
-      <li>Controleer compliance tegen interne en externe standaarden (ISO 27001, NIST, GDPR).</li>
-    </ul>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Periodieke Rapporten</div>
+      <div data-label="Beschrijving">Inactive accounts, privileged account changes, failed logins, policy changes</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Tools</div>
+      <div data-label="Beschrijving">PowerShell, Windows Admin Center, SCOM voor rapportage</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Incidentdocumentatie</div>
+      <div data-label="Beschrijving">Acties en RCA vastleggen</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Compliance Checks</div>
+      <div data-label="Beschrijving">Vergelijking met interne/externe standaarden zoals ISO 27001, NIST, GDPR</div>
+    </div>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>💡 Best Practices</h2>
-    <ul>
-      <li>Implementeer auditing standaard op alle domain controllers en kritieke servers.</li>
-      <li>Gebruik SIEM voor centralisatie en correlatie van security events.</li>
-      <li>Controleer regelmatig GPO-instellingen en privileges van accounts.</li>
-      <li>Documenteer governance processen en update periodiek.</li>
-      <li>Integreer auditing met change management voor volledige accountability.</li>
-      <li>Houd audit logs veilig, immutabel en bewaakretentie volgens compliance eisen.</li>
-    </ul>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Audit DC's & Kritieke Servers</div>
+      <div data-label="Beschrijving">Implementeer standaard auditing op alle domain controllers en kritieke servers</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Actie">SIEM Centralisatie</div>
+      <div data-label="Beschrijving">Centraliseer en correleer security events voor overzicht en compliance</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Actie">GPO & Privileges Review</div>
+      <div data-label="Beschrijving">Regelmatig controleren en bijwerken</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Documentatie</div>
+      <div data-label="Beschrijving">Update governance processen periodiek</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Change Management Integratie</div>
+      <div data-label="Beschrijving">Auditing koppelen aan change approval flows</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Audit Log Beveiliging</div>
+      <div data-label="Beschrijving">Logs veilig, immutabel en met correcte retentie bewaren</div>
+    </div>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>📌 Voorbeelden</h2>
-    <ul>
-      <li>Audit van AD objecten: detecteer wie wachtwoorden heeft gereset of groepen heeft aangepast.</li>
-      <li>File server auditing: log toegang tot gevoelige mappen en detecteer ongeoorloofde toegang.</li>
-      <li>RDS/Hyper-V audit: monitor wie VM's start/stop zet of configuraties wijzigt.</li>
-      <li>Compliance rapport: lijst van accounts die niet voldoen aan MFA- of wachtwoordbeleid.</li>
-    </ul>
+    <div class="infra-flex-row">
+      <div data-label="Scenario">AD Object Audit</div>
+      <div data-label="Beschrijving">Detecteer wie wachtwoorden reset of groepen aanpast</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Scenario">File Server Audit</div>
+      <div data-label="Beschrijving">Log toegang tot gevoelige mappen en detecteer ongeoorloofde toegang</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Scenario">RDS/Hyper-V Audit</div>
+      <div data-label="Beschrijving">Monitor wie VM's start/stop zet of configuraties wijzigt</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Scenario">Compliance Rapport</div>
+      <div data-label="Beschrijving">Accounts die niet voldoen aan MFA- of wachtwoordbeleid identificeren</div>
+    </div>
   </section>
 
   <section>
     <h2>🧾 Conclusie</h2>
     <p>
-      Governance & Auditing zorgen voor transparantie, compliance en security in Windows Server omgevingen.  
-      Door GPO’s, auditing policies, SIEM, rapportage en gedocumenteerde procedures te combineren, kan een organisatie veilig, compliant en controleerbaar blijven.
+      Governance & Auditing zorgen voor transparantie, compliance en security.  
+      Door GPO’s, auditing policies, SIEM, rapportage en gedocumenteerde procedures te combineren, blijft een organisatie veilig, compliant en controleerbaar.
     </p>
   </section>
 </section>

@@ -4,107 +4,180 @@
   <section>
     <h2>🎯 Doelstelling</h2>
     <p>
-      Dit lab behandelt hoe je capaciteitsplanning uitvoert en baseline-metrics vastlegt in Windows Server-omgevingen.  
-      Het doel is om resources efficiënt te beheren, bottlenecks te voorkomen en toekomstige groei te voorspellen.
+      Capaciteitsplanning uitvoeren en baseline-metrics vastleggen in Windows Server-omgevingen.  
+      Doel: resources efficiënt beheren, bottlenecks voorkomen en toekomstige groei voorspellen.
     </p>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>🧰 Kernconcepten</h2>
-    <ul>
-      <li><strong>Capaciteitsplanning:</strong> systematische inschatting van benodigde resources zoals CPU, geheugen, storage en netwerk voor huidige en toekomstige workloads.</li>
-      <li><strong>Baseline-metrics:</strong> historische data van performance en resource gebruik, gebruikt als referentiepunt voor monitoring en planning.</li>
-      <li><strong>Performance Indicators:</strong> belangrijke parameters zoals CPU usage, memory utilization, disk IOPS, network throughput.</li>
-      <li><strong>Growth Trends:</strong> analyse van historische trends om toekomstige resourcebehoeften te voorspellen.</li>
-      <li><strong>Over-provisioning vs. Under-provisioning:</strong> balans vinden tussen prestaties en kosten.</li>
-    </ul>
+    <div class="infra-flex-row header">
+      <div>Concept</div>
+      <div>Beschrijving</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Concept">Capaciteitsplanning</div>
+      <div data-label="Beschrijving">Systematische inschatting van CPU, geheugen, storage en netwerk voor huidige en toekomstige workloads</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Concept">Baseline-metrics</div>
+      <div data-label="Beschrijving">Historische data van performance en resource gebruik als referentiepunt voor monitoring en planning</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Concept">Performance Indicators</div>
+      <div data-label="Beschrijving">Belangrijke parameters zoals CPU usage, memory utilization, disk IOPS, network throughput</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Concept">Growth Trends</div>
+      <div data-label="Beschrijving">Analyse van historische trends om toekomstige resourcebehoeften te voorspellen</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Concept">Over-provisioning vs. Under-provisioning</div>
+      <div data-label="Beschrijving">Balans vinden tussen prestaties en kosten</div>
+    </div>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>⚙️ Baseline-metrics Vastleggen</h2>
-    <ol>
-      <li>Identificeer kritieke servers, applicaties en services.</li>
-      <li>Gebruik Performance Monitor om key counters te verzamelen:
-        <ul>
-          <li>CPU: \Processor(_Total)\% Processor Time</li>
-          <li>Memory: \Memory\Available MBytes, \Memory\% Committed Bytes In Use</li>
-          <li>Disk: \PhysicalDisk(_Total)\Avg. Disk sec/Read, Avg. Disk sec/Write, Disk Queue Length</li>
-          <li>Network: \Network Interface(*)\Bytes Total/sec, \Current Bandwidth</li>
-        </ul>
-      </li>
-      <li>Verzamel data over representatieve periodes (bijv. 1 week voor productie, 24-48 uur voor test)</li>
-      <li>Documenteer baseline in grafieken of HTML/PDF rapporten voor referentie.</li>
-      <li>Gebruik PowerShell of PerfMon Data Collector Sets voor automatisering:
-        <pre><code class="language-powershell">
-# Voorbeeld: CPU en geheugen baseline verzamelen
-New-PerfCounterDataCollectorSet -Name "BaselineCPU_Mem" -Counters @(
-    "\Processor(_Total)\% Processor Time",
-    "\Memory\Available MBytes"
-) -SampleInterval 60 -Duration 86400 -OutputPath "C:\BaselineData"
-        </code></pre>
-      </li>
-    </ol>
+    <div class="infra-flex-row header">
+      <div>Stap</div>
+      <div>Actie / Voorbeeld</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Stap">1</div>
+      <div data-label="Actie / Voorbeeld">Identificeer kritieke servers, applicaties en services</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Stap">2</div>
+      <div data-label="Actie / Voorbeeld">Verzamel key counters met PerfMon: CPU, Memory, Disk, Network</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Stap">3</div>
+      <div data-label="Actie / Voorbeeld">Verzamel data over representatieve periodes (1 week productie, 24-48u test)</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Stap">4</div>
+      <div data-label="Actie / Voorbeeld">Documenteer baseline in grafieken of HTML/PDF rapporten</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Stap">5</div>
+      <div data-label="Actie / Voorbeeld">Automatiseer met PowerShell of PerfMon Data Collector Sets</div>
+    </div>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>📈 Capaciteitsplanning</h2>
-    <ul>
-      <li>Analyseer historische data om huidige resource usage te begrijpen.</li>
-      <li>Identificeer piekbelasting en bottlenecks.</li>
-      <li>Voorspel toekomstige groei op basis van trends, nieuwe projecten en gebruikersaantallen.</li>
-      <li>Plan resources met marge voor piekbelasting (headroom 20-30% aanbevolen).</li>
-      <li>Optimaliseer serverconfiguraties:
-        <ul>
-          <li>CPU: cores toewijzen op basis van workload</li>
-          <li>Memory: RAM uitbreiden voor hoge geheugenintensieve applicaties</li>
-          <li>Storage: voldoende IOPS en capaciteit met RAID of Storage Spaces</li>
-          <li>Network: voldoende bandwidth en lage latency</li>
-        </ul>
-      </li>
-      <li>Documenteer capaciteitsplannen inclusief toekomstige uitbreiding, upgrade-momenten en budgettering.</li>
-    </ul>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Analyse</div>
+      <div data-label="Beschrijving">Bekijk historische data om huidige resource usage en bottlenecks te identificeren</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Voorspelling</div>
+      <div data-label="Beschrijving">Trends analyseren voor toekomstige groei en workload veranderingen</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Resource Planning</div>
+      <div data-label="Beschrijving">
+        Plan CPU, memory, storage en network resources met marge voor piekbelasting (20-30% headroom)
+      </div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Optimalisatie</div>
+      <div data-label="Beschrijving">
+        CPU cores toewijzen, RAM uitbreiden, Storage IOPS verbeteren, network bandwidth verhogen
+      </div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Documentatie</div>
+      <div data-label="Beschrijving">Capaciteitsplannen vastleggen inclusief toekomstige uitbreiding, upgrades en budgettering</div>
+    </div>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>🔧 Tools & Hulpmiddelen</h2>
-    <ul>
-      <li>Performance Monitor (PerfMon) voor real-time en historische metrics</li>
-      <li>Resource Monitor voor proces-specifieke insights</li>
-      <li>PowerShell scripts voor geautomatiseerde data collectie en rapportage</li>
-      <li>Windows Admin Center dashboards voor overzicht van server performance</li>
-      <li>SCOM of andere monitoring suites voor trendanalyse en capacity alerts</li>
-      <li>Excel/Power BI voor visualisatie van trends en voorspelling van groei</li>
-    </ul>
+    <div class="infra-flex-row">
+      <div data-label="Tool">Performance Monitor</div>
+      <div data-label="Beschrijving">Realtime en historische metrics verzamelen</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Tool">Resource Monitor</div>
+      <div data-label="Beschrijving">Proces-specifieke inzichten</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Tool">PowerShell</div>
+      <div data-label="Beschrijving">Geautomatiseerde data collectie en rapportage</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Tool">Windows Admin Center</div>
+      <div data-label="Beschrijving">Dashboards voor server performance overzicht</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Tool">SCOM / monitoring suites</div>
+      <div data-label="Beschrijving">Trendanalyse en capacity alerts</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Tool">Excel / Power BI</div>
+      <div data-label="Beschrijving">Visualisatie van trends en groeivoorspelling</div>
+    </div>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>💡 Best Practices</h2>
-    <ul>
-      <li>Leg baseline-metrics systematisch vast voor alle kritieke servers en workloads.</li>
-      <li>Automatiseer data-verzameling en grafische rapportage.</li>
-      <li>Gebruik trendanalyse voor proactieve capaciteitsplanning.</li>
-      <li>Houd rekening met piekbelasting en toekomstige groei bij resource allocatie.</li>
-      <li>Documenteer alle resultaten, aannames en voorspellingen voor management en IT teams.</li>
-      <li>Controleer regelmatig de baseline en pas aan bij nieuwe workloads of veranderingen.</li>
-      <li>Integreer capaciteitsplanning met monitoring en alerting systemen.</li>
-    </ul>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Baseline vastleggen</div>
+      <div data-label="Beschrijving">Systematisch voor alle kritieke servers en workloads</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Automatisering</div>
+      <div data-label="Beschrijving">Data-verzameling en grafische rapportage automatiseren</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Trendanalyse</div>
+      <div data-label="Beschrijving">Gebruik historische data voor proactieve capaciteitsplanning</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Resource allocatie</div>
+      <div data-label="Beschrijving">Houd rekening met piekbelasting en toekomstige groei</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Documentatie</div>
+      <div data-label="Beschrijving">Leg resultaten, aannames en voorspellingen vast voor management en IT teams</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Review</div>
+      <div data-label="Beschrijving">Baseline regelmatig controleren en aanpassen bij nieuwe workloads</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Integratie</div>
+      <div data-label="Beschrijving">Capaciteitsplanning koppelen aan monitoring en alerting systemen</div>
+    </div>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>📌 Voorbeelden</h2>
-    <ul>
-      <li>CPU-baseline: gemiddelde 30%, piek 70% → extra cores plannen voor toekomstige groei</li>
-      <li>Memory-baseline: 8GB gebruikt van 16GB → plan uitbreiding bij +50% gebruikers of nieuwe VM's</li>
-      <li>Disk IOPS: 2000 IOPS gemiddeld, piek 5000 IOPS → Storage Spaces mirror + SSD caching toevoegen</li>
-      <li>Network throughput: 1Gbps LAN, piek 750Mbps → voldoende headroom voor nieuwe servers of backup traffic</li>
-    </ul>
+    <div class="infra-flex-row">
+      <div data-label="Type">CPU</div>
+      <div data-label="Beschrijving">Gemiddeld 30%, piek 70% → extra cores plannen</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Type">Memory</div>
+      <div data-label="Beschrijving">8GB gebruikt van 16GB → plan uitbreiding bij +50% gebruikers of nieuwe VM's</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Type">Disk IOPS</div>
+      <div data-label="Beschrijving">2000 IOPS gemiddeld, piek 5000 IOPS → Storage Spaces mirror + SSD caching toevoegen</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Type">Network</div>
+      <div data-label="Beschrijving">1Gbps LAN, piek 750Mbps → voldoende headroom voor nieuwe servers of backup traffic</div>
+    </div>
   </section>
 
   <section>
     <h2>🧾 Conclusie</h2>
     <p>
       Capaciteitsplanning en baseline-metrics zijn essentieel om Windows Server-omgevingen efficiënt, betrouwbaar en schaalbaar te houden.  
-      Door systematisch data te verzamelen, trends te analyseren en resources proactief te plannen, kan downtime worden verminderd en kan IT-budget effectief worden benut.
+      Systematisch data verzamelen, trends analyseren en resources proactief plannen vermindert downtime en optimaliseert IT-budget.
     </p>
   </section>
 </section>

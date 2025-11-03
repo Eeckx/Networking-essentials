@@ -4,122 +4,186 @@
   <section>
     <h2>🎯 Doelstelling</h2>
     <p>
-      Dit lab behandelt Azure Arc Integration voor het beheer van on-premises en multi-cloud Windows Server-omgevingen.  
-      Het doel is om een uniforme, moderne beheerlaag te creëren die governance, monitoring, beveiliging en automatisering centraliseert.
+      Beheer van on-premises en multi-cloud Windows Server-omgevingen via Azure Arc.  
+      Doel: uniforme beheerlaag met governance, monitoring, security en automatisering.
     </p>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>🧰 Kernconcepten</h2>
-    <ul>
-      <li><strong>Azure Arc:</strong> Cloud-native management platform voor hybride en multi-cloud resources.</li>
-      <li><strong>On-premises servers:</strong> Worden via Azure Arc beheerd alsof ze native Azure-resources zijn.</li>
-      <li><strong>Kubernetes en SQL:</strong> Arc ondersteunt ook clusters en databases.</li>
-      <li><strong>Governance & Compliance:</strong> Policy management, RBAC, auditing via Azure.</li>
-      <li><strong>Monitoring & Security:</strong> Azure Monitor, Log Analytics en Security Center integratie.</li>
-      <li><strong>Automation:</strong> Azure Automation en Runbooks voor patching, configuratie en deployment.</li>
-    </ul>
+    <div class="infra-flex-row header">
+      <div>Concept</div>
+      <div>Beschrijving</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Concept">Azure Arc</div>
+      <div data-label="Beschrijving">Cloud-native management platform voor hybride en multi-cloud resources</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Concept">On-premises servers</div>
+      <div data-label="Beschrijving">Worden via Arc beheerd alsof het native Azure-resources zijn</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Concept">Kubernetes & SQL</div>
+      <div data-label="Beschrijving">Arc ondersteunt ook clusters en databases</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Concept">Governance & Compliance</div>
+      <div data-label="Beschrijving">Policy management, RBAC en auditing via Azure</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Concept">Monitoring & Security</div>
+      <div data-label="Beschrijving">Azure Monitor, Log Analytics en Security Center integratie</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Concept">Automation</div>
+      <div data-label="Beschrijving">Azure Automation en Runbooks voor patching, configuratie en deployment</div>
+    </div>
   </section>
 
-<section>
-  <h2>⚙️ Installatie en Integratie</h2>
-  <ol>
-    <li>Voorbereiding van on-premises server(s):
-      <ul>
-        <li>Windows Server 2012 R2 of hoger</li>
-        <li>PowerShell 5.1+ en Internet toegang naar Azure endpoints</li>
-        <li>Gebruikersaccount met lokale Administrator rechten</li>
-      </ul>
-    </li>
-    <li>Registeren van server in Azure Arc:</li>
-      <ul>
-        <li><strong>Methode 1: PowerShell / CLI</strong>
+  <section class="infra-flex">
+    <h2>⚙️ Installatie & Integratie</h2>
+    <div class="infra-flex-row header">
+      <div>Stap</div>
+      <div>Actie / Voorbeeld</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Stap">1</div>
+      <div data-label="Actie / Voorbeeld">
+        Voorbereiding on-premises server(s): Windows Server 2012 R2+, PowerShell 5.1+, Internet toegang, lokale Administrator rechten
+      </div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Stap">2</div>
+      <div data-label="Actie / Voorbeeld">
+        Registratie server in Azure Arc:
+        <ul>
+          <li>Methode 1: PowerShell / CLI</li>
           <pre><code class="language-powershell">
-# Install Azure Connected Machine Agent
 Invoke-WebRequest -Uri https://aka.ms/AzureConnectedMachineAgent -OutFile AzureConnectedMachineAgent.msi
 msiexec /i AzureConnectedMachineAgent.msi /quiet
-
-# Connect server to Azure Arc
 azcmagent connect --resource-group "RG-Hybrid" --tenant-id "<TenantID>" --subscription-id "<SubscriptionID>"
           </code></pre>
-          <p>Vul <code>&lt;TenantID&gt;</code> en <code>&lt;SubscriptionID&gt;</code> in met jouw Azure tenant- en abonnementgegevens.  
-          Dit is de meest flexibele methode, geschikt voor scripts en grootschalige registratie.</p>
-        </li>
-        <li><strong>Methode 2: Azure Portal (GUI)</strong>
-          <ol>
-            <li>Ga naar <strong>Azure Portal → Azure Arc → Servers → Add</strong>.</li>
-            <li>Kies “On-premises Windows Server”.</li>
-            <li>Download het automatisch gegenereerde registratie-script.</li>
-            <li>Voer dit script op de server uit. Tenant-ID, Subscription-ID en Resource Group zijn al correct ingevuld.</li>
-          </ol>
-          <p>Handig voor één of enkele servers en voor gebruikers die geen PowerShell-scripts willen beheren.</p>
-        </li>
-      </ul>
-    <li>Verifieer registratie via Azure Portal → Azure Arc → Servers.</li>
-    <li>Configureer Governance:
-      <ul>
-        <li>Azure Policy toepassen op Arc-resources</li>
-        <li>RBAC voor beheerrechten</li>
-        <li>Compliance monitoring en auditing instellen</li>
-      </ul>
-    </li>
-    <li>Configureer Monitoring & Security:
-      <ul>
-        <li>Azure Monitor agent installeren via Arc</li>
-        <li>Log Analytics Workspace koppelen</li>
-        <li>Security Center integratie voor vulnerability assessment</li>
-      </ul>
-    </li>
-    <li>Automatisering instellen:
-      <ul>
-        <li>Azure Automation Accounts koppelen</li>
-        <li>Runbooks voor patching, updates en configuratie</li>
-        <li>GitOps workflows voor declaratieve configuratie (bij Kubernetes)</li>
-      </ul>
-    </li>
-  </ol>
-</section>
+          <li>Methode 2: Azure Portal GUI → Arc → Servers → Add → On-prem Windows Server → download script → uitvoeren</li>
+        </ul>
+      </div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Stap">3</div>
+      <div data-label="Actie / Voorbeeld">Verifieer registratie via Azure Portal → Azure Arc → Servers</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Stap">4</div>
+      <div data-label="Actie / Voorbeeld">
+        Configureer Governance:
+        <ul>
+          <li>Azure Policy toepassen</li>
+          <li>RBAC voor beheerrechten</li>
+          <li>Compliance monitoring en auditing instellen</li>
+        </ul>
+      </div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Stap">5</div>
+      <div data-label="Actie / Voorbeeld">
+        Configureer Monitoring & Security:
+        <ul>
+          <li>Azure Monitor agent via Arc installeren</li>
+          <li>Log Analytics Workspace koppelen</li>
+          <li>Security Center integratie voor vulnerability assessment</li>
+        </ul>
+      </div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Stap">6</div>
+      <div data-label="Actie / Voorbeeld">
+        Automatisering instellen:
+        <ul>
+          <li>Azure Automation Accounts koppelen</li>
+          <li>Runbooks voor patching, updates en configuratie</li>
+          <li>GitOps workflows voor declaratieve configuratie (Kubernetes)</li>
+        </ul>
+      </div>
+    </div>
+  </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>📊 Voordelen van Azure Arc</h2>
-    <ul>
-      <li>Single pane of glass voor alle servers, ongeacht locatie</li>
-      <li>Centralized governance en compliance via Azure Policy en RBAC</li>
-      <li>Cloud-native monitoring en logging met Azure Monitor en Log Analytics</li>
-      <li>Automatisering en DevOps workflows mogelijk voor on-premises resources</li>
-      <li>Schaling en toekomstige integratie eenvoudig door cloud-native architectuur</li>
-      <li>Ondersteuning voor multi-cloud scenario’s (AWS, GCP) met dezelfde tooling</li>
-    </ul>
+    <div class="infra-flex-row">
+      <div data-label="Voordeel">Single pane of glass</div>
+      <div data-label="Beschrijving">Beheer alle servers, ongeacht locatie</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Voordeel">Centralized governance</div>
+      <div data-label="Beschrijving">Policy en RBAC voor compliance</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Voordeel">Monitoring & logging</div>
+      <div data-label="Beschrijving">Azure Monitor en Log Analytics</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Voordeel">Automatisering</div>
+      <div data-label="Beschrijving">DevOps workflows voor on-premises resources</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Voordeel">Schaling & integratie</div>
+      <div data-label="Beschrijving">Eenvoudig opschalen en integreren in multi-cloud scenario’s</div>
+    </div>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>🔧 Best Practices</h2>
-    <ul>
-      <li>Plan resource registratie in resource-groepen en tags voor overzichtelijkheid</li>
-      <li>Implementeer policies en compliance checks direct bij registratie</li>
-      <li>Gebruik monitoring alerts en dashboards voor proactieve actie</li>
-      <li>Automatiseer zoveel mogelijk herhalende taken met Runbooks of GitOps</li>
-      <li>Test restores en patching op een subset van Arc-servers voordat je breed uitrolt</li>
-      <li>Documenteer alle registratie-, monitoring- en automation-processen</li>
-    </ul>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Resource registratie</div>
+      <div data-label="Beschrijving">Plan in resource-groepen en tags voor overzicht</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Policy & compliance</div>
+      <div data-label="Beschrijving">Implementeer direct bij registratie</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Monitoring</div>
+      <div data-label="Beschrijving">Gebruik alerts en dashboards voor proactieve actie</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Automatisering</div>
+      <div data-label="Beschrijving">Herhalende taken via Runbooks of GitOps</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Testen</div>
+      <div data-label="Beschrijving">Restores en patching testen op subset van Arc-servers</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Documentatie</div>
+      <div data-label="Beschrijving">Alle registratie-, monitoring- en automation-processen documenteren</div>
+    </div>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>📌 Voorbeelden</h2>
-    <ul>
-      <li>On-premises DC en File Server gekoppeld aan Azure Arc → beheer via Azure Policy en compliance dashboard</li>
-      <li>Hyper-V cluster on-premises → Arc agent geïnstalleerd → monitoren van VM performance via Azure Monitor</li>
-      <li>SQL Server op AWS → Azure Arc registratie → back-up en security assessment via Azure native tools</li>
-      <li>Kubernetes cluster on-premises → Arc-enabled → declaratieve configuratie via GitOps en Azure Automation</li>
-    </ul>
+    <div class="infra-flex-row">
+      <div data-label="Scenario">DC & File Server on-prem</div>
+      <div data-label="Beschrijving">Beheer via Azure Policy en compliance dashboard</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Scenario">Hyper-V cluster on-prem</div>
+      <div data-label="Beschrijving">Monitor VM performance via Azure Monitor</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Scenario">SQL Server AWS</div>
+      <div data-label="Beschrijving">Back-up en security assessment via Azure native tools</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Scenario">Kubernetes cluster on-prem</div>
+      <div data-label="Beschrijving">Declaratieve configuratie via GitOps en Azure Automation</div>
+    </div>
   </section>
 
   <section>
     <h2>🧾 Conclusie</h2>
     <p>
-      Azure Arc is de modernste manier om on-premises en multi-cloud Windows Server-omgevingen te beheren.  
-      Het centraliseert governance, monitoring, security en automatisering, terwijl het dezelfde cloud-native tools en best practices biedt als Azure-native resources.  
-      Organisaties die hybride of multi-cloud strategieën toepassen, kunnen met Azure Arc consistentie, compliance en schaalbaarheid realiseren.
+      Azure Arc centraliseert governance, monitoring, security en automatisering voor on-premises en multi-cloud Windows Server-omgevingen.  
+      Het biedt consistente cloud-native tooling, compliance en schaalbaarheid voor hybride omgevingen.
     </p>
   </section>
 </section>

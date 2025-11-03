@@ -4,89 +4,172 @@
   <section>
     <h2>🎯 Doelstelling</h2>
     <p>
-      Dit lab behandelt de visuele hulpmiddelen en management tools in Windows Server omgevingen.  
-      Het doel is het vereenvoudigen van monitoring, beheer, troubleshooting en documentatie door gebruik te maken van dashboards, grafieken, diagrammen en beheerinterfaces.
+      Visuele hulpmiddelen en management tools gebruiken in Windows Server omgevingen.  
+      Vereenvoudig monitoring, beheer, troubleshooting en documentatie via dashboards, grafieken, diagrammen en beheerinterfaces.
     </p>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>🧰 Kernconcepten</h2>
-    <ul>
-      <li><strong>Visuals:</strong> grafische representaties van serverstatus, performance, events en netwerkactiviteit.</li>
-      <li><strong>Hulpmiddelen:</strong> softwaretools en consoles die serverbeheer, monitoring en documentatie vergemakkelijken.</li>
-      <li><strong>Monitoring & Reporting:</strong> real-time en historische data inzichtelijk maken met dashboards en grafieken.</li>
-      <li><strong>Automation & Alerts:</strong> visuele tools integreren met meldingen en scripts om proactief beheer te ondersteunen.</li>
-    </ul>
+    <div class="infra-flex-row header">
+      <div>Concept</div>
+      <div>Beschrijving</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Concept">Visuals</div>
+      <div data-label="Beschrijving">Grafische representatie van serverstatus, performance, events en netwerkactiviteit</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Concept">Hulpmiddelen</div>
+      <div data-label="Beschrijving">Softwaretools en consoles die beheer, monitoring en documentatie vergemakkelijken</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Concept">Monitoring & Reporting</div>
+      <div data-label="Beschrijving">Real-time en historische data inzichtelijk maken via dashboards en grafieken</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Concept">Automation & Alerts</div>
+      <div data-label="Beschrijving">Visuele tools integreren met meldingen en scripts voor proactief beheer</div>
+    </div>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>⚙️ Windows Server Visuals & Tools</h2>
-    <ul>
-      <li><strong>Server Manager:</strong> centrale console voor beheer van roles, features, services, events en performance.</li>
-      <li><strong>Windows Admin Center (WAC):</strong> moderne webinterface voor serverbeheer, clusters, storage, updates en performance monitoring.</li>
-      <li><strong>Performance Monitor (PerfMon):</strong>
-        <ul>
-          <li>Realtime performance counters voor CPU, memory, disk, network</li>
-          <li>Grafieken en datalogging voor historische analyse</li>
-        </ul>
-      </li>
-      <li><strong>Resource Monitor:</strong> proces- en resource-specific inzicht</li>
-      <li><strong>Event Viewer:</strong> visuele representatie van logs per server, service of component</li>
-      <li><strong>Task Manager:</strong> snelle overview van CPU, RAM, disk, network gebruik per proces</li>
-      <li><strong>Hyper-V Manager & Failover Cluster Manager:</strong> visualisatie van VM status, cluster nodes en failover events</li>
-      <li><strong>Storage Explorer / Storage Spaces Visuals:</strong> grafieken van pool status, tiering, resiliency en beschikbare capaciteit</li>
-      <li><strong>Network Monitoring Tools:</strong> Wireshark, Message Analyzer, Performance Monitor counters voor netwerk throughput en latency</li>
-      <li><strong>Third-party dashboards:</strong> SCOM, SolarWinds, PRTG, Nagios voor gecombineerde server, netwerk en storage monitoring</li>
-    </ul>
+    <div class="infra-flex-row">
+      <div data-label="Tool">Server Manager</div>
+      <div data-label="Beschrijving">Centrale console voor roles, features, services, events en performance</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Tool">Windows Admin Center (WAC)</div>
+      <div data-label="Beschrijving">Moderne webinterface voor serverbeheer, clusters, storage, updates en monitoring</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Tool">Performance Monitor</div>
+      <div data-label="Beschrijving">Realtime counters (CPU, memory, disk, network) en historische analyse via grafieken</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Tool">Resource Monitor</div>
+      <div data-label="Beschrijving">Proces- en resource-specifiek inzicht</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Tool">Event Viewer</div>
+      <div data-label="Beschrijving">Visuele representatie van logs per server, service of component</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Tool">Task Manager</div>
+      <div data-label="Beschrijving">Snel overzicht van CPU, RAM, disk, network gebruik per proces</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Tool">Hyper-V & Failover Cluster Manager</div>
+      <div data-label="Beschrijving">Visualisatie van VM status, cluster nodes en failover events</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Tool">Storage Explorer / S2D Visuals</div>
+      <div data-label="Beschrijving">Grafieken van pool status, tiering, resiliency en beschikbare capaciteit</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Tool">Network Monitoring</div>
+      <div data-label="Beschrijving">Wireshark, Message Analyzer, PerfMon counters voor throughput en latency</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Tool">Third-party Dashboards</div>
+      <div data-label="Beschrijving">SCOM, SolarWinds, PRTG, Nagios voor gecombineerde monitoring</div>
+    </div>
   </section>
 
-  <section>
-    <h2>📊 Visuals en Dashboards</h2>
-    <ul>
-      <li>Real-time dashboards tonen resource gebruik, uptime, storage status en event alerts.</li>
-      <li>Grafieken voor trends en capacity planning (CPU, RAM, disk I/O, netwerk).</li>
-      <li>Heatmaps voor storage en VM performance in clusters.</li>
-      <li>Topology diagrams voor netwerk, storage en cluster architectuur.</li>
-      <li>Custom PowerShell scripts combineren data in visuele charts via HTML of grafische libraries (Chart.js, PSWriteHTML).</li>
-    </ul>
+  <section class="infra-flex">
+    <h2>📊 Visuals & Dashboards</h2>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Realtime Dashboards</div>
+      <div data-label="Beschrijving">Toon resource gebruik, uptime, storage status en alerts</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Grafieken & Trends</div>
+      <div data-label="Beschrijving">CPU, RAM, disk I/O en netwerk voor capacity planning</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Heatmaps</div>
+      <div data-label="Beschrijving">Storage en VM performance in clusters visualiseren</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Topology Diagrams</div>
+      <div data-label="Beschrijving">Netwerk, storage en cluster architectuur overzichtelijk weergeven</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Custom PowerShell Scripts</div>
+      <div data-label="Beschrijving">
+        Combineer data in visuele charts via HTML of grafische libraries (Chart.js, PSWriteHTML)
+      </div>
+    </div>
   </section>
 
-  <section>
-    <h2>🔧 Hulpmiddelen en Automatisering</h2>
-    <ul>
-      <li>PowerShell scripts voor data-extractie en visuele reporting:
+  <section class="infra-flex">
+    <h2>🔧 Hulpmiddelen & Automatisering</h2>
+    <div class="infra-flex-row">
+      <div data-label="Actie">PowerShell Reporting</div>
+      <div data-label="Beschrijving">
         <pre><code class="language-powershell">
-# Grafiek van CPU gebruik over de laatste 24 uur
 Get-Counter '\Processor(_Total)\% Processor Time' -SampleInterval 60 -MaxSamples 1440 | 
     Select-Object Timestamp, CounterSamples |
     ConvertTo-Html -Property Timestamp, @{Name='CPU (%)';Expression={$_.CounterSamples[0].CookedValue}} -Title "CPU Usage" | Out-File "CPU_Report.html"
         </code></pre>
-      </li>
-      <li>SCOM dashboards voor alerts, trends, compliance en performance metrics</li>
-      <li>Windows Admin Center geïntegreerde grafieken voor storage, updates, VM status</li>
-      <li>Grafische documentatie tools: Visio, Draw.io, Lucidchart voor architectuur en workflow diagrams</li>
-      <li>Alerting en notifications via e-mail, SMS of Microsoft Teams</li>
-      <li>Integration met SIEM tools voor security & compliance visualisatie</li>
-    </ul>
+      </div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Actie">SCOM Dashboards</div>
+      <div data-label="Beschrijving">Alerts, trends, compliance en performance metrics visualiseren</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Windows Admin Center</div>
+      <div data-label="Beschrijving">Geïntegreerde grafieken voor storage, updates en VM status</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Diagram Tools</div>
+      <div data-label="Beschrijving">Visio, Draw.io, Lucidchart voor architectuur en workflow visualisatie</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Alerting</div>
+      <div data-label="Beschrijving">E-mail, SMS of Teams meldingen bij events</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Actie">SIEM Integratie</div>
+      <div data-label="Beschrijving">Security & compliance visualisatie</div>
+    </div>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>💡 Best Practices</h2>
-    <ul>
-      <li>Gebruik dashboards voor zowel real-time als historische data-analyse.</li>
-      <li>Integreer monitoring tools met alerts en scripts voor proactief beheer.</li>
-      <li>Documenteer architectuur en workflows visueel voor snel begrip door teams.</li>
-      <li>Centraliseer monitoring voor multi-server, multi-cluster en multi-site omgevingen.</li>
-      <li>Gebruik visuele rapporten en grafieken voor management en compliance rapportage.</li>
-      <li>Automatiseer het verzamelen van metrics en het genereren van HTML/PDF reports.</li>
-    </ul>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Dashboards</div>
+      <div data-label="Beschrijving">Gebruik real-time en historische data voor analyse</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Integratie</div>
+      <div data-label="Beschrijving">Koppel monitoring tools met alerts en scripts</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Visuele Documentatie</div>
+      <div data-label="Beschrijving">Architectuur en workflows visueel documenteren</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Centralisatie</div>
+      <div data-label="Beschrijving">Multi-server, multi-cluster en multi-site omgevingen centraal monitoren</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Rapportage</div>
+      <div data-label="Beschrijving">Visuele rapporten voor management en compliance</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Automatisering</div>
+      <div data-label="Beschrijving">Metrics verzamelen en HTML/PDF reports automatisch genereren</div>
+    </div>
   </section>
 
   <section>
     <h2>🧾 Conclusie</h2>
     <p>
-      Visuele hulpmiddelen en dashboards in Windows Server zorgen voor beter inzicht, snellere troubleshooting en eenvoudiger beheer.  
-      Door Performance Monitor, Windows Admin Center, PowerShell, SCOM en visuele documentatie te combineren, kan een IT-team sneller en accurater beslissingen nemen en problemen oplossen.
+      Visuele hulpmiddelen en dashboards verbeteren inzicht, troubleshooting en beheer in Windows Server omgevingen.  
+      Combinatie van PerfMon, WAC, PowerShell, SCOM en diagram tools maakt IT-teams sneller en accurater in beslissingen en probleemoplossing.
     </p>
   </section>
 </section>

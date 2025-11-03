@@ -4,88 +4,204 @@
   <section>
     <h2>🎯 Doelstelling</h2>
     <p>
-      Dit lab behandelt hoe je Windows Server-omgevingen veilig en up-to-date houdt via gestructureerd patch- en updatebeheer.  
-      Je leert methodes, tools en best practices om beveiligingsrisico’s, compliance-problemen en downtime te minimaliseren.
+      Windows Server-omgevingen veilig en up-to-date houden via gestructureerd patch- en updatebeheer.  
+      Minimaliseren van beveiligingsrisico’s, compliance-problemen en downtime.
     </p>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>🧰 Kernconcepten</h2>
-    <ul>
-      <li><strong>Patch Management:</strong> proces van het distribueren en installeren van software-updates (security, bugfixes, functionaliteit).</li>
-      <li><strong>Update Types:</strong>
+    <div class="infra-flex-row header">
+      <div>Concept</div>
+      <div>Beschrijving</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Concept">Patch Management</div>
+      <div data-label="Beschrijving">Proces van het distribueren en installeren van software-updates (security, bugfixes, functionaliteit)</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Concept">Update Types</div>
+      <div data-label="Beschrijving">
         <ul>
-          <li>Security Updates – Kritieke kwetsbaarheden.</li>
-          <li>Critical Updates – Bugs en functionaliteitsverbeteringen.</li>
-          <li>Feature Updates – Nieuwe functionaliteit of OS-versies.</li>
-          <li>Driver Updates – Hardwarecompatibiliteit en performance.</li>
+          <li>Security Updates – Kritieke kwetsbaarheden</li>
+          <li>Critical Updates – Bugs en functionele verbeteringen</li>
+          <li>Feature Updates – Nieuwe functionaliteit of OS-versies</li>
+          <li>Driver Updates – Hardwarecompatibiliteit en performance</li>
         </ul>
-      </li>
-      <li><strong>Compliance:</strong> servers moeten voldoen aan interne en externe veiligheidsstandaarden.</li>
-      <li><strong>Patch Tuesday:</strong> elke tweede dinsdag van de maand uitgegeven updates van Microsoft.</li>
-    </ul>
+      </div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Concept">Compliance</div>
+      <div data-label="Beschrijving">Servers moeten voldoen aan interne en externe veiligheidsstandaarden</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Concept">Patch Tuesday</div>
+      <div data-label="Beschrijving">Elke tweede dinsdag van de maand uitgegeven updates van Microsoft</div>
+    </div>
   </section>
 
-  <section>
-    <h2>⚙️ Update Tools & Technologieën</h2>
-    <ul>
-      <li><strong>Windows Update (WU):</strong> basisupdates via Microsoft Update.</li>
-      <li><strong>Windows Server Update Services (WSUS):</strong> centraal beheer van updates binnen een organisatie.</li>
-      <li><strong>System Center Configuration Manager (SCCM/MECM):</strong> geavanceerd patch management voor grote omgevingen.</li>
-      <li><strong>PowerShell:</strong> automatisering van patching en reporting via cmdlets zoals:
+  <section class="infra-flex">
+    <h2>⚙️ Tools & Technologieën</h2>
+    <div class="infra-flex-row header">
+      <div>Tool</div>
+      <div>Gebruik / Opmerking</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Tool">Windows Update (WU)</div>
+      <div data-label="Gebruik / Opmerking">Basisupdates via Microsoft Update</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Tool">WSUS</div>
+      <div data-label="Gebruik / Opmerking">Centraal beheer van updates binnen een organisatie</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Tool">SCCM / MECM</div>
+      <div data-label="Gebruik / Opmerking">Geavanceerd patch management voor grote omgevingen</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Tool">PowerShell</div>
+      <div data-label="Gebruik / Opmerking">
+        Automatisering van patching en reporting via cmdlets<br>
         <pre><code class="language-powershell">
 # Updates zoeken en installeren
 Get-WindowsUpdate -MicrosoftUpdate -AcceptAll -Install
         </code></pre>
-      </li>
-      <li><strong>Windows Admin Center:</strong> overzicht van updates, compliance en remote patching.</li>
-      <li><strong>Third-party tools:</strong> Ivanti, ManageEngine, SolarWinds Patch Manager.</li>
-    </ul>
+      </div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Tool">Windows Admin Center</div>
+      <div data-label="Gebruik / Opmerking">Overzicht van updates, compliance en remote patching</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Tool">Third-party tools</div>
+      <div data-label="Gebruik / Opmerking">Ivanti, ManageEngine, SolarWinds Patch Manager</div>
+    </div>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>📅 Patch Management Process</h2>
-    <ol>
-      <li><strong>Inventarisatie:</strong> identificeer alle servers, applicaties en afhankelijkheden.</li>
-      <li><strong>Prioriteren:</strong> security-critical updates eerst, daarna functionele updates.</li>
-      <li><strong>Testen:</strong> test updates in een labomgeving voordat je productie servers bijwerkt.</li>
-      <li><strong>Distributie:</strong> gebruik WSUS, SCCM of PowerShell scripts voor gefaseerde uitrol.</li>
-      <li><strong>Monitoring:</strong> controleer installatie succes en afwijkingen via logs, WSUS-console of PowerShell:
+    <div class="infra-flex-row header">
+      <div>Stap</div>
+      <div>Beschrijving</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Stap">Inventarisatie</div>
+      <div data-label="Beschrijving">Identificeer alle servers, applicaties en afhankelijkheden</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Stap">Prioriteren</div>
+      <div data-label="Beschrijving">Security-critical updates eerst, daarna functionele updates</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Stap">Testen</div>
+      <div data-label="Beschrijving">Updates testen in labomgeving voordat productie servers worden bijgewerkt</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Stap">Distributie</div>
+      <div data-label="Beschrijving">Gebruik WSUS, SCCM of PowerShell scripts voor gefaseerde uitrol</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Stap">Monitoring</div>
+      <div data-label="Beschrijving">
+        Controleer installatie succes en afwijkingen via logs, WSUS-console of PowerShell:<br>
         <pre><code class="language-powershell">
 Get-WindowsUpdateLog
         </code></pre>
-      </li>
-      <li><strong>Fallback & Rollback:</strong> plan rollback of herstelmethodes bij problematische updates.</li>
-    </ol>
+      </div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Stap">Fallback & Rollback</div>
+      <div data-label="Beschrijving">Plan rollback of herstelmethodes bij problematische updates</div>
+    </div>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>🔧 Best Practices</h2>
-    <ul>
-      <li>Gebruik een test-/pre-productie omgeving voor updates voordat je productie bijwerkt.</li>
-      <li>Plan onderhoudsvensters buiten piekuren om downtime te minimaliseren.</li>
-      <li>Automatiseer update reporting en compliance monitoring.</li>
-      <li>Implementeer update-fases: pilot, roll-out, verificatie.</li>
-      <li>Documenteer alle updates en eventuele problemen voor audit-doeleinden.</li>
-      <li>Gebruik WSUS/SCCM voor grote en complexe omgevingen voor consistente patching.</li>
-      <li>Beveilig update-infrastructuur tegen ongeautoriseerde wijzigingen (signing, authentificatie).</li>
-    </ul>
+    <div class="infra-flex-row header">
+      <div>Actie</div>
+      <div>Tip / Opmerking</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Testomgeving</div>
+      <div data-label="Tip / Opmerking">Gebruik test-/pre-productie omgeving voor updates voordat productie servers worden bijgewerkt</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Onderhoudsvensters</div>
+      <div data-label="Tip / Opmerking">Plan buiten piekuren om downtime te minimaliseren</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Automatisering</div>
+      <div data-label="Tip / Opmerking">Automatiseer update reporting en compliance monitoring</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Gefaseerde uitrol</div>
+      <div data-label="Tip / Opmerking">Pilot, roll-out, verificatie voor veilige implementatie</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Documentatie</div>
+      <div data-label="Tip / Opmerking">Houd updates en eventuele problemen bij voor audit-doeleinden</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Grote omgevingen</div>
+      <div data-label="Tip / Opmerking">Gebruik WSUS/SCCM voor consistente patching</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Beveiliging update-infrastructuur</div>
+      <div data-label="Tip / Opmerking">Bescherm tegen ongeautoriseerde wijzigingen (signing, authenticatie)</div>
+    </div>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>💡 Voorbeelden</h2>
-    <ul>
-      <li>Een kleine omgeving: Windows Update + PowerShell scripts voor automatische patching van alle servers.</li>
-      <li>Grote enterprise omgeving: WSUS server met goedgekeurde updates, pilot-groep, gefaseerde uitrol en compliance reporting via SCCM.</li>
-      <li>Hyper-V host servers: test eerst Hyper-V en VM compatibiliteit voor updates uitrollen, gebruik snapshots voor rollback.</li>
-    </ul>
+    <div class="infra-flex-row header">
+      <div>Omgeving</div>
+      <div>Beschrijving</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Omgeving">Kleine omgeving</div>
+      <div data-label="Beschrijving">Windows Update + PowerShell scripts voor automatische patching van alle servers</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Omgeving">Grote enterprise omgeving</div>
+      <div data-label="Beschrijving">WSUS server met goedgekeurde updates, pilot-groep, gefaseerde uitrol en compliance reporting via SCCM</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Omgeving">Hyper-V hosts</div>
+      <div data-label="Beschrijving">Test compatibiliteit van Hyper-V en VM updates, gebruik snapshots voor rollback</div>
+    </div>
   </section>
 
   <section>
     <h2>🧾 Conclusie</h2>
     <p>
       Gestructureerd patch- en updatebeheer is essentieel voor de beveiliging en betrouwbaarheid van Windows Server-omgevingen.  
-      Door gebruik te maken van tools zoals WSUS, SCCM en PowerShell, in combinatie met testprocedures, monitoring en rollback-strategieën, kan een organisatie veilig en compliant blijven met minimale downtime.
+      Gebruik van tools zoals WSUS, SCCM en PowerShell, gecombineerd met testprocedures, monitoring en rollback-strategieën, zorgt voor veilige en compliant servers met minimale downtime.
     </p>
   </section>
 </section>

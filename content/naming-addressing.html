@@ -4,119 +4,162 @@
   <section>
     <h2>🎯 Doelstelling</h2>
     <p>
-      Dit lab behandelt de best practices voor consistente naamgeving en adressering in Windows Server-omgevingen.  
-      Correcte conventies verbeteren beheerbaarheid, troubleshooting, auditing en schaalbaarheid.
+      Best practices voor consistente naamgeving en adressering in Windows Server-omgevingen.  
+      Verbeter beheerbaarheid, troubleshooting, auditing en schaalbaarheid.
     </p>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>🧰 Kernconcepten</h2>
-    <ul>
-      <li><strong>Naamgeving:</strong> consistente en duidelijke namen voor servers, services, storage, netwerkapparatuur en gebruikersaccounts.</li>
-      <li><strong>Adressering:</strong> consistente IP-adressering, subnetting en VLAN-indeling voor netwerkbeheer.</li>
-      <li><strong>Domain & DNS:</strong> hiërarchische structuur van domeinen, subdomeinen, hostnamen en FQDN.</li>
-      <li><strong>Consistency & Scalability:</strong> standaarden zorgen dat nieuwe servers, netwerkapparaten en services eenvoudig te integreren zijn.</li>
-    </ul>
+    <div class="infra-flex-row header">
+      <div>Concept</div>
+      <div>Beschrijving</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Concept">Naamgeving</div>
+      <div data-label="Beschrijving">Consistente, duidelijke namen voor servers, services, storage, netwerkapparatuur en gebruikersaccounts</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Concept">Adressering</div>
+      <div data-label="Beschrijving">Consistente IP-adressering, subnetting en VLAN-indeling voor netwerkbeheer</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Concept">Domain & DNS</div>
+      <div data-label="Beschrijving">Hiërarchische structuur van domeinen, subdomeinen, hostnamen en FQDN</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Concept">Consistency & Scalability</div>
+      <div data-label="Beschrijving">Standaarden zodat nieuwe servers, netwerkapparaten en services eenvoudig te integreren zijn</div>
+    </div>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>⚙️ Naamgevingsconventies</h2>
-    <ul>
-      <li><strong>Servers:</strong> Naamgeving gebaseerd op locatie, functie en volgnummer
-        <ul>
-          <li>Formaat: LOC-FUNC-001</li>
-          <li>Voorbeeld: AMS-DC-01 (Amsterdam Domain Controller 1)</li>
-        </ul>
-      </li>
-      <li><strong>Virtual Machines:</strong> Voeg “VM” toe voor herkenning
-        <ul>
-          <li>Formaat: LOC-FUNC-VM01</li>
-          <li>Voorbeeld: AMS-SQL-VM02</li>
-        </ul>
-      </li>
-      <li><strong>Storage Volumes:</strong> gebruik volumetype en server/cluster referentie
-        <ul>
-          <li>Voorbeeld: CSV-CL01-VOL01 (Cluster Shared Volume 1 op Cluster 01)</li>
-        </ul>
-      </li>
-      <li><strong>Users & Groups:</strong> eenduidige accounts:
-        <ul>
-          <li>Users: firstname.lastname</li>
-          <li>Service accounts: svc-functie-server</li>
-          <li>Groups: dept-functie (HR-Admins)</li>
-        </ul>
-      </li>
-      <li><strong>Network Devices:</strong> locatie + functie + volgnummer
-        <ul>
-          <li>Voorbeeld: NYC-SW-01 (New York City Switch 1)</li>
-          <li>Firewall: LOC-FW-01</li>
-        </ul>
-      </li>
-      <li><strong>Applications & Services:</strong> consistent met server/VM naamgeving
-        <ul>
-          <li>Voorbeeld: APP-SQL-Reporting</li>
-        </ul>
-      </li>
-    </ul>
+    <div class="infra-flex-row header">
+      <div>Type</div>
+      <div>Formaat / Voorbeeld</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Type">Servers</div>
+      <div data-label="Formaat / Voorbeeld">LOC-FUNC-001 → AMS-DC-01</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Type">Virtual Machines</div>
+      <div data-label="Formaat / Voorbeeld">LOC-FUNC-VM01 → AMS-SQL-VM02</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Type">Storage Volumes</div>
+      <div data-label="Formaat / Voorbeeld">CSV-CL01-VOL01 → Cluster Shared Volume 1 op Cluster 01</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Type">Users & Groups</div>
+      <div data-label="Formaat / Voorbeeld">Users: firstname.lastname, Service: svc-functie-server, Groups: dept-functie</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Type">Network Devices</div>
+      <div data-label="Formaat / Voorbeeld">LOC-SW-01 → NYC-SW-01, Firewall: LOC-FW-01</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Type">Applications & Services</div>
+      <div data-label="Formaat / Voorbeeld">APP-SQL-Reporting</div>
+    </div>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>⚙️ Adresseringsconventies</h2>
-    <ul>
-      <li><strong>IP-adressering:</strong>
-        <ul>
-          <li>Private IP-ranges: 10.x.x.x, 172.16.x.x – 172.31.x.x, 192.168.x.x</li>
-          <li>Subnetting volgens afdeling of locatie</li>
-          <li>Voorbeeld: 10.1.10.0/24 – Finance VLAN</li>
-          <li>Server static IPs buiten DHCP scope</li>
-        </ul>
-      </li>
-      <li><strong>VLAN-indeling:</strong> functioneel geordend
-        <ul>
-          <li>Voorbeeld: VLAN 10 – Servers, VLAN 20 – Clients, VLAN 30 – Management</li>
-        </ul>
-      </li>
-      <li><strong>DNS Naming:</strong> hiërarchisch, korte maar duidelijke namen
-        <ul>
-          <li>Voorbeeld: dc01.amsterdam.corp.local</li>
-          <li>VM: sqlvm02.nyc.corp.local</li>
-        </ul>
-      </li>
-      <li><strong>MAC Addressing:</strong> documenteer netwerkinterfaces en koppelingen met hostnamen.</li>
-    </ul>
+    <div class="infra-flex-row header">
+      <div>Type</div>
+      <div>Beschrijving / Voorbeeld</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Type">IP-adressering</div>
+      <div data-label="Beschrijving">
+        Private ranges 10.x.x.x, 172.16-31.x.x, 192.168.x.x; subnetten per afdeling of locatie; servers buiten DHCP; 10.1.10.0/24 → Finance VLAN
+      </div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Type">VLAN-indeling</div>
+      <div data-label="Beschrijving">Functioneel geordend: VLAN 10 – Servers, VLAN 20 – Clients, VLAN 30 – Management</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Type">DNS Naming</div>
+      <div data-label="Beschrijving">Hiërarchisch, korte duidelijke namen: dc01.amsterdam.corp.local, sqlvm02.nyc.corp.local</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Type">MAC Addressing</div>
+      <div data-label="Beschrijving">Documenteer netwerkinterfaces gekoppeld aan hostnamen</div>
+    </div>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>💡 Best Practices</h2>
-    <ul>
-      <li>Gebruik altijd dezelfde structuur voor alle servers, VMs, storage, users en netwerkapparaten.</li>
-      <li>Documenteer alle naamgevings- en adresseringsconventies in een centrale wiki of knowledge base.</li>
-      <li>Plan voor schaalbaarheid: reserveer nummers of subnets voor toekomstige uitbreiding.</li>
-      <li>Voorkom verwarring met korte, cryptische namen of inconsistent gebruik van hoofdletters en cijfers.</li>
-      <li>Integreer naamgeving en adressering met monitoring, auditing en backup tools.</li>
-      <li>Gebruik standaard prefixes voor service accounts, applicaties en cluster resources.</li>
-      <li>Voer periodieke review uit van hostnamen, IP-adressen en VLAN-indeling om duplicaten en conflicten te vermijden.</li>
-    </ul>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Structuur</div>
+      <div data-label="Beschrijving">Gebruik altijd dezelfde structuur voor servers, VMs, storage, users en netwerkapparaten</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Documentatie</div>
+      <div data-label="Beschrijving">Centraal bijhouden in wiki of knowledge base</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Schaalbaarheid</div>
+      <div data-label="Beschrijving">Reserveer nummers/subnets voor toekomstige uitbreiding</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Consistentie</div>
+      <div data-label="Beschrijving">Voorkom cryptische namen of inconsistent gebruik van hoofdletters/cijfers</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Integratie</div>
+      <div data-label="Beschrijving">Naamgeving/adressering koppelen aan monitoring, auditing en backup tools</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Prefixes</div>
+      <div data-label="Beschrijving">Standaard prefixes voor service accounts, applicaties en cluster resources</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Periodieke Review</div>
+      <div data-label="Beschrijving">Controleer hostnamen, IP’s en VLAN-indeling op duplicaten/conflicten</div>
+    </div>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>📌 Voorbeelden</h2>
-    <ul>
-      <li><strong>Server:</strong> AMS-DC-01 → Amsterdam Domain Controller 1</li>
-      <li><strong>VM:</strong> NYC-SQL-VM03 → New York City SQL Server VM3</li>
-      <li><strong>Storage:</strong> CSV-CL02-VOL01 → Cluster Shared Volume 1 op Cluster 2</li>
-      <li><strong>User Account:</strong> john.doe → medewerker John Doe</li>
-      <li><strong>Service Account:</strong> svc-sql-backup → SQL Backup Service Account</li>
-      <li><strong>VLAN:</strong> VLAN 50 – Development, 10.2.50.0/24 subnet</li>
-      <li><strong>DNS:</strong> appweb01.london.corp.local → eerste webserver in Londen</li>
-    </ul>
+    <div class="infra-flex-row">
+      <div data-label="Type">Server</div>
+      <div data-label="Beschrijving">AMS-DC-01 → Amsterdam Domain Controller 1</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Type">VM</div>
+      <div data-label="Beschrijving">NYC-SQL-VM03 → New York City SQL Server VM3</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Type">Storage</div>
+      <div data-label="Beschrijving">CSV-CL02-VOL01 → Cluster Shared Volume 1 op Cluster 2</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Type">User Account</div>
+      <div data-label="Beschrijving">john.doe → medewerker John Doe</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Type">Service Account</div>
+      <div data-label="Beschrijving">svc-sql-backup → SQL Backup Service Account</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Type">VLAN</div>
+      <div data-label="Beschrijving">VLAN 50 – Development, 10.2.50.0/24 subnet</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Type">DNS</div>
+      <div data-label="Beschrijving">appweb01.london.corp.local → eerste webserver in Londen</div>
+    </div>
   </section>
 
   <section>
     <h2>🧾 Conclusie</h2>
     <p>
-      Consistente naamgevings- en adresseringsconventies zijn cruciaal voor beheerbaarheid, troubleshooting, auditing en schaalbaarheid van Windows Server-omgevingen.  
-      Door duidelijke structuren, gedocumenteerde standaarden en best practices toe te passen, kan een organisatie efficiënt en overzichtelijk groeien.
+      Consistente naamgevings- en adresseringsconventies verbeteren beheerbaarheid, troubleshooting, auditing en schaalbaarheid.  
+      Duidelijke structuren en gedocumenteerde standaarden zorgen voor efficiënt en overzichtelijk beheer van Windows Server-omgevingen.
     </p>
   </section>
 </section>

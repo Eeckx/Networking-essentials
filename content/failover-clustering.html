@@ -4,153 +4,234 @@
   <section>
     <h2>🎯 Doelstelling</h2>
     <p>
-      Dit lab leert hoe je **Windows Server Failover Clustering (WSFC)** installeert, configureert en beheert. 
-      Failover Clustering biedt hoge beschikbaarheid (HA) voor servers en applicaties zoals SQL Server, Hyper-V, File Services en andere kritieke workloads.
+      Installeer en configureer Windows Server Failover Clustering (WSFC) voor hoge beschikbaarheid (HA) van servers en applicaties
+      zoals SQL Server, Hyper-V, File Services en andere kritieke workloads.
     </p>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>🧰 Voorwaarden</h2>
-    <ul>
-      <li>Windows Server 2019, 2022 of nieuwer</li>
-      <li>Minimaal 2 fysieke of virtuele servers (nodes)</li>
-      <li>Static IP-adressen en netwerkconnectiviteit tussen nodes</li>
-      <li>Gedeelde opslag (SAN, SMB 3.0 share of Storage Spaces Direct)</li>
-      <li>Administrator rechten op alle nodes</li>
-      <li>DNS en Active Directory functioneel voor clusternaam registratie</li>
-    </ul>
+    <div class="infra-flex-row header">
+      <div>Voorwaarde</div>
+      <div>Opmerkingen</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Voorwaarde">Windows Server 2019, 2022 of nieuwer</div>
+      <div data-label="Opmerkingen">Alle nodes moeten compatibel zijn</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Voorwaarde">Minimaal 2 nodes</div>
+      <div data-label="Opmerkingen">Fysiek of virtueel</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Voorwaarde">Static IP-adressen en netwerkconnectiviteit</div>
+      <div data-label="Opmerkingen">Controleer ping en firewall rules (TCP/UDP 3343, RPC)</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Voorwaarde">Gedeelde opslag</div>
+      <div data-label="Opmerkingen">SAN, SMB 3.0 share of Storage Spaces Direct</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Voorwaarde">Administrator rechten op nodes</div>
+      <div data-label="Opmerkingen">Vereist voor installatie en configuratie</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Voorwaarde">DNS en Active Directory functioneel</div>
+      <div data-label="Opmerkingen">Voor clusternaam registratie</div>
+    </div>
   </section>
 
-  <section>
-    <h2>⚙️ Installatie van Failover Clustering Feature</h2>
-    <ul>
-      <li>Open Server Manager → Add Roles and Features → Features → <strong>Failover Clustering</strong>.</li>
-      <li>PowerShell alternatief:
-        <pre><code class="language-powershell">
-Install-WindowsFeature -Name Failover-Clustering -IncludeManagementTools
-        </code></pre>
-      </li>
-      <li>Installeer op alle nodes die deel gaan uitmaken van de cluster.</li>
-    </ul>
+  <section class="infra-flex">
+    <h2>⚙️ Installatie Failover Clustering</h2>
+    <div class="infra-flex-row header">
+      <div>Actie</div>
+      <div>PowerShell / Opmerkingen</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Installeer Failover Clustering feature</div>
+      <div data-label="PowerShell / Opmerkingen">
+        <code>Install-WindowsFeature -Name Failover-Clustering -IncludeManagementTools</code> <br>
+        Op alle nodes uitvoeren
+      </div>
+    </div>
   </section>
 
-  <section>
-    <h2>🔍 Voorbereiding en validatie</h2>
-    <ol>
-      <li>Controleer hardware en netwerkvereisten:
-        <ul>
-          <li>Ping tussen nodes</li>
-          <li>Gedeelde opslag zichtbaar op alle nodes</li>
-          <li>Firewall rules voor cluster communicatie (TCP/UDP 3343, RPC)</li>
-        </ul>
-      </li>
-      <li>Run Cluster Validation Wizard:
-        <pre><code class="language-powershell">
-Test-Cluster -Node Node1,Node2
-        </code></pre>
-      </li>
-      <li>Analyseer rapporten voor waarschuwingen of fouten. Alles moet “Passed” zijn voor productiecluster.</li>
-    </ol>
+  <section class="infra-flex">
+    <h2>🔍 Validatie</h2>
+    <div class="infra-flex-row header">
+      <div>Stap</div>
+      <div>PowerShell / Opmerkingen</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Stap">Controleer hardware en netwerk</div>
+      <div data-label="PowerShell / Opmerkingen">
+        Ping tussen nodes, gedeelde opslag zichtbaar, firewall rules correct
+      </div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Stap">Cluster Validation Wizard uitvoeren</div>
+      <div data-label="PowerShell / Opmerkingen">
+        <code>Test-Cluster -Node Node1,Node2</code> <br>
+        Rapporten analyseren, alles moet "Passed" zijn
+      </div>
+    </div>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>🏗️ Cluster aanmaken</h2>
-    <ol>
-      <li>Open Failover Cluster Manager → Create Cluster → Next</li>
-      <li>Selecteer alle nodes die deel uitmaken van de cluster</li>
-      <li>Voer een clusternaam in (bijv. <code>HA-Cluster01</code>) en statisch IP-adres</li>
-      <li>Wizard maakt computer object in Active Directory en configureert quorum</li>
-      <li>Controleer clusterstatus: alle nodes moeten “Up” zijn</li>
-    </ol>
+    <div class="infra-flex-row header">
+      <div>Stap</div>
+      <div>Beschrijving</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Stap">Wizard openen</div>
+      <div data-label="Beschrijving">Failover Cluster Manager → Create Cluster → Next</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Stap">Selecteer nodes</div>
+      <div data-label="Beschrijving">Alle nodes toevoegen die cluster vormen</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Stap">Clusternaam en IP instellen</div>
+      <div data-label="Beschrijving">Bijv. <code>HA-Cluster01</code>, statisch IP</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Stap">Wizard voltooien</div>
+      <div data-label="Beschrijving">CNO aangemaakt in AD, quorum ingesteld, controleer clusterstatus</div>
+    </div>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>⚡ Quorum configuratie</h2>
-    <ul>
-      <li>Cluster quorum bepaalt het minimale aantal stemmen om cluster te laten functioneren</li>
-      <li>Soorten quorum:
-        <ul>
-          <li>Node Majority (even aantal nodes + witness)</li>
-          <li>Node and Disk Majority (met gedeelde disk)</li>
-          <li>Node and File Share Majority (via SMB share)</li>
-          <li>Dynamic quorum (aanbevolen vanaf 2012)</li>
-        </ul>
-      </li>
-      <li>PowerShell voorbeeld:
-        <pre><code class="language-powershell">
-(Get-Cluster).QuorumType
-Set-ClusterQuorum -NodeAndFileShareMajority "\\FileServer\ClusterShare"
-        </code></pre>
-      </li>
-    </ul>
+    <div class="infra-flex-row header">
+      <div>Type</div>
+      <div>Beschrijving / PowerShell</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Type">Node Majority</div>
+      <div data-label="Beschrijving">Even aantal nodes + witness</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Type">Node and Disk Majority</div>
+      <div data-label="Beschrijving">Met gedeelde disk</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Type">Node and File Share Majority</div>
+      <div data-label="Beschrijving">Via SMB share <code>Set-ClusterQuorum -NodeAndFileShareMajority "\\FileServer\ClusterShare"</code></div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Type">Dynamic quorum</div>
+      <div data-label="Beschrijving">Aanbevolen vanaf 2012</div>
+    </div>
   </section>
 
-  <section>
-    <h2>🛠️ Rollen en resources toevoegen</h2>
-    <ul>
-      <li>Voeg een rol toe in Failover Cluster Manager → Roles → Configure Role
-        <ul>
-          <li>Hyper-V</li>
-          <li>File Server (General Purpose / Scale-Out)</li>
-          <li>SQL Server Failover Cluster Instance (FCI)</li>
-          <li>DHCP, IIS, Print Server (optioneel)</li>
-        </ul>
-      </li>
-      <li>Resources kunnen zijn:
-        <ul>
-          <li>IP addresses</li>
-          <li>Shared storage</li>
-          <li>Cluster Name Object (CNO) in AD</li>
-        </ul>
-      </li>
-    </ul>
+  <section class="infra-flex">
+    <h2>🛠️ Rollen en resources</h2>
+    <div class="infra-flex-row header">
+      <div>Actie</div>
+      <div>Opmerkingen</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Rol toevoegen</div>
+      <div data-label="Opmerkingen">
+        Hyper-V, File Server, SQL FCI, DHCP, IIS, Print Server
+      </div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Resources beheren</div>
+      <div data-label="Opmerkingen">
+        IP addresses, shared storage, Cluster Name Object (CNO)
+      </div>
+    </div>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>🔁 Failover testen</h2>
-    <ol>
-      <li>In Failover Cluster Manager → Roles → selecteer role → Move → Select Node</li>
-      <li>Controleer dat resources succesvol naar andere node overgaan</li>
-      <li>Simuleer node failure (shutdown of disconnect network) en observeer failover</li>
-      <li>Bekijk logs via Event Viewer → Applications and Services Logs → Microsoft → Windows → FailoverClustering</li>
-    </ol>
+    <div class="infra-flex-row header">
+      <div>Actie</div>
+      <div>Opmerkingen</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Move role naar andere node</div>
+      <div data-label="Opmerkingen">Failover Cluster Manager → Roles → Move → Select Node</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Simuleer node failure</div>
+      <div data-label="Opmerkingen">Shutdown of disconnect network → observeer failover</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Event logs bekijken</div>
+      <div data-label="Opmerkingen">
+        Event Viewer → Applications and Services Logs → Microsoft → Windows → FailoverClustering
+      </div>
+    </div>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>📊 Monitoring en beheer</h2>
-    <ul>
-      <li>Failover Cluster Manager → Dashboard → overzicht van cluster en roles</li>
-      <li>Gebruik PowerShell voor monitoring:
-        <pre><code class="language-powershell">
-Get-Cluster
-Get-ClusterNode
-Get-ClusterGroup
-Get-ClusterResource
-        </code></pre>
-      </li>
-      <li>Configureer alerts voor failover events via Event Viewer of SIEM</li>
-      <li>Plan regelmatig onderhoud zonder downtime door roles te verplaatsen</li>
-    </ul>
+    <div class="infra-flex-row header">
+      <div>Actie</div>
+      <div>PowerShell / Opmerkingen</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Cluster overzicht</div>
+      <div data-label="PowerShell / Opmerkingen">Failover Cluster Manager → Dashboard</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">PowerShell monitoring</div>
+      <div data-label="PowerShell / Opmerkingen">
+        <code>Get-Cluster</code>, <code>Get-ClusterNode</code>, <code>Get-ClusterGroup</code>, <code>Get-ClusterResource</code>
+      </div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Alerts configureren</div>
+      <div data-label="PowerShell / Opmerkingen">Event Viewer of SIEM</div>
+    </div>
   </section>
 
   <section>
     <h2>💡 Best Practices</h2>
     <ul>
       <li>Minimaal 2 nodes, idealiter 3+ voor hoge beschikbaarheid</li>
-      <li>Quorum configureren passend bij aantal nodes en storage</li>
-      <li>Shared storage betrouwbaar en redundant (SAN, Storage Spaces Direct)</li>
-      <li>Cluster Validation Wizard uitvoeren voor productiecluster</li>
-      <li>Failover testen vóór productie-implementatie</li>
-      <li>Documenteer cluster architectuur, IP’s en roles</li>
-      <li>Gebruik separate VLAN’s voor cluster communicatie indien mogelijk</li>
+      <li>Quorum passend bij aantal nodes en storage</li>
+      <li>Betrouwbare en redundante shared storage (SAN, Storage Spaces Direct)</li>
+      <li>Cluster Validation Wizard uitvoeren vóór productie</li>
+      <li>Failover testen vóór implementatie</li>
+      <li>Documenteer architectuur, IP’s en roles</li>
+      <li>Gebruik separate VLAN’s voor cluster communicatie</li>
     </ul>
   </section>
 
   <section>
     <h2>🧾 Conclusie</h2>
     <p>
-      Windows Server Failover Clustering biedt een robuuste oplossing voor hoge beschikbaarheid van servers en applicaties.
-      Door nodes correct te configureren, quorum en roles goed te beheren en failover te testen, kan je kritieke workloads beschermen tegen uitval en downtime minimaliseren.
+      WSFC biedt een robuuste oplossing voor hoge beschikbaarheid. Correcte configuratie van nodes, quorum, roles en failover testen
+      minimaliseert downtime en beschermt kritieke workloads.
     </p>
   </section>
 </section>

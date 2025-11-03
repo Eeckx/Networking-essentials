@@ -4,187 +4,185 @@
   <section>
     <h2>🎯 Doelstelling</h2>
     <p>
-      In deze handleiding leer je hoe je <strong>Network Policy Server (NPS)</strong> installeert en configureert op Windows Server.
-      NPS wordt gebruikt om <strong>centrale RADIUS-authenticatie, autorisatie en accounting</strong> te beheren voor
-      netwerktoegang zoals <strong>VPN, 802.1X draadloze toegang, bekabelde switches of RRAS</strong>.
+      Leer hoe je <strong>NPS</strong> installeert en configureert voor centrale RADIUS-authenticatie, autorisatie en accounting
+      voor VPN, 802.1X draadloze toegang, bekabelde switches of RRAS.
     </p>
   </section>
 
-  <section>
-    <h2>🧰 Voorwaarden</h2>
-    <ul>
-      <li>Windows Server 2019, 2022 of nieuwer</li>
-      <li>De server is lid van een <strong>Active Directory-domein</strong></li>
-      <li>Gebruikers bestaan in AD en hebben toegangsrechten</li>
-      <li>Een geldig <strong>servercertificaat</strong> voor EAP/TLS (via AD CS of externe CA)</li>
-      <li>(Optioneel) RRAS of Wireless Access Point dat RADIUS ondersteunt</li>
-    </ul>
-  </section>
+  <section class="infra-flex">
+    <h2>🧰 Installatie van NPS</h2>
+    <div class="infra-flex-row header">
+      <div>Stap</div>
+      <div>Beschrijving</div>
+    </div>
 
-  <section>
-    <h2>⚙️ Installatie van Network Policy Server</h2>
-    <ol>
-      <li>Open <strong>Server Manager → Add Roles and Features</strong>.</li>
-      <li>Kies <strong>Role-based or feature-based installation</strong>.</li>
-      <li>Selecteer <strong>Network Policy and Access Services</strong>.</li>
-      <li>Onder <strong>Role Services</strong> vink enkel <strong>Network Policy Server</strong> aan.</li>
-      <li>Klik op <strong>Install</strong>.</li>
-      <li>PowerShell alternatief:
+    <div class="infra-flex-row">
+      <div data-label="Stap">1</div>
+      <div data-label="Beschrijving">Server Manager → Add Roles and Features → Role-based installation → Network Policy and Access Services → Network Policy Server → Install.</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Stap">2</div>
+      <div data-label="Beschrijving">PowerShell alternatief:
         <pre><code class="language-powershell">
 Install-WindowsFeature NPAS -IncludeManagementTools
         </code></pre>
-      </li>
-    </ol>
+      </div>
+    </div>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>🔗 Koppeling met Active Directory</h2>
-    <p>
-      Na installatie moet NPS geregistreerd worden in Active Directory, zodat het gebruikers kan verifiëren.
-    </p>
-    <ol>
-      <li>Open <strong>Server Manager → Tools → Network Policy Server</strong>.</li>
-      <li>Rechtsklik op <strong>NPS (Local)</strong> → kies <strong>Register server in Active Directory</strong>.</li>
-      <li>Klik op <strong>OK</strong> om te bevestigen.</li>
-    </ol>
+    <div class="infra-flex-row header">
+      <div>Stap</div>
+      <div>Beschrijving</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Stap">1</div>
+      <div data-label="Beschrijving">Server Manager → Tools → Network Policy Server → Rechtsklik NPS (Local) → Register server in Active Directory → OK.</div>
+    </div>
   </section>
 
-  <section>
-    <h2>📡 Configuratie als RADIUS-server</h2>
-    <h3>Stap 1 – Voeg RADIUS Clients toe</h3>
-    <ol>
-      <li>In de NPS-console: vouw <strong>RADIUS Clients and Servers</strong> uit.</li>
-      <li>Rechtsklik op <strong>RADIUS Clients</strong> → <strong>New</strong>.</li>
-      <li>Geef een herkenbare naam, bijvoorbeeld <strong>RRAS-VPN</strong> of <strong>AP-LAB</strong>.</li>
-      <li>Voer het IP-adres of DNS-naam van de client in.</li>
-      <li>Stel een gedeeld geheim in (shared secret) → ditzelfde moet ook in RRAS of het access point worden geconfigureerd.</li>
-      <li>Klik <strong>OK</strong>.</li>
-    </ol>
+  <section class="infra-flex">
+    <h2>📡 RADIUS Clients toevoegen</h2>
+    <div class="infra-flex-row header">
+      <div>Stap</div>
+      <div>Beschrijving</div>
+    </div>
 
-    <h3>Stap 2 – Controleer verbinding met RRAS</h3>
-    <p>
-      In de RRAS-console:
-      <ul>
-        <li>Ga naar <strong>Properties → Security</strong>.</li>
-        <li>Selecteer bij <strong>Authentication provider</strong> → <strong>RADIUS Authentication</strong>.</li>
-        <li>Klik <strong>Configure</strong> → voeg het IP van de NPS-server toe en gebruik hetzelfde shared secret.</li>
-      </ul>
-    </p>
+    <div class="infra-flex-row">
+      <div data-label="Stap">1</div>
+      <div data-label="Beschrijving">NPS-console → RADIUS Clients and Servers → RADIUS Clients → New → Naam + IP/DNS + Shared Secret → OK.</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Stap">2</div>
+      <div data-label="Beschrijving">In RRAS-console → Properties → Security → Authentication provider → RADIUS Authentication → Configure → IP van NPS + shared secret.</div>
+    </div>
   </section>
 
-  <section>
-    <h2>🧩 Network Policies – toegangsregels instellen</h2>
-    <h3>Stap 1 – Connection Request Policies</h3>
-    <p>
-      Connection Request Policies bepalen <strong>hoe en waar</strong> de authenticatie wordt afgehandeld.
-      In de meeste gevallen volstaat de standaard “Use Windows authentication” op de lokale server.
-    </p>
+  <section class="infra-flex">
+    <h2>🧩 Network Policies configureren</h2>
+    <div class="infra-flex-row header">
+      <div>Stap</div>
+      <div>Beschrijving</div>
+    </div>
 
-    <h3>Stap 2 – Network Policies</h3>
-    <ol>
-      <li>Open <strong>Policies → Network Policies</strong>.</li>
-      <li>Rechtsklik → <strong>New</strong>.</li>
-      <li>Geef de policy een naam, bijv. <strong>VPN Access Policy</strong>.</li>
-      <li>Klik <strong>Next</strong> en voeg voorwaarden toe, bijvoorbeeld:
-        <ul>
-          <li><strong>User Groups:</strong> VPN-Users</li>
-          <li><strong>NAS Port Type:</strong> Virtual (VPN)</li>
-          <li><strong>Day and Time Restrictions:</strong> optioneel</li>
-        </ul>
-      </li>
-      <li>Bij <strong>Access Permission</strong> → kies <strong>Grant access</strong>.</li>
-      <li>Bij <strong>Authentication Methods</strong> → selecteer:
-        <ul>
-          <li><strong>MS-CHAPv2</strong> voor basis</li>
-          <li><strong>EAP (PEAP/EAP-TLS)</strong> voor certificaatgebaseerde beveiliging</li>
-        </ul>
-      </li>
-      <li>Klik verder tot de policy voltooid is.</li>
-    </ol>
+    <div class="infra-flex-row">
+      <div data-label="Stap">1</div>
+      <div data-label="Beschrijving">Policies → Network Policies → New → Naam (bijv. VPN Access Policy) → Next → Voeg voorwaarden toe (User Groups, NAS Port Type, Day/Time).</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Stap">2</div>
+      <div data-label="Beschrijving">Access Permission → Grant access → Authentication Methods → MS-CHAPv2 of EAP (PEAP/EAP-TLS) → Finish.</div>
+    </div>
   </section>
 
-  <section>
-    <h2>🔐 Certificaatconfiguratie (voor EAP-TLS of PEAP)</h2>
-    <ol>
-      <li>Installeer het NPS-servercertificaat:
-        <ul>
-          <li>Gebruik <strong>Active Directory Certificate Services</strong> (CA) of een extern certificaat.</li>
-          <li>Het certificaat moet het FQDN van de server bevatten in het veld <strong>Subject</strong>.</li>
-        </ul>
-      </li>
-      <li>In de NPS-console, open de EAP-instellingen in je Network Policy.</li>
-      <li>Selecteer <strong>Microsoft: Protected EAP (PEAP)</strong> of <strong>Smart Card or other certificate (EAP-TLS)</strong>.</li>
-      <li>Kies het juiste certificaat uit de lijst.</li>
-      <li>Activeer optioneel <strong>Enforce encryption</strong> en <strong>Do not prompt users to trust new servers</strong>.</li>
-    </ol>
+  <section class="infra-flex">
+    <h2>🔐 Certificaatconfiguratie</h2>
+    <div class="infra-flex-row header">
+      <div>Stap</div>
+      <div>Beschrijving</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Stap">1</div>
+      <div data-label="Beschrijving">Installeer servercertificaat via AD CS of extern CA (FQDN in Subject).</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Stap">2</div>
+      <div data-label="Beschrijving">NPS-console → Network Policy → EAP-instellingen → PEAP of EAP-TLS → kies certificaat → optioneel Enforce encryption.</div>
+    </div>
   </section>
 
-  <section>
-    <h2>📊 Accounting (RADIUS-logging)</h2>
-    <p>
-      NPS kan verbindings- en authenticatiepogingen loggen voor auditing en troubleshooting.
-    </p>
-    <ol>
-      <li>Open <strong>NPS (Local) → Accounting</strong>.</li>
-      <li>Kies <strong>Local File</strong> of <strong>SQL Server Logging</strong>.</li>
-      <li>Bij <strong>Local File</strong>:
-        <ul>
-          <li>Locatie: <code>%SystemRoot%\System32\LogFiles</code></li>
-          <li>Bestand: <code>IN*.log</code></li>
-        </ul>
-      </li>
-      <li>Logformaat: <strong>IAS-format</strong> (aanbevolen voor Microsoft tooling).</li>
-    </ol>
+  <section class="infra-flex">
+    <h2>📊 Accounting configureren</h2>
+    <div class="infra-flex-row header">
+      <div>Stap</div>
+      <div>Beschrijving</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Stap">1</div>
+      <div data-label="Beschrijving">NPS (Local) → Accounting → Local File of SQL Logging → IAS-format → opslaglocatie %SystemRoot%\System32\LogFiles.</div>
+    </div>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>📈 Controle en troubleshooting</h2>
-    <ul>
-      <li>Controleer Event Viewer → <strong>Custom Views → Server Roles → Network Policy and Access Services</strong>.</li>
-      <li>Gebruik PowerShell voor policy-lijsten:
-        <pre><code class="language-powershell">
-Get-NpsNetworkPolicy
-        </code></pre>
-      </li>
-      <li>Gebruik <code>ntradius.log</code> om mislukte verbindingen te analyseren.</li>
-      <li>Zorg dat firewalls RADIUS-verkeer toelaten:
-        <ul>
-          <li>UDP 1812 (authenticatie)</li>
-          <li>UDP 1813 (accounting)</li>
-        </ul>
-      </li>
-    </ul>
+    <div class="infra-flex-row header">
+      <div>Stap</div>
+      <div>Beschrijving</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Stap">1</div>
+      <div data-label="Beschrijving">Event Viewer → Custom Views → Server Roles → Network Policy and Access Services.</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Stap">2</div>
+      <div data-label="Beschrijving">PowerShell: <pre><code class="language-powershell">Get-NpsNetworkPolicy</code></pre></div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Stap">3</div>
+      <div data-label="Beschrijving">Controleer firewalls: UDP 1812 (auth), UDP 1813 (accounting).</div>
+    </div>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>🧠 Geavanceerde scenario's</h2>
-    <ul>
-      <li><strong>802.1X draadloos of bekabeld netwerk</strong>: koppel NPS met een RADIUS-compatibele switch of access point.</li>
-      <li><strong>VPN-authenticatie via RRAS</strong>: gebruik NPS als externe authenticator i.p.v. Windows-local.</li>
-      <li><strong>RADIUS Proxy</strong>: stuur authenticatieverzoeken door naar andere RADIUS-servers (bijv. multi-site).</li>
-      <li><strong>SQL Logging</strong>: log verbindingen in een SQL-database voor compliance en auditing.</li>
-      <li><strong>Health Policies (NAP)</strong>: controleer antivirus/firewallstatus van clients (optioneel, legacy).</li>
-    </ul>
+    <div class="infra-flex-row header">
+      <div>Scenario</div>
+      <div>Beschrijving</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Scenario">802.1X draadloos/bekabeld</div>
+      <div data-label="Beschrijving">Koppel NPS aan RADIUS-compatibele switch of access point.</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Scenario">VPN-authenticatie via RRAS</div>
+      <div data-label="Beschrijving">Gebruik NPS als externe authenticator in plaats van lokale Windows-accounts.</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Scenario">RADIUS Proxy</div>
+      <div data-label="Beschrijving">Stuur authenticatieverzoeken door naar andere NPS-servers (multi-site).</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Scenario">SQL Logging</div>
+      <div data-label="Beschrijving">Log verbindingen in SQL voor compliance en auditing.</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Scenario">Health Policies (NAP)</div>
+      <div data-label="Beschrijving">Controleer antivirus/firewallstatus van clients (optioneel, legacy).</div>
+    </div>
   </section>
 
   <section>
     <h2>💡 Best Practices</h2>
     <ul>
-      <li>Gebruik een <strong>dedicated NPS-server</strong> i.p.v. op een DC.</li>
-      <li>Beperk toegangsrechten via <strong>groepen</strong> (bijv. VPN-Users).</li>
-      <li>Gebruik <strong>PEAP of EAP-TLS</strong> met certificaten i.p.v. MS-CHAPv2.</li>
-      <li>Activeer <strong>logging</strong> en archiveer deze regelmatig.</li>
-      <li>Gebruik <strong>Network Load Balancing</strong> voor redundante NPS-servers.</li>
-      <li>Gebruik <strong>complex shared secrets</strong> en wijzig deze periodiek.</li>
+      <li>Dedicated NPS-server i.p.v. op DC.</li>
+      <li>Beperk toegangsrechten via groepen (bijv. VPN-Users).</li>
+      <li>Gebruik PEAP of EAP-TLS i.p.v. MS-CHAPv2.</li>
+      <li>Activeer logging en archiveer regelmatig.</li>
+      <li>Network Load Balancing voor redundante servers.</li>
+      <li>Complex shared secrets en periodiek wijzigen.</li>
     </ul>
   </section>
 
   <section>
     <h2>🧾 Conclusie</h2>
     <p>
-      Network Policy Server centraliseert authenticatie, autorisatie en accounting voor alle netwerktoegang.
-      In combinatie met RRAS of 802.1X-netwerken vormt NPS een krachtige en veilige basis
-      voor toegangscontrole binnen Windows-omgevingen.
+      NPS centraliseert authenticatie, autorisatie en accounting voor netwerktoegang. In combinatie met RRAS of 802.1X-netwerken vormt het een veilige en krachtige basis voor toegangsbeheer.
     </p>
   </section>
 </section>

@@ -4,133 +4,187 @@
   <section>
     <h2>🎯 Doelstelling</h2>
     <p>
-      In deze handleiding leer je hoe je **Storage Spaces** configureert en beheert in Windows Server.  
-      Storage Spaces biedt de mogelijkheid om fysieke schijven samen te voegen tot logische storagepools, waarbij redundantie (mirror/parity) en flexibiliteit centraal staan.
+      Configureer en beheer Storage Spaces voor flexibele en redundante opslag.  
+      Combineer fysieke disks tot storage pools en maak virtual disks met mirror of parity voor hoge beschikbaarheid.
     </p>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>🧰 Voorwaarden</h2>
-    <ul>
-      <li>Windows Server 2019, 2022 of nieuwer</li>
-      <li>Administrator rechten</li>
-      <li>Minimaal 2 fysieke of virtuele disks voor een eenvoudige mirror</li>
-      <li>Extra disks aanbevolen voor parity of complexe pools</li>
-      <li>Storage Spaces Direct (S2D) vereist clusteromgeving met minimaal 2 nodes</li>
-    </ul>
+    <div class="infra-flex-row header">
+      <div>Voorwaarde</div>
+      <div>Opmerkingen</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Voorwaarde">Windows Server 2019, 2022 of nieuwer</div>
+      <div data-label="Opmerkingen">Alle nodes compatibel</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Voorwaarde">Administrator rechten</div>
+      <div data-label="Opmerkingen">Vereist voor configuratie</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Voorwaarde">Minimaal 2 disks</div>
+      <div data-label="Opmerkingen">Voor eenvoudige mirror</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Voorwaarde">Extra disks aanbevolen</div>
+      <div data-label="Opmerkingen">Voor parity of complexe pools</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Voorwaarde">Storage Spaces Direct (S2D)</div>
+      <div data-label="Opmerkingen">Clusteromgeving met minimaal 2 nodes</div>
+    </div>
   </section>
 
-  <section>
-    <h2>⚙️ Installatie van Storage Spaces Feature</h2>
-    <ul>
-      <li>Windows Server heeft Storage Spaces standaard ingebouwd; voor S2D moet de feature geïnstalleerd worden via Server Manager → Add Roles and Features → File and Storage Services → Storage Services → Storage Spaces</li>
-      <li>PowerShell alternatief:
-        <pre><code class="language-powershell">
-Install-WindowsFeature FS-FileServer, Storage-Services
-        </code></pre>
-      </li>
-    </ul>
+  <section class="infra-flex">
+    <h2>⚙️ Installatie Storage Spaces Feature</h2>
+    <div class="infra-flex-row header">
+      <div>Actie</div>
+      <div>PowerShell / Opmerkingen</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Installeer File & Storage Services + Storage Spaces</div>
+      <div data-label="PowerShell / Opmerkingen">
+        <code>Install-WindowsFeature FS-FileServer, Storage-Services</code> <br>
+        Voor S2D vereist
+      </div>
+    </div>
   </section>
 
-  <section>
-    <h2>🔍 Voorbereiding van disks</h2>
-    <ul>
-      <li>Sluit fysieke of virtuele disks aan op de server</li>
-      <li>Controleer status van disks:
-        <pre><code class="language-powershell">
-Get-PhysicalDisk
-        </code></pre>
-      </li>
-      <li>Disks moeten beschikbaar zijn (geen volumes of partities) voor de storage pool</li>
-      <li>Voor S2D: alle nodes moeten identieke en ondersteunde disks hebben, SSD/HDD gemengd mogelijk</li>
-    </ul>
+  <section class="infra-flex">
+    <h2>🔍 Voorbereiding disks</h2>
+    <div class="infra-flex-row header">
+      <div>Actie</div>
+      <div>PowerShell / Opmerkingen</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Sluit disks aan en controleer status</div>
+      <div data-label="PowerShell / Opmerkingen"><code>Get-PhysicalDisk</code></div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Controleer beschikbaarheid voor pooling</div>
+      <div data-label="PowerShell / Opmerkingen">Geen volumes of partities aanwezig</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">S2D nodes configuratie</div>
+      <div data-label="PowerShell / Opmerkingen">Identieke disks aanbevolen, SSD/HDD gemengd mogelijk</div>
+    </div>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>🏗️ Storage Pool aanmaken</h2>
-    <ol>
-      <li>Open Server Manager → File and Storage Services → Storage Pools → Tasks → New Storage Pool</li>
-      <li>Selecteer de server en de fysieke disks die je wilt opnemen in de pool</li>
-      <li>Geef de pool een naam (bijv. <code>Pool01</code>)</li>
-      <li>Wizard maakt de storage pool aan en initialiseert de disks</li>
-      <li>PowerShell alternatief:
-        <pre><code class="language-powershell">
-New-StoragePool -FriendlyName "Pool01" -StorageSubsystemFriendlyName "Windows Storage*" -PhysicalDisks (Get-PhysicalDisk -CanPool $true)
-        </code></pre>
-      </li>
-    </ol>
+    <div class="infra-flex-row header">
+      <div>Actie</div>
+      <div>PowerShell / Opmerkingen</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Wizard via Server Manager</div>
+      <div data-label="PowerShell / Opmerkingen">
+        File and Storage Services → Storage Pools → Tasks → New Storage Pool → Selecteer disks → Geef naam
+      </div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">PowerShell alternatief</div>
+      <div data-label="PowerShell / Opmerkingen">
+        <code>New-StoragePool -FriendlyName "Pool01" -StorageSubsystemFriendlyName "Windows Storage*" -PhysicalDisks (Get-PhysicalDisk -CanPool $true)</code>
+      </div>
+    </div>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>📦 Virtual Disk (Storage Space) aanmaken</h2>
-    <ul>
-      <li>Kies in Storage Pools → Tasks → New Virtual Disk</li>
-      <li>Selecteer storage pool en geef virtual disk een naam</li>
-      <li>Kies het resiliency type:
-        <ul>
-          <li><strong>Simple:</strong> geen redundantie, maximale capaciteit</li>
-          <li><strong>Mirror:</strong> 2-way of 3-way voor redundantie</li>
-          <li><strong>Parity:</strong> bescherming tegen 1 disk failure, beter voor archief/data opslag</li>
-        </ul>
-      </li>
-      <li>Kies provisioning type:
-        <ul>
-          <li><strong>Fixed:</strong> volledige ruimte direct toegewezen</li>
-          <li><strong>Thin:</strong> ruimte wordt dynamisch toegewezen</li>
-        </ul>
-      </li>
-      <li>PowerShell alternatief:
-        <pre><code class="language-powershell">
-New-VirtualDisk -StoragePoolFriendlyName "Pool01" -FriendlyName "VD01" -ResiliencySettingName Mirror -Size 500GB
-        </code></pre>
-      </li>
-    </ul>
+    <div class="infra-flex-row header">
+      <div>Actie</div>
+      <div>PowerShell / Opmerkingen</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Wizard via Server Manager</div>
+      <div data-label="PowerShell / Opmerkingen">
+        Kies pool, naam, resiliency type (Simple, Mirror, Parity), provisioning type (Fixed/Thin)
+      </div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">PowerShell alternatief</div>
+      <div data-label="PowerShell / Opmerkingen">
+        <code>New-VirtualDisk -StoragePoolFriendlyName "Pool01" -FriendlyName "VD01" -ResiliencySettingName Mirror -Size 500GB</code>
+      </div>
+    </div>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>🖴 Volume aanmaken en formatteren</h2>
-    <ol>
-      <li>Open Disk Management of Server Manager → Volumes → New Volume</li>
-      <li>Kies virtual disk als bron</li>
-      <li>Selecteer drive letter of mount point</li>
-      <li>Kies bestandssysteem (NTFS of ReFS) en volumenaam</li>
-      <li>PowerShell alternatief:
-        <pre><code class="language-powershell">
-Get-VirtualDisk -FriendlyName "VD01" | Initialize-Disk -PartitionStyle GPT
-New-Volume -VirtualDisk (Get-VirtualDisk -FriendlyName "VD01") -FileSystem ReFS -FriendlyName "Data01" -DriveLetter D
-        </code></pre>
-      </li>
-    </ol>
+    <div class="infra-flex-row header">
+      <div>Actie</div>
+      <div>PowerShell / Opmerkingen</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Wizard via Disk Management</div>
+      <div data-label="PowerShell / Opmerkingen">
+        Nieuwe volume → Selecteer virtual disk → Drive letter / mount point → Bestandssysteem (NTFS/ReFS)
+      </div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">PowerShell alternatief</div>
+      <div data-label="PowerShell / Opmerkingen">
+        <code>Get-VirtualDisk -FriendlyName "VD01" | Initialize-Disk -PartitionStyle GPT</code><br>
+        <code>New-Volume -VirtualDisk (Get-VirtualDisk -FriendlyName "VD01") -FileSystem ReFS -FriendlyName "Data01" -DriveLetter D</code>
+      </div>
+    </div>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>⚡ Monitoring en beheer</h2>
-    <ul>
-      <li>Controleer status van storage pool en virtual disks:
-        <pre><code class="language-powershell">
-Get-StoragePool
-Get-VirtualDisk
-Get-PhysicalDisk | Select FriendlyName, OperationalStatus
-        </code></pre>
-      </li>
-      <li>Repareer fouten automatisch met:
-        <pre><code class="language-powershell">
-Repair-VirtualDisk -FriendlyName "VD01"
-        </code></pre>
-      </li>
-      <li>Bekijk opslaggebruik en health reports in Server Manager → Storage Pools</li>
-      <li>Event Viewer → Applications and Services Logs → Microsoft → Windows → StorageSpaces-Driver voor errors en waarschuwingen</li>
-    </ul>
+    <div class="infra-flex-row header">
+      <div>Actie</div>
+      <div>PowerShell / Opmerkingen</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Controleer status</div>
+      <div data-label="PowerShell / Opmerkingen">
+        <code>Get-StoragePool</code>, <code>Get-VirtualDisk</code>, <code>Get-PhysicalDisk | Select FriendlyName, OperationalStatus</code>
+      </div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Fouten herstellen</div>
+      <div data-label="PowerShell / Opmerkingen">
+        <code>Repair-VirtualDisk -FriendlyName "VD01"</code>
+      </div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Bekijk health reports en logs</div>
+      <div data-label="PowerShell / Opmerkingen">
+        Server Manager → Storage Pools, Event Viewer → Applications and Services Logs → Microsoft → Windows → StorageSpaces-Driver
+      </div>
+    </div>
   </section>
 
   <section>
     <h2>💡 Best Practices</h2>
     <ul>
-      <li>Gebruik mirror of parity voor productieomgevingen, simple alleen voor test/lab</li>
+      <li>Gebruik mirror of parity voor productie; simple alleen voor test/lab</li>
       <li>Splits workloads: SSD voor performance, HDD voor archief/data</li>
-      <li>Monitor regelmatig health en capacity</li>
+      <li>Regelmatig health en capacity monitoren</li>
       <li>Gebruik ReFS voor grote volumes en betere data integrity</li>
-      <li>Voor Storage Spaces Direct (S2D): cluster nodes identiek configureren en voldoende netwerkbandbreedte (RDMA aanbevolen)</li>
+      <li>Voor S2D: identieke cluster nodes en voldoende netwerkbandbreedte (RDMA aanbevolen)</li>
       <li>Plan periodieke snapshots/backups van kritieke data</li>
     </ul>
   </section>
@@ -138,8 +192,8 @@ Repair-VirtualDisk -FriendlyName "VD01"
   <section>
     <h2>🧾 Conclusie</h2>
     <p>
-      Storage Spaces biedt flexibele en schaalbare opslagoplossingen binnen Windows Server, inclusief redundantie en failover-opties.  
-      Door storage pools, virtual disks en volumes correct te configureren en te monitoren, kan je zowel performance als beschikbaarheid optimaliseren.
+      Storage Spaces biedt flexibele, schaalbare en redundante opslag.  
+      Correcte configuratie van pools, virtual disks en volumes optimaliseert zowel performance als beschikbaarheid.
     </p>
   </section>
 </section>

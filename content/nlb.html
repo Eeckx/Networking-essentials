@@ -4,185 +4,177 @@
   <section>
     <h2>🎯 Doelstelling</h2>
     <p>
-      In deze handleiding leer je hoe je <strong>Network Load Balancing (NLB)</strong> configureert in Windows Server.
-      NLB verdeelt inkomend verkeer over meerdere servers binnen een cluster, waardoor <strong>betrouwbaarheid, prestaties en beschikbaarheid</strong> toenemen.
-      Dit is ideaal voor services zoals <strong>IIS webservers, RDS Web Access, VPN’s, of applicatieservers</strong>.
+      Configureer <strong>NLB</strong> in Windows Server om inkomend verkeer over meerdere servers te verdelen voor hogere betrouwbaarheid, prestaties en beschikbaarheid.
     </p>
   </section>
 
-  <section>
-    <h2>🧰 Voorwaarden</h2>
-    <ul>
-      <li>Minimaal 2 Windows Servers (bij voorkeur identiek geconfigureerd)</li>
-      <li>Servers zijn lid van hetzelfde domein (optioneel maar aanbevolen)</li>
-      <li>Elke node heeft:
-        <ul>
-          <li>Een statisch IP-adres</li>
-          <li>Een tweede virtueel IP-adres voor het NLB-cluster</li>
-        </ul>
-      </li>
-      <li>Firewallregels aangepast (NLB gebruikt poort 2504/UDP voor clusterbeheer)</li>
-      <li>Indien virtueel (bijv. in Hyper-V): controleer NIC-instellingen voor compatibiliteit (MAC spoofing toegestaan)</li>
-    </ul>
-  </section>
+  <section class="infra-flex">
+    <h2>🧰 Installatie NLB-functie</h2>
+    <div class="infra-flex-row header">
+      <div>Stap</div>
+      <div>Beschrijving</div>
+    </div>
 
-  <section>
-    <h2>⚙️ Installatie van de NLB-functie</h2>
-    <ol>
-      <li>Open <strong>Server Manager → Add Roles and Features</strong>.</li>
-      <li>Kies <strong>Role-based or feature-based installation</strong>.</li>
-      <li>Onder <strong>Features</strong> selecteer:
-        <ul>
-          <li><strong>Network Load Balancing</strong></li>
-        </ul>
-      </li>
-      <li>Klik op <strong>Install</strong>.</li>
-      <li>PowerShell alternatief:
+    <div class="infra-flex-row">
+      <div data-label="Stap">1</div>
+      <div data-label="Beschrijving">Server Manager → Add Roles and Features → Features → Network Load Balancing → Install.</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Stap">2</div>
+      <div data-label="Beschrijving">PowerShell alternatief:
         <pre><code class="language-powershell">
 Install-WindowsFeature NLB -IncludeManagementTools
         </code></pre>
-      </li>
-    </ol>
+      </div>
+    </div>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>🏗️ NLB Cluster aanmaken</h2>
-    <h3>Stap 1 – Start de NLB Manager</h3>
-    <ul>
-      <li>Open <strong>Server Manager → Tools → Network Load Balancing Manager</strong>.</li>
-      <li>Klik op <strong>Cluster → New</strong> om een nieuw cluster aan te maken.</li>
-    </ul>
+    <div class="infra-flex-row header">
+      <div>Stap</div>
+      <div>Beschrijving</div>
+    </div>
 
-    <h3>Stap 2 – Voeg de eerste host toe</h3>
-    <ol>
-      <li>Voer de hostnaam of het IP-adres in van de eerste server.</li>
-      <li>Klik <strong>Connect</strong> → selecteer de netwerkinterface die gebruikt wordt voor NLB.</li>
-      <li>Klik op <strong>Next</strong>.</li>
-    </ol>
+    <div class="infra-flex-row">
+      <div data-label="Stap">1</div>
+      <div data-label="Beschrijving">Open NLB Manager → Cluster → New → voeg eerste host toe → selecteer NIC → Next.</div>
+    </div>
 
-    <h3>Stap 3 – Cluster IP-adres instellen</h3>
-    <ol>
-      <li>Klik op <strong>Add</strong> → voer een virtueel IP-adres in dat alle nodes zullen delen, bijv. <code>192.168.10.100</code>.</li>
-      <li>Voer een FQDN in (optioneel) bijv. <code>nlb-web.contoso.com</code>.</li>
-      <li>Klik <strong>Next</strong>.</li>
-    </ol>
+    <div class="infra-flex-row">
+      <div data-label="Stap">2</div>
+      <div data-label="Beschrijving">Cluster IP-adres toevoegen → virtueel IP invullen (bijv. 192.168.10.100) → FQDN optioneel → Next.</div>
+    </div>
 
-    <h3>Stap 4 – Cluster Parameters configureren</h3>
-    <ul>
-      <li><strong>Cluster operation mode:</strong>
-        <ul>
-          <li><strong>Unicast:</strong> meest gebruikt, vereist MAC-spoofing (niet alle NIC’s ondersteunen dit goed)</li>
-          <li><strong>Multicast:</strong> eenvoudiger in virtuele omgevingen, maar vereist vaak routerconfiguratie (IGMP-snooping)</li>
-        </ul>
-      </li>
-      <li>Multicast-modus is aanbevolen voor virtuele labs (zoals Hyper-V).</li>
-      <li>Klik op <strong>Next</strong>.</li>
-    </ul>
+    <div class="infra-flex-row">
+      <div data-label="Stap">3</div>
+      <div data-label="Beschrijving">Cluster Parameters: kies operation mode (Unicast/Multicast) → Next. Multicast aanbevolen voor virtuele labs.</div>
+    </div>
 
-    <h3>Stap 5 – Port Rules configureren</h3>
-    <ul>
-      <li>Standaard wordt alle inkomende TCP/UDP-verkeer verdeeld (poort 0–65535).</li>
-      <li>Voor webservers: beperk tot <strong>TCP 80 en 443</strong>.</li>
-      <li>Klik op <strong>Edit → Specify → Start Port: 80, End Port: 443</strong>.</li>
-      <li>Load Weight: 50 (of aanpasbaar indien ongelijke servers).</li>
-    </ul>
-
-    <h3>Stap 6 – Voltooi de clusterconfiguratie</h3>
-    <ul>
-      <li>Klik <strong>Finish</strong>.</li>
-      <li>De eerste node zal nu als <strong>Converged</strong> verschijnen in de NLB Manager.</li>
-    </ul>
+    <div class="infra-flex-row">
+      <div data-label="Stap">4</div>
+      <div data-label="Beschrijving">Port Rules configureren: standaard TCP/UDP 0-65535 of beperkt tot TCP 80/443 → Load Weight instellen → Finish.</div>
+    </div>
   </section>
 
-  <section>
-    <h2>🔁 Extra nodes toevoegen aan het cluster</h2>
-    <ol>
-      <li>In de NLB Manager: rechtsklik op het cluster → <strong>Add Host To Cluster</strong>.</li>
-      <li>Voer de hostnaam/IP in van de tweede server.</li>
-      <li>Verifieer de netwerkinterface → klik <strong>Next</strong>.</li>
-      <li>Gebruik dezelfde port rules → klik <strong>Finish</strong>.</li>
-      <li>Na enkele minuten zal de status veranderen naar <strong>Converged</strong> (betekent dat beide nodes actief deelnemen).</li>
-    </ol>
+  <section class="infra-flex">
+    <h2>🔁 Extra nodes toevoegen</h2>
+    <div class="infra-flex-row header">
+      <div>Stap</div>
+      <div>Beschrijving</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Stap">1</div>
+      <div data-label="Beschrijving">Cluster → rechtsklik → Add Host To Cluster → tweede server toevoegen → NIC selecteren → Next → Finish → converged status controleren.</div>
+    </div>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>🌐 DNS & Clienttoegang</h2>
-    <ul>
-      <li>Maak een <strong>DNS-record</strong> aan (A-record) voor het cluster-IP, bijv.:
-        <pre><code>nlb-web.contoso.com → 192.168.10.100</code></pre>
-      </li>
-      <li>Clients verbinden voortaan via deze DNS-naam, niet naar de individuele servers.</li>
-      <li>De NLB-service verdeelt vervolgens automatisch het verkeer op basis van de ingestelde regels.</li>
-    </ul>
+    <div class="infra-flex-row header">
+      <div>Stap</div>
+      <div>Beschrijving</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Stap">1</div>
+      <div data-label="Beschrijving">Maak een DNS A-record voor cluster-IP (bijv. nlb-web.contoso.com → 192.168.10.100).</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Stap">2</div>
+      <div data-label="Beschrijving">Clients verbinden via DNS-naam; NLB verdeelt verkeer automatisch.</div>
+    </div>
   </section>
 
-  <section>
-    <h2>🧠 Test en validatie</h2>
-    <ol>
-      <li>Open op een client een browser en navigeer naar <code>http://nlb-web.contoso.com</code>.</li>
-      <li>Ververs de pagina herhaaldelijk of gebruik:
+  <section class="infra-flex">
+    <h2>🧠 Test & validatie</h2>
+    <div class="infra-flex-row header">
+      <div>Stap</div>
+      <div>Beschrijving</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Stap">1</div>
+      <div data-label="Beschrijving">Open browser client → http://nlb-web.contoso.com, refresh pagina of:
         <pre><code class="language-powershell">
 Test-NetConnection nlb-web.contoso.com -Port 80
         </code></pre>
-      </li>
-      <li>Controleer op elke server in <strong>IIS logs</strong> of requests worden verdeeld.</li>
-      <li>Stop tijdelijk de IIS-service op één node:
+      </div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Stap">2</div>
+      <div data-label="Beschrijving">Controleer IIS logs op beide nodes voor load balancing.</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Stap">3</div>
+      <div data-label="Beschrijving">Stop tijdelijk IIS op één node:
         <pre><code class="language-powershell">
 Stop-Service W3SVC
         </code></pre>
-        De andere server zou onmiddellijk het verkeer moeten overnemen.
-      </li>
-    </ol>
+        Verkeer moet automatisch door andere node worden afgehandeld.
+      </div>
+    </div>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>📊 Monitoring & beheer</h2>
-    <ul>
-      <li>Gebruik de <strong>NLB Manager</strong> om status van nodes te controleren.</li>
-      <li>PowerShell-opdrachten:
-        <pre><code class="language-powershell">
-Get-NlbCluster
-Get-NlbClusterNode
-Get-NlbClusterPortRule
-        </code></pre>
-      </li>
-      <li>Controleer Event Viewer:
-        <ul>
-          <li><strong>Applications and Services Logs → Microsoft → Windows → NLB</strong></li>
-        </ul>
-      </li>
-      <li>Gebruik <strong>Performance Monitor</strong> om CPU/geheugengebruik te analyseren per node.</li>
-    </ul>
+    <div class="infra-flex-row header">
+      <div>Stap</div>
+      <div>Beschrijving</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Stap">1</div>
+      <div data-label="Beschrijving">NLB Manager gebruiken om status nodes te controleren.</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Stap">2</div>
+      <div data-label="Beschrijving">PowerShell: Get-NlbCluster / Get-NlbClusterNode / Get-NlbClusterPortRule</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Stap">3</div>
+      <div data-label="Beschrijving">Event Viewer: Applications and Services Logs → Microsoft → Windows → NLB</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Stap">4</div>
+      <div data-label="Beschrijving">Performance Monitor gebruiken voor CPU/geheugen per node.</div>
+    </div>
   </section>
 
   <section>
     <h2>🔒 Best Practices</h2>
     <ul>
-      <li>Gebruik <strong>dedicated NIC’s</strong> voor NLB-verkeer en managementverkeer.</li>
-      <li>Gebruik <strong>Multicast-modus</strong> bij virtuele omgevingen (Hyper-V/VMware).</li>
-      <li>Configureer routers/switches correct voor multicast (IGMP-snooping inschakelen).</li>
-      <li>Gebruik <strong>HTTPS (poort 443)</strong> met een geldig certificaat bij webapplicaties.</li>
-      <li>Controleer regelmatig clusterconvergentie bij wijzigingen in IP of DNS.</li>
-      <li>Gebruik <strong>statistische load weights</strong> als servers verschillende capaciteiten hebben.</li>
+      <li>Dedicated NIC’s voor NLB en managementverkeer.</li>
+      <li>Multicast modus bij virtuele omgevingen.</li>
+      <li>Router/switch correct configureren voor multicast (IGMP-snooping).</li>
+      <li>HTTPS met geldig certificaat voor webapplicaties.</li>
+      <li>Regelmatig clusterconvergentie controleren.</li>
+      <li>Statistische load weights instellen bij ongelijke servercapaciteiten.</li>
     </ul>
   </section>
 
   <section>
     <h2>⚠️ Veelvoorkomende problemen</h2>
     <ul>
-      <li><strong>Cluster blijft in converging state:</strong> Controleer poort 2504 (UDP) en NIC-bindingen.</li>
-      <li><strong>Clients bereiken het cluster niet:</strong> Controleer firewall en ARP-caching (vooral bij unicast).</li>
-      <li><strong>Onregelmatige verdeling:</strong> Herzie port rules of gebruik “Single Affinity” bij sessiegebonden applicaties.</li>
-      <li><strong>Virtuele omgeving:</strong> Zet “MAC Address Spoofing” aan voor NLB NIC’s.</li>
+      <li>Cluster blijft converging: controleer UDP 2504 en NIC-bindingen.</li>
+      <li>Clients bereiken cluster niet: firewall en ARP-caching controleren.</li>
+      <li>Onregelmatige verdeling: herzie port rules of gebruik Single Affinity.</li>
+      <li>Virtuele omgeving: MAC Address Spoofing aanzetten voor NLB NIC’s.</li>
     </ul>
   </section>
 
   <section>
     <h2>🧾 Conclusie</h2>
     <p>
-      Met Network Load Balancing vergroot je de <strong>betrouwbaarheid, prestaties en schaalbaarheid</strong> van netwerkservices.
-      Het is eenvoudig te implementeren, integreert naadloos met IIS en RDS, en vormt een essentieel onderdeel van
-      een robuuste, redundante infrastructuur.
+      NLB verhoogt betrouwbaarheid, prestaties en schaalbaarheid van netwerkservices. Het integreert naadloos met IIS en RDS en vormt een cruciaal onderdeel van een robuuste infrastructuur.
     </p>
   </section>
 </section>

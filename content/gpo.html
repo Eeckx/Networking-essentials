@@ -4,158 +4,192 @@
   <section>
     <h2>🎯 Doelstelling</h2>
     <p>
-      Deze handleiding leert hoe je <strong>Group Policy Objects (GPO’s)</strong> installeert, configureert en beheert in een Windows Server-omgeving.
-      GPO’s bieden centraal beheer van beveiligingsinstellingen, software deployment, desktopconfiguraties en gebruikersrechten in een Active Directory domein.
+      Beheer Group Policy Objects (GPO’s) in een Windows Server-omgeving voor centrale controle van beveiligingsinstellingen,
+      software deployment, desktopconfiguraties en gebruikersrechten.
     </p>
   </section>
 
-  <section>
-    <h2>🧰 Voorwaarden</h2>
-    <ul>
-      <li>Windows Server 2019, 2022 of nieuwer</li>
-      <li>Active Directory Domain Services (AD DS) geïnstalleerd</li>
-      <li>Administrator rechten op de Domain Controller</li>
-      <li>Basiskennis van OU’s (Organizational Units) en domeinstructuur</li>
-    </ul>
+  <section class="infra-flex">
+    <h2>🧰 Installatie GPMC</h2>
+    <div class="infra-flex-row header">
+      <div>Actie</div>
+      <div>PowerShell / Opmerkingen</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Installeer Group Policy Management feature</div>
+      <div data-label="PowerShell / Opmerkingen"><code>Install-WindowsFeature GPMC</code></div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Open GPMC</div>
+      <div data-label="PowerShell / Opmerkingen">Server Manager → Tools → Group Policy Management</div>
+    </div>
   </section>
 
-  <section>
-    <h2>⚙️ Installatie van Group Policy Management Console (GPMC)</h2>
-    <ul>
-      <li>Open Server Manager → Add Roles and Features → Features → <strong>Group Policy Management</strong>.</li>
-      <li>PowerShell alternatief:
-        <pre><code class="language-powershell">
-Install-WindowsFeature GPMC
-        </code></pre>
-      </li>
-      <li>Na installatie is de <strong>Group Policy Management Console</strong> beschikbaar via Server Manager → Tools → Group Policy Management.</li>
-    </ul>
+  <section class="infra-flex">
+    <h2>🏗️ GPO aanmaken en koppelen</h2>
+    <div class="infra-flex-row header">
+      <div>Stap</div>
+      <div>Beschrijving / PowerShell</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Stap">Nieuwe GPO aanmaken</div>
+      <div data-label="Beschrijving / PowerShell">
+        Rechtsklik op OU of domein → Create a GPO in this domain → Naam (bijv. Security-Baseline)
+      </div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Stap">GPO configureren</div>
+      <div data-label="Beschrijving / PowerShell">Klik Edit → Computer/User Configuration instellen</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Stap">GPO koppelen</div>
+      <div data-label="Beschrijving / PowerShell">Sleep GPO naar OU of gebruik Link an Existing GPO</div>
+    </div>
   </section>
 
-  <section>
-    <h2>🏗️ GPO maken en koppelen</h2>
-    <ol>
-      <li>Open <strong>Group Policy Management Console</strong> (GPMC).</li>
-      <li>Navigeer naar je domein → rechterklik op een OU of het domein zelf → <strong>Create a GPO in this domain</strong>.</li>
-      <li>Geef het GPO een herkenbare naam (bijv. <code>Security-Baseline</code>).</li>
-      <li>Klik op <strong>Edit</strong> om de policy te configureren.</li>
-      <li>Koppel GPO aan een OU door deze te slepen of via <strong>Link an Existing GPO</strong>.</li>
-    </ol>
+  <section class="infra-flex">
+    <h2>⚡ Veelgebruikte GPO-instellingen</h2>
+    <div class="infra-flex-row header">
+      <div>Categorie</div>
+      <div>Voorbeelden</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Categorie">Security Policies</div>
+      <div data-label="Voorbeelden">
+        Password policies, Account Lockout, User Rights Assignment
+      </div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Categorie">Windows Defender & Security</div>
+      <div data-label="Voorbeelden">
+        Real-time bescherming, Controlled Folder Access, Exploit Guard
+      </div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Categorie">Software Deployment</div>
+      <div data-label="Voorbeelden">
+        MSI-installatie via Computer Configuration → Software Settings, interne updates
+      </div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Categorie">Desktop & User Config</div>
+      <div data-label="Voorbeelden">
+        Mapped drives/printers, Start Menu/Taskbar settings, Folder Redirection
+      </div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Categorie">Remote Desktop / RDS</div>
+      <div data-label="Voorbeelden">
+        Session timeouts, reconnection policies, clipboard/drive redirection
+      </div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Categorie">Network & Browsers</div>
+      <div data-label="Voorbeelden">
+        Proxy instellingen, IE/Edge security zones, Wireless network policies
+      </div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Categorie">Auditing & Logging</div>
+      <div data-label="Voorbeelden">
+        Audit logon events, object access, Advanced Security Audit policies
+      </div>
+    </div>
   </section>
 
-  <section>
-    <h2>⚡ Veelgebruikte GPO-instellingen in bedrijven</h2>
-    <ul>
-      <li><strong>Security Policies</strong>:
-        <ul>
-          <li>Password Policies: minimale lengte, complexiteit, verlopen</li>
-          <li>Account Lockout Policies: blokkering na aantal mislukte logins</li>
-          <li>User Rights Assignment: wie mag server beheren, RDP toegang, shutdown rechten</li>
-        </ul>
-      </li>
-      <li><strong>Windows Defender & Security</strong>:
-        <ul>
-          <li>Real-time bescherming inschakelen</li>
-          <li>Controlled Folder Access voor ransomware bescherming</li>
-          <li>Exploit Guard & Attack Surface Reduction rules</li>
-        </ul>
-      </li>
-      <li><strong>Software Deployment</strong>:
-        <ul>
-          <li>MSI-installatie via Computer Configuration → Software Settings</li>
-          <li>Automatische updates voor interne apps</li>
-        </ul>
-      </li>
-      <li><strong>Desktop & User Configuration</strong>:
-        <ul>
-          <li>Mapped drives en printers via Preferences → Drive Maps / Printers</li>
-          <li>Start Menu en Taskbar instellingen</li>
-          <li>Folder redirection: Documents, Desktop naar server shares</li>
-        </ul>
-      </li>
-      <li><strong>Remote Desktop & RDS</strong>:
-        <ul>
-          <li>Session timeouts, reconnection policies</li>
-          <li>Clipboard en drive redirection beperken</li>
-        </ul>
-      </li>
-      <li><strong>Network & Browsers</strong>:
-        <ul>
-          <li>Proxy instellingen</li>
-          <li>Internet Explorer/Edge security zones</li>
-          <li>Wireless network policies</li>
-        </ul>
-      </li>
-      <li><strong>Auditing & Logging</strong>:
-        <ul>
-          <li>Audit account logon events, object access</li>
-          <li>Advanced Security Audit policies</li>
-        </ul>
-      </li>
-    </ul>
+  <section class="infra-flex">
+    <h2>🔧 Configuratie voorbeelden</h2>
+    <div class="infra-flex-row header">
+      <div>Actie</div>
+      <div>PowerShell / GPO pad</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Forceer complexe wachtwoorden</div>
+      <div data-label="PowerShell / GPO pad">
+        <code>Set-ADDefaultDomainPasswordPolicy -Identity "contoso.com" -ComplexityEnabled $true -MinPasswordLength 12</code>
+      </div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Verberg specifieke drives</div>
+      <div data-label="PowerShell / GPO pad">
+        <code>Computer Configuration\Policies\Administrative Templates\Windows Components\File Explorer\Hide these specified drives in My Computer</code>
+      </div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Software deployment</div>
+      <div data-label="PowerShell / GPO pad">
+        <code>Computer Configuration\Policies\Software Settings\Software Installation</code>
+      </div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Folder Redirection</div>
+      <div data-label="PowerShell / GPO pad">
+        <code>User Configuration\Policies\Windows Settings\Folder Redirection\Documents</code>
+      </div>
+    </div>
   </section>
 
-  <section>
-    <h2>🔧 GPO configuratie voorbeelden</h2>
-    <ul>
-      <li>Forceer complexe wachtwoorden:
-        <pre><code class="language-powershell">
-Set-ADDefaultDomainPasswordPolicy -Identity "contoso.com" -ComplexityEnabled $true -MinPasswordLength 12
-        </code></pre>
-      </li>
-      <li>Verberg specifieke drives op desktops via GPO:
-        <pre><code class="language-powershell">
-Computer Configuration\Policies\Administrative Templates\Windows Components\File Explorer\Hide these specified drives in My Computer
-        </code></pre>
-      </li>
-      <li>Software deployment (MSI):
-        <pre><code class="language-powershell">
-Computer Configuration\Policies\Software Settings\Software Installation
-        </code></pre>
-      </li>
-      <li>Folder Redirection:
-        <pre><code class="language-powershell">
-User Configuration\Policies\Windows Settings\Folder Redirection\Documents
-        </code></pre>
-      </li>
-    </ul>
-  </section>
-
-  <section>
+  <section class="infra-flex">
     <h2>🧠 Testing en validatie</h2>
-    <ol>
-      <li>Forceer een update van GPO op een client:
-        <pre><code class="language-powershell">
-gpupdate /force
-        </code></pre>
-      </li>
-      <li>Controleer toegepaste policies:
-        <pre><code class="language-powershell">
-gpresult /r
-        </code></pre>
-      </li>
-      <li>Gebruik Event Viewer → System / Security logs om errors of blocked policies te controleren</li>
-      <li>Test policies eerst in een test-OU voordat ze breed uitgerold worden</li>
-    </ol>
+    <div class="infra-flex-row header">
+      <div>Actie</div>
+      <div>PowerShell / Opmerkingen</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Forceer GPO update</div>
+      <div data-label="PowerShell / Opmerkingen"><code>gpupdate /force</code></div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Controleer toegepaste policies</div>
+      <div data-label="PowerShell / Opmerkingen"><code>gpresult /r</code></div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Event Viewer controleren</div>
+      <div data-label="PowerShell / Opmerkingen">System / Security logs op errors of blocked policies</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Test eerst in test-OU</div>
+      <div data-label="PowerShell / Opmerkingen">Voorkomt impact op productieomgeving</div>
+    </div>
   </section>
 
   <section>
     <h2>💡 Best Practices</h2>
     <ul>
-      <li>Houd GPO’s zo georganiseerd en minimaal mogelijk</li>
-      <li>Gebruik beschrijvende namen voor GPO’s (bijv. <code>HR-Workstations-DriveMap</code>)</li>
-      <li>Documenteer wijzigingen en test eerst in een testomgeving</li>
-      <li>Combineer policies met Security Baselines van Microsoft</li>
-      <li>Controleer periodiek of GPO’s correct worden toegepast met gpresult / Event Viewer</li>
-      <li>Gebruik “Loopback processing” voor RDS servers indien nodig</li>
+      <li>Houd GPO’s georganiseerd en minimaal</li>
+      <li>Gebruik beschrijvende namen (bijv. HR-Workstations-DriveMap)</li>
+      <li>Documenteer wijzigingen en test eerst in testomgeving</li>
+      <li>Combineer policies met Microsoft Security Baselines</li>
+      <li>Controleer periodiek met gpresult / Event Viewer</li>
+      <li>Gebruik loopback processing voor RDS indien nodig</li>
     </ul>
   </section>
 
   <section>
     <h2>🧾 Conclusie</h2>
     <p>
-      Group Policy Management is een krachtige manier om centrale controle en standaardisatie te realiseren binnen een Windows-omgeving.
-      Door zorgvuldig beleid te ontwerpen, testen en implementeren kun je zowel security, configuratie als software deployment consistent beheren over alle servers en clients.
+      Group Policy Management biedt centrale controle en standaardisatie binnen een Windows-omgeving. 
+      Goed ontworpen, getest en geïmplementeerd beleid zorgt voor consistente security, configuratie en software deployment over alle servers en clients.
     </p>
   </section>
 </section>

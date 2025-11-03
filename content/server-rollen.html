@@ -1,4 +1,4 @@
-<article>
+<article class="content">
   <h1>Hyper-V Server Rollen en Features Lab</h1>
 
   <section>
@@ -9,34 +9,32 @@
     </p>
   </section>
 
-  <section class="infra-table">
+  <section class="infra-flex">
     <h3>🧩 Benodigde infrastructuur</h3>
-    <table>
-      <thead>
-        <tr>
-          <th>Component</th>
-          <th>Minimumvereisten</th>
-          <th>Aanbevolen</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Hyper-V VM</td>
-          <td>Windows Server 2019/2022, 2 vCPU, 4 GB RAM</td>
-          <td>4 vCPU, 8 GB RAM, 60 GB VHDX</td>
-        </tr>
-        <tr>
-          <td>Netwerk</td>
-          <td>Internal of External switch</td>
-          <td>Internal + External switch voor testnetwerk</td>
-        </tr>
-        <tr>
-          <td>PowerShell</td>
-          <td>Windows PowerShell 5.1+</td>
-          <td>PowerShell 7 of hoger</td>
-        </tr>
-      </tbody>
-    </table>
+
+    <div class="infra-flex-row header">
+      <div>Component</div>
+      <div>Minimumvereisten</div>
+      <div>Aanbevolen</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Component">Hyper-V VM</div>
+      <div data-label="Minimumvereisten">Windows Server 2019/2022, 2 vCPU, 4 GB RAM</div>
+      <div data-label="Aanbevolen">4 vCPU, 8 GB RAM, 60 GB VHDX</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Component">Netwerk</div>
+      <div data-label="Minimumvereisten">Internal of External switch</div>
+      <div data-label="Aanbevolen">Internal + External switch voor testnetwerk</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Component">PowerShell</div>
+      <div data-label="Minimumvereisten">Windows PowerShell 5.1+</div>
+      <div data-label="Aanbevolen">PowerShell 7 of hoger</div>
+    </div>
   </section>
 
   <section>
@@ -45,13 +43,13 @@
     <h3>1. Active Directory Domain Services (AD DS)</h3>
     <ol>
       <li>Open <strong>Server Manager → Add Roles and Features</strong>.</li>
-      <li>Selecteer <strong>Active Directory Domain Services</strong> en installeer de vereiste features.</li>
-      <li>Na installatie: Promoot de server tot een domeincontroller:
+      <li>Selecteer <strong>AD DS</strong> en installeer de vereiste features.</li>
+      <li>Promoot de server tot domeincontroller:
         <ul>
           <li>Nieuw Forest of bestaand domein</li>
           <li>Domeinnaam instellen (bijv. lab.local)</li>
           <li>DNS server automatisch installeren</li>
-          <li>Admin wachtwoord voor Directory Services instellen</li>
+          <li>Admin wachtwoord instellen</li>
         </ul>
       </li>
       <li>PowerShell alternatief:
@@ -76,9 +74,9 @@ Add-DnsServerPrimaryZone -Name "lab.local" -ZoneFile "lab.local.dns"
 
     <h3>3. DHCP Server</h3>
     <ol>
-      <li>Installeer de rol via Server Manager of PowerShell.</li>
-      <li>Configureer een scope met IP-range, subnetmasker, gateway en DNS.</li>
-      <li>Authorize de DHCP server in Active Directory.</li>
+      <li>Installeer via Server Manager of PowerShell.</li>
+      <li>Configureer scope met IP-range, subnetmasker, gateway en DNS.</li>
+      <li>Authorize DHCP in Active Directory.</li>
       <li>PowerShell alternatief:
         <pre><code class="language-powershell">
 Install-WindowsFeature DHCP -IncludeManagementTools
@@ -90,11 +88,11 @@ Add-DhcpServerInDC -DnsName "lab.local" -IPAddress "192.168.10.10"
 
     <h3>4. File Server</h3>
     <ol>
-      <li>Installeer de <strong>File and Storage Services</strong> rol.</li>
+      <li>Installeer <strong>File and Storage Services</strong>.</li>
       <li>Maak een share aan:
         <ul>
           <li>Server Manager → File and Storage Services → Shares → New Share</li>
-          <li>Kies een share type: SMB (standaard)</li>
+          <li>Kies SMB</li>
           <li>Configureer permissies (NTFS + Share)</li>
         </ul>
       </li>
@@ -108,10 +106,10 @@ New-SmbShare -Name "Public" -Path "D:\Shares\Public" -FullAccess "Domain Admins"
 
     <h3>5. IIS Webserver</h3>
     <ol>
-      <li>Installeer <strong>Web Server (IIS)</strong> via Server Manager.</li>
-      <li>Start IIS Manager en configureer een website:
+      <li>Installeer <strong>Web Server (IIS)</strong>.</li>
+      <li>Configureer website via IIS Manager:
         <ul>
-          <li>Fysieke pad naar webcontent</li>
+          <li>Fysiek pad naar webcontent</li>
           <li>Bindings: IP, poort 80/443</li>
         </ul>
       </li>
@@ -125,7 +123,7 @@ New-Website -Name "LabWeb" -Port 80 -PhysicalPath "C:\inetpub\wwwroot"
 
     <h3>6. Print Server</h3>
     <ol>
-      <li>Installeer <strong>Print and Document Services</strong> rol.</li>
+      <li>Installeer <strong>Print and Document Services</strong>.</li>
       <li>Voeg printers toe via Print Management.</li>
       <li>PowerShell alternatief:
         <pre><code class="language-powershell">
@@ -137,7 +135,7 @@ Add-Printer -Name "LabPrinter01" -DriverName "HP Universal" -PortName "IP_192.16
 
     <h3>7. Hyper-V rol op server</h3>
     <ol>
-      <li>Installeer Hyper-V rol via Server Manager of PowerShell.</li>
+      <li>Installeer Hyper-V rol.</li>
       <li>Configureer virtuele switches en opslaglocaties voor VM’s.</li>
       <li>PowerShell alternatief:
         <pre><code class="language-powershell">
@@ -158,34 +156,33 @@ Install-WindowsFeature Hyper-V -IncludeManagementTools -Restart
     </ul>
   </section>
 
-  <section class="infra-table">
+  <section class="infra-flex">
     <h3>📊 Probleemoplossing</h3>
-    <table>
-      <thead>
-        <tr>
-          <th>Probleem</th>
-          <th>Oplossing</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>AD DS installatie mislukt</td>
-          <td>Controleer servernaam, DNS configuratie en netwerkconnectiviteit</td>
-        </tr>
-        <tr>
-          <td>DHCP geeft geen IP’s uit</td>
-          <td>Controleer scope, autorisatie in AD, netwerkconnectiviteit</td>
-        </tr>
-        <tr>
-          <td>File share niet bereikbaar</td>
-          <td>Controleer NTFS- en share-permissies, firewall en netwerk</td>
-        </tr>
-        <tr>
-          <td>IIS website laadt niet</td>
-          <td>Controleer bindings, poorten, firewall en website content pad</td>
-        </tr>
-      </tbody>
-    </table>
+
+    <div class="infra-flex-row header">
+      <div>Probleem</div>
+      <div>Oplossing</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Probleem">AD DS installatie mislukt</div>
+      <div data-label="Oplossing">Controleer servernaam, DNS configuratie en netwerkconnectiviteit</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Probleem">DHCP geeft geen IP’s uit</div>
+      <div data-label="Oplossing">Controleer scope, autorisatie in AD, netwerkconnectiviteit</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Probleem">File share niet bereikbaar</div>
+      <div data-label="Oplossing">Controleer NTFS- en share-permissies, firewall en netwerk</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Probleem">IIS website laadt niet</div>
+      <div data-label="Oplossing">Controleer bindings, poorten, firewall en website content pad</div>
+    </div>
   </section>
 
   <section>

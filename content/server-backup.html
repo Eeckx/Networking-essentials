@@ -1,4 +1,4 @@
-<article>
+<article class="content">
   <h1>💾 Windows Server Backup – Lab & Configuratie</h1>
 
   <section>
@@ -21,42 +21,43 @@
     </ul>
   </section>
 
-  <section class="infra-table">
+  <section class="infra-flex">
     <h2>⚙️ Configuratie Stappen</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>Stap</th>
-          <th>Beschrijving</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Installatie</td>
-          <td>Server Manager → Add Roles and Features → Windows Server Backup installeren.</td>
-        </tr>
-        <tr>
-          <td>Back-up Wizard</td>
-          <td>Start de Windows Server Backup console → Local Backup → Backup Once of Backup Schedule.</td>
-        </tr>
-        <tr>
-          <td>Back-up Type</td>
-          <td>Kies Full Server, System State of Custom backups afhankelijk van wat beschermd moet worden.</td>
-        </tr>
-        <tr>
-          <td>Opslaglocatie</td>
-          <td>Lokale disk, externe drive of netwerkshare instellen als back-up bestemming. Zorg dat er voldoende ruimte is.</td>
-        </tr>
-        <tr>
-          <td>Schema</td>
-          <td>Dagelijks, wekelijks of aangepast schema configureren. Vermijd piekuren indien mogelijk.</td>
-        </tr>
-        <tr>
-          <td>Bevestiging</td>
-          <td>Controleer instellingen en activeer de back-up job. Test indien mogelijk de eerste back-up direct.</td>
-        </tr>
-      </tbody>
-    </table>
+
+    <div class="infra-flex-row header">
+      <div>Stap</div>
+      <div>Beschrijving</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Stap">Installatie</div>
+      <div data-label="Beschrijving">Server Manager → Add Roles and Features → Windows Server Backup installeren.</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Stap">Back-up Wizard</div>
+      <div data-label="Beschrijving">Start de Windows Server Backup console → Local Backup → Backup Once of Backup Schedule.</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Stap">Back-up Type</div>
+      <div data-label="Beschrijving">Kies Full Server, System State of Custom backups afhankelijk van wat beschermd moet worden.</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Stap">Opslaglocatie</div>
+      <div data-label="Beschrijving">Lokale disk, externe drive of netwerkshare instellen als back-up bestemming. Zorg dat er voldoende ruimte is.</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Stap">Schema</div>
+      <div data-label="Beschrijving">Dagelijks, wekelijks of aangepast schema configureren. Vermijd piekuren indien mogelijk.</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Stap">Bevestiging</div>
+      <div data-label="Beschrijving">Controleer instellingen en activeer de back-up job. Test de eerste back-up direct indien mogelijk.</div>
+    </div>
   </section>
 
   <section>
@@ -99,34 +100,33 @@ Get-WBBackupSet | Format-Table -Property Name, Status, CreationTime
     </ul>
   </section>
 
-  <section class="infra-table">
+  <section class="infra-flex">
     <h2>📊 Probleemoplossing</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>Probleem</th>
-          <th>Mogelijke oplossing</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Back-up mislukt</td>
-          <td>Controleer event logs, vrije schijfruimte, netwerkconnectiviteit en permissies op de back-up locatie.</td>
-        </tr>
-        <tr>
-          <td>Back-up duurt te lang</td>
-          <td>Gebruik incremental backups, snellere opslagmedia, of plan back-ups buiten piekuren.</td>
-        </tr>
-        <tr>
-          <td>Geen toegang tot back-up locatie</td>
-          <td>Controleer netwerkshares, permissies en of de storage bereikbaar is.</td>
-        </tr>
-        <tr>
-          <td>Herstel mislukt</td>
-          <td>Controleer integriteit van back-up en test herstelprocedures. Herstel naar een testomgeving indien nodig.</td>
-        </tr>
-      </tbody>
-    </table>
+
+    <div class="infra-flex-row header">
+      <div>Probleem</div>
+      <div>Mogelijke oplossing</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Probleem">Back-up mislukt</div>
+      <div data-label="Mogelijke oplossing">Controleer event logs, vrije schijfruimte, netwerkconnectiviteit en permissies op de back-up locatie.</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Probleem">Back-up duurt te lang</div>
+      <div data-label="Mogelijke oplossing">Gebruik incremental backups, snellere opslagmedia, of plan back-ups buiten piekuren.</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Probleem">Geen toegang tot back-up locatie</div>
+      <div data-label="Mogelijke oplossing">Controleer netwerkshares, permissies en of de storage bereikbaar is.</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Probleem">Herstel mislukt</div>
+      <div data-label="Mogelijke oplossing">Controleer integriteit van back-up en test herstelprocedures. Herstel naar een testomgeving indien nodig.</div>
+    </div>
   </section>
 
   <section>
@@ -136,5 +136,4 @@ Get-WBBackupSet | Format-Table -Property Name, Status, CreationTime
       Door best practices, monitoring en regelmatige tests te combineren, kunnen servers optimale beschikbaarheid en dataintegriteit garanderen.
     </p>
   </section>
-
 </article>

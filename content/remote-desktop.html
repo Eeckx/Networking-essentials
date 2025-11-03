@@ -1,4 +1,4 @@
-<article>
+<article class="content">
   <h1>Hyper-V Remote Desktop Services (RDS) Lab</h1>
 
   <section>
@@ -6,43 +6,42 @@
     <p>
       Dit lab leert je hoe je een volledige Remote Desktop Services (RDS)-omgeving opzet en beheert binnen een Hyper-V infrastructuur.
       Je leert stap voor stap de RDS-rollen installeren, configureren, gebruikerssessies beheren, RDS licensing instellen en beveiliging toepassen via SSL en policies.
-      Daarnaast ontdek je de uitbreidingsmogelijkheden zoals Web Access, RemoteApp publicatie en Gateway-toegang voor externe gebruikers.
+      Daarnaast ontdek je uitbreidingen zoals Web Access, RemoteApp publicatie en Gateway-toegang voor externe gebruikers.
     </p>
   </section>
 
-  <section class="infra-table">
+  <section class="infra-flex">
     <h3>🧩 Benodigde infrastructuur</h3>
-    <table>
-      <thead>
-        <tr>
-          <th>Component</th>
-          <th>Minimumvereisten</th>
-          <th>Aanbevolen</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Host OS</td>
-          <td>Windows Server 2019 of 2022</td>
-          <td>Windows Server 2022 Datacenter</td>
-        </tr>
-        <tr>
-          <td>VM-configuratie</td>
-          <td>2 vCPU, 4 GB RAM, 40 GB HDD</td>
-          <td>4 vCPU, 8 GB RAM, 60 GB SSD</td>
-        </tr>
-        <tr>
-          <td>Rollen</td>
-          <td>Session Host, Licensing</td>
-          <td>Session Host, Connection Broker, Web Access, Gateway</td>
-        </tr>
-        <tr>
-          <td>Netwerk</td>
-          <td>Internal switch</td>
-          <td>Internal + External switch voor remote toegang</td>
-        </tr>
-      </tbody>
-    </table>
+
+    <div class="infra-flex-row header">
+      <div>Component</div>
+      <div>Minimumvereisten</div>
+      <div>Aanbevolen</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Component">Host OS</div>
+      <div data-label="Minimumvereisten">Windows Server 2019 of 2022</div>
+      <div data-label="Aanbevolen">Windows Server 2022 Datacenter</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Component">VM-configuratie</div>
+      <div data-label="Minimumvereisten">2 vCPU, 4 GB RAM, 40 GB HDD</div>
+      <div data-label="Aanbevolen">4 vCPU, 8 GB RAM, 60 GB SSD</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Component">Rollen</div>
+      <div data-label="Minimumvereisten">Session Host, Licensing</div>
+      <div data-label="Aanbevolen">Session Host, Connection Broker, Web Access, Gateway</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Component">Netwerk</div>
+      <div data-label="Minimumvereisten">Internal switch</div>
+      <div data-label="Aanbevolen">Internal + External switch voor remote toegang</div>
+    </div>
   </section>
 
   <section>
@@ -53,27 +52,20 @@
       <li>Controleer dat de server lid is van het domein (<code>lab.local</code>).</li>
       <li>Controleer DNS-resolutie en netwerkconnectiviteit.</li>
       <li>Maak eventueel een aparte OU in AD voor RDS-servers.</li>
-      <li>Voeg de gebruikers toe die toegang mogen krijgen (bijv. <code>LabUsers</code> groep).</li>
+      <li>Voeg gebruikers toe die toegang mogen krijgen (bijv. <code>LabUsers</code> groep).</li>
     </ul>
 
     <h3>Stap 2 – Installatie van RDS-rollen</h3>
     <ol>
       <li>Open <strong>Server Manager → Add Roles and Features</strong>.</li>
-      <li>Kies <strong>Remote Desktop Services installation</strong> in plaats van de standaard “Role-based” installatie.</li>
+      <li>Kies <strong>Remote Desktop Services installation</strong> i.p.v. Role-based installatie.</li>
       <li>Kies implementatietype:
         <ul>
           <li><strong>Standard deployment:</strong> Voor productie, meerdere servers mogelijk</li>
-          <li><strong>Quick Start:</strong> Alles op één server (ideaal voor lab)</li>
+          <li><strong>Quick Start:</strong> Alles op één server (lab)</li>
         </ul>
       </li>
-      <li>Vink volgende rollen aan:
-        <ul>
-          <li>Remote Desktop Session Host (RDSH)</li>
-          <li>Remote Desktop Licensing</li>
-          <li>Remote Desktop Connection Broker</li>
-          <li>Remote Desktop Web Access</li>
-        </ul>
-      </li>
+      <li>Vink volgende rollen aan: RDSH, Licensing, Connection Broker, Web Access</li>
       <li>Herstart de server na installatie.</li>
       <li>PowerShell alternatief:
         <pre><code class="language-powershell">
@@ -84,25 +76,19 @@ Install-WindowsFeature RDS-RD-Server, RDS-Licensing, RDS-Connection-Broker, RDS-
 
     <h3>Stap 3 – RDS-beheer en Collections aanmaken</h3>
     <ol>
-      <li>Open <strong>Server Manager → Remote Desktop Services → Collections → Create Session Collection</strong>.</li>
+      <li>Server Manager → RDS → Collections → Create Session Collection</li>
       <li>Geef de collection een naam (bijv. <strong>RDS-Lab-Users</strong>).</li>
       <li>Selecteer de RDSH-server(s) die deel uitmaken van de collection.</li>
-      <li>Wijs gebruikers of groepen toe die mogen inloggen (bijv. <code>LabUsers</code>).</li>
-      <li>Kies een pad voor gebruikersprofielen (optioneel):
+      <li>Wijs gebruikers of groepen toe (bijv. <code>LabUsers</code>).</li>
+      <li>Kies pad voor gebruikersprofielen (optioneel):
         <pre><code>\\FILE01\Profiles\%USERNAME%</code></pre>
       </li>
     </ol>
 
     <h3>Stap 4 – RDS Licensing configureren</h3>
     <ul>
-      <li>Open <strong>Server Manager → Remote Desktop Licensing Manager</strong>.</li>
-      <li>Activeer de licentie-server via <strong>Activate Server</strong>.</li>
-      <li>Kies licentietype:
-        <ul>
-          <li><strong>Per Device</strong> – elke client-PC krijgt een CAL</li>
-          <li><strong>Per User</strong> – gebruikers kunnen van meerdere apparaten inloggen</li>
-        </ul>
-      </li>
+      <li>Server Manager → Remote Desktop Licensing Manager → Activate Server</li>
+      <li>Kies licentietype: Per Device of Per User</li>
       <li>Voeg licentiesleutels toe indien beschikbaar.</li>
       <li>PowerShell alternatief:
         <pre><code class="language-powershell">
@@ -113,114 +99,91 @@ Set-RDLicenseConfiguration -LicenseServer "RDS01.lab.local" -Mode PerUser
 
     <h3>Stap 5 – Beveiliging en certificaten</h3>
     <ul>
-      <li>Gebruik een SSL-certificaat voor de RDS Web Access en Gateway componenten.</li>
-      <li>In de RDS Deployment Properties → Certificates:
-        <ul>
-          <li>Importeer een domein- of zelfondertekend certificaat (.pfx).</li>
-          <li>Koppel dit aan alle RDS-componenten (Broker, Web Access, Gateway).</li>
-        </ul>
-      </li>
+      <li>SSL-certificaat voor RDS Web Access en Gateway componenten.</li>
+      <li>RDS Deployment Properties → Certificates: importeer certificaat (.pfx) en koppel aan alle RDS-componenten.</li>
       <li>PowerShell voorbeeld voor zelfondertekend certificaat:
         <pre><code class="language-powershell">
 New-SelfSignedCertificate -DnsName "rds.lab.local" -CertStoreLocation "Cert:\LocalMachine\My"
         </code></pre>
       </li>
-      <li>Gebruik Group Policy om beveiligingsinstellingen te versterken:
-        <ul>
-          <li>Forceer NLA (Network Level Authentication)</li>
-          <li>Limiteer sessietijd of idle timeout</li>
-          <li>Sta alleen RDP via TLS 1.2 toe</li>
-        </ul>
-      </li>
+      <li>Gebruik Group Policy voor NLA, sessietijden, TLS 1.2-only RDP.</li>
     </ul>
 
     <h3>Stap 6 – Web Access configureren</h3>
     <ul>
-      <li>Open browser → navigeer naar <code>https://rds.lab.local/RDWeb</code>.</li>
-      <li>Login met een gebruiker uit de <code>LabUsers</code> groep.</li>
-      <li>Controleer dat gepubliceerde apps of desktop beschikbaar zijn.</li>
-      <li>Je kunt via Server Manager → RemoteApp Programs → Publish RemoteApp Programs specifieke apps publiceren (bijv. Notepad, Word, MMC).</li>
+      <li>Browser: <code>https://rds.lab.local/RDWeb</code>, login met <code>LabUsers</code>.</li>
+      <li>Controleer gepubliceerde apps of desktops.</li>
+      <li>Server Manager → RemoteApp Programs → Publish RemoteApp Programs (bijv. Notepad).</li>
     </ul>
 
     <h3>Stap 7 – Gateway instellen (optioneel)</h3>
     <ul>
-      <li>Installeer de <strong>Remote Desktop Gateway</strong> rol:
-        <pre><code class="language-powershell">
-Install-WindowsFeature RDS-Gateway -IncludeManagementTools
-        </code></pre>
-      </li>
-      <li>Gebruik RD Gateway Manager om policies te configureren:
-        <ul>
-          <li>Maak een <strong>Connection Authorization Policy (CAP)</strong> – wie mag verbinden</li>
-          <li>Maak een <strong>Resource Authorization Policy (RAP)</strong> – welke interne servers bereikbaar zijn</li>
-        </ul>
-      </li>
-      <li>Gebruik een geldig SSL-certificaat voor externe toegang via poort 443.</li>
+      <li>Install-WindowsFeature RDS-Gateway -IncludeManagementTools</li>
+      <li>Configureer CAP en RAP via RD Gateway Manager</li>
+      <li>Gebruik geldig SSL-certificaat voor poort 443</li>
     </ul>
 
     <h3>Stap 8 – Load balancing en schaalbaarheid</h3>
     <ul>
-      <li>Met meerdere RDSH-servers kun je sessies verdelen via de Connection Broker.</li>
-      <li>Voeg extra Session Hosts toe via Server Manager → Add RDSH servers to collection.</li>
-      <li>Gebruik DNS round robin of een hardware load balancer voor Web Access en Gateway redundantie.</li>
+      <li>Gebruik Connection Broker om sessies over meerdere RDSH-servers te verdelen.</li>
+      <li>Extra RDSH-servers toevoegen via Server Manager → Add RDSH servers to collection.</li>
+      <li>DNS round robin of hardware load balancer voor Web Access/Gateway redundantie.</li>
     </ul>
 
     <h3>Stap 9 – Testing en validatie</h3>
     <ul>
-      <li>Test RDP-verbinding met MSTSC:
-        <pre><code>mstsc /v:rds.lab.local</code></pre>
-      </li>
-      <li>Controleer sessies via Server Manager → RDS Collections → Sessions.</li>
-      <li>Test RemoteApp via browser of Remote Desktop Client.</li>
-      <li>Valideer licentiegebruik via RD Licensing Manager.</li>
-      <li>Controleer Event Viewer → Applications and Services Logs → Microsoft → Windows → TerminalServices-*</li>
+      <li>Test RDP: <code>mstsc /v:rds.lab.local</code></li>
+      <li>Controleer sessies via Server Manager → RDS Collections → Sessions</li>
+      <li>Test RemoteApp via browser of Remote Desktop Client</li>
+      <li>Valideer licentiegebruik via RD Licensing Manager</li>
+      <li>Controleer Event Viewer → TerminalServices-* logs</li>
     </ul>
   </section>
 
   <section>
     <h2>🔐 Extra mogelijkheden binnen RDS</h2>
     <ul>
-      <li><strong>RemoteApp</strong>: publiceer specifieke applicaties i.p.v. volledige desktop.</li>
-      <li><strong>Personal Session Desktops</strong>: toewijzen van een vaste RDS-host aan een specifieke gebruiker.</li>
-      <li><strong>Profile Disks</strong>: gebruikersprofielen centraal bewaren zodat instellingen behouden blijven tussen sessies.(bijv: FsLogix)</li>
-      <li><strong>RDS Gateway + RD Web</strong>: externe toegang via één beveiligd HTTPS-portaal.</li>
-      <li><strong>GPU acceleration</strong> (indien ondersteund): optimaliseer grafische prestaties voor zware applicaties.</li>
-      <li><strong>Group Policy beheer</strong>: instellen van sessietijden, printer redirectie, schijf-mapping, clipboard-toegang, enz.</li>
+      <li>RemoteApp: publiceer specifieke apps</li>
+      <li>Personal Session Desktops: vaste host per gebruiker</li>
+      <li>Profile Disks: centrale profielen (bijv. FsLogix)</li>
+      <li>RDS Gateway + RD Web: externe toegang via HTTPS</li>
+      <li>GPU acceleration (indien ondersteund)</li>
+      <li>Group Policy beheer voor sessies, printers, schijven, clipboard</li>
     </ul>
   </section>
 
-  <section class="infra-table">
+  <section class="infra-flex">
     <h3>📊 Troubleshooting</h3>
-    <table>
-      <thead>
-        <tr>
-          <th>Probleem</th>
-          <th>Oplossing</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Geen verbinding mogelijk via RDP</td>
-          <td>Controleer firewall, RDP-service, NLA-instellingen en certificaatbinding.</td>
-        </tr>
-        <tr>
-          <td>Licentiewaarschuwing</td>
-          <td>Controleer RD Licensing-configuratie en CAL-status.</td>
-        </tr>
-        <tr>
-          <td>Web Access toont geen apps</td>
-          <td>Controleer RemoteApp-publicatie en gebruikersrechten.</td>
-        </tr>
-        <tr>
-          <td>Externe toegang via Gateway mislukt</td>
-          <td>Controleer SSL-certificaat, CAP/RAP policies, en poort 443 toegankelijkheid.</td>
-        </tr>
-        <tr>
-          <td>Trage sessies of disconnects</td>
-          <td>Controleer netwerkbandbreedte, load balancing en performance counters.</td>
-        </tr>
-      </tbody>
-    </table>
+
+    <div class="infra-flex-row header">
+      <div>Probleem</div>
+      <div>Oplossing</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Probleem">Geen verbinding via RDP</div>
+      <div data-label="Oplossing">Controleer firewall, RDP-service, NLA, certificaatbinding</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Probleem">Licentiewaarschuwing</div>
+      <div data-label="Oplossing">Controleer RD Licensing-configuratie en CAL-status</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Probleem">Web Access toont geen apps</div>
+      <div data-label="Oplossing">Controleer RemoteApp-publicatie en gebruikersrechten</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Probleem">Externe toegang Gateway mislukt</div>
+      <div data-label="Oplossing">Controleer SSL-certificaat, CAP/RAP policies en poort 443</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Probleem">Trage sessies of disconnects</div>
+      <div data-label="Oplossing">Controleer netwerkbandbreedte, load balancing, performance counters</div>
+    </div>
   </section>
 
   <section>
@@ -229,7 +192,7 @@ Install-WindowsFeature RDS-Gateway -IncludeManagementTools
       Na dit lab kun je een complete RDS-omgeving opzetten, configureren en beveiligen binnen Hyper-V. 
       Je begrijpt de rol van Session Hosts, Connection Brokers, Licensing, Web Access en Gateway, 
       en kunt gebruikers veilige, schaalbare en flexibele toegang geven tot desktop- en applicatieomgevingen. 
-      Dit vormt de basis voor geavanceerde VDI (Virtual Desktop Infrastructure) implementaties.
+      Dit vormt de basis voor geavanceerde VDI-implementaties.
     </p>
   </section>
 </article>

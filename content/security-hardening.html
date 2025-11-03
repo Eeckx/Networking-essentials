@@ -4,105 +4,222 @@
   <section>
     <h2>🎯 Doelstelling</h2>
     <p>
-      Dit lab behandelt hoe je Windows Server veilig configureert en beschermt tegen aanvallen en ongeautoriseerde toegang.  
-      We behandelen best practices, tools en strategieën voor een robuuste security hardening.
+      Windows Server veilig configureren en beschermen tegen aanvallen en ongeautoriseerde toegang.  
+      Best practices, tools en strategieën voor robuuste security hardening toepassen.
     </p>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>🧰 Kernconcepten</h2>
-    <ul>
-      <li><strong>Principle of Least Privilege:</strong> gebruikers en processen krijgen alleen de rechten die ze nodig hebben.</li>
-      <li><strong>Defense in Depth:</strong> meerdere lagen van beveiliging, inclusief netwerk, OS, applicaties en gebruikers.</li>
-      <li><strong>Secure Baselines:</strong> vooraf gedefinieerde veilige configuraties van servers.</li>
-      <li><strong>Audit & Monitoring:</strong> continu toezicht op security events en anomalieën.</li>
-      <li><strong>Patch & Update Management:</strong> systemen up-to-date houden om kwetsbaarheden te minimaliseren.</li>
-    </ul>
+    <div class="infra-flex-row header">
+      <div>Concept</div>
+      <div>Beschrijving</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Concept">Principle of Least Privilege</div>
+      <div data-label="Beschrijving">Gebruikers en processen krijgen alleen de rechten die ze nodig hebben</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Concept">Defense in Depth</div>
+      <div data-label="Beschrijving">Meerdere lagen van beveiliging: netwerk, OS, applicaties en gebruikers</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Concept">Secure Baselines</div>
+      <div data-label="Beschrijving">Vooraf gedefinieerde veilige configuraties van servers</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Concept">Audit & Monitoring</div>
+      <div data-label="Beschrijving">Continu toezicht op security events en anomalieën</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Concept">Patch & Update Management</div>
+      <div data-label="Beschrijving">Systemen up-to-date houden om kwetsbaarheden te minimaliseren</div>
+    </div>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>⚙️ Security Hardening Stappen</h2>
-    <ol>
-      <li><strong>Server Role & Feature Minimalisatie:</strong> installeer alleen benodigde roles/features om attack surface te verkleinen.</li>
-      <li><strong>Windows Firewall:</strong> configureer inbound/outbound regels, beperk poorten tot wat noodzakelijk is.</li>
-      <li><strong>User Account Hardening:</strong>
+    <div class="infra-flex-row header">
+      <div>Stap</div>
+      <div>Beschrijving / Voorbeeld</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Stap">Server Role & Feature Minimalisatie</div>
+      <div data-label="Beschrijving">Installeer alleen benodigde roles/features om attack surface te verkleinen</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Stap">Windows Firewall</div>
+      <div data-label="Beschrijving">Configureer inbound/outbound regels, beperk poorten tot wat noodzakelijk is</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Stap">User Account Hardening</div>
+      <div data-label="Beschrijving">
         <ul>
-          <li>Verwijder standaard accounts of wijzig standaardnamen.</li>
-          <li>Gebruik sterke wachtwoorden en MFA waar mogelijk.</li>
-          <li>Voer accounts lockout policies in.</li>
+          <li>Verwijder standaard accounts of wijzig standaardnamen</li>
+          <li>Gebruik sterke wachtwoorden en MFA waar mogelijk</li>
+          <li>Voer accounts lockout policies in</li>
         </ul>
-      </li>
-      <li><strong>Service & Process Hardening:</strong>
+      </div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Stap">Service & Process Hardening</div>
+      <div data-label="Beschrijving">
         <ul>
-          <li>Stop ongebruikte services.</li>
-          <li>Gebruik AppLocker of Windows Defender Application Control (WDAC) voor applicatiebeperkingen.</li>
+          <li>Stop ongebruikte services</li>
+          <li>Gebruik AppLocker of WDAC voor applicatiebeperkingen</li>
         </ul>
-      </li>
-      <li><strong>Group Policy Hardening:</strong>
+      </div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Stap">Group Policy Hardening</div>
+      <div data-label="Beschrijving">
         <ul>
-          <li>Beveilig domain controllers via GPO.</li>
-          <li>Configureer security baselines via Microsoft Security Compliance Toolkit.</li>
-          <li>Harde wachtwoordpolicy, auditpolicy, account lockout en user rights assignments instellen.</li>
+          <li>Beveilig domain controllers via GPO</li>
+          <li>Configureer security baselines via Security Compliance Toolkit</li>
+          <li>Harde wachtwoordpolicy, auditpolicy, account lockout en user rights assignments instellen</li>
         </ul>
-      </li>
-      <li><strong>BitLocker & Disk Encryption:</strong> bescherm gegevens bij diefstal van hardware.</li>
-      <li><strong>Secure Network Configuration:</strong>
+      </div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Stap">BitLocker & Disk Encryption</div>
+      <div data-label="Beschrijving">Bescherm gegevens bij diefstal van hardware</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Stap">Secure Network Configuration</div>
+      <div data-label="Beschrijving">
         <ul>
-          <li>Schakel SMBv1 uit.</li>
-          <li>Gebruik TLS/HTTPS voor alle communicatie.</li>
-          <li>Beperk RDP-toegang via firewall en Network Level Authentication (NLA).</li>
+          <li>Schakel SMBv1 uit</li>
+          <li>Gebruik TLS/HTTPS voor alle communicatie</li>
+          <li>Beperk RDP-toegang via firewall en NLA</li>
         </ul>
-      </li>
-      <li><strong>Anti-Malware:</strong>
+      </div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Stap">Anti-Malware</div>
+      <div data-label="Beschrijving">
         <ul>
-          <li>Windows Defender/ATP inschakelen en real-time protection configureren.</li>
-          <li>Regelmatige malware scans plannen.</li>
+          <li>Windows Defender/ATP inschakelen en real-time protection configureren</li>
+          <li>Regelmatige malware scans plannen</li>
         </ul>
-      </li>
-      <li><strong>Auditing & Logging:</strong>
+      </div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Stap">Auditing & Logging</div>
+      <div data-label="Beschrijving">
         <ul>
-          <li>Activeer en configureer Security Event Logs.</li>
-          <li>Gebruik Windows Event Forwarding of SIEM integratie voor centrale monitoring.</li>
+          <li>Activeer en configureer Security Event Logs</li>
+          <li>Gebruik Event Forwarding of SIEM integratie voor centrale monitoring</li>
         </ul>
-      </li>
-      <li><strong>Patch & Update Management:</strong> hou servers up-to-date via WSUS of SCCM.</li>
-      <li><strong>Backup & Recovery:</strong> configureer regelmatige back-ups en test herstelprocedures.</li>
-    </ol>
+      </div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Stap">Patch & Update Management</div>
+      <div data-label="Beschrijving">Hou servers up-to-date via WSUS of SCCM</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Stap">Backup & Recovery</div>
+      <div data-label="Beschrijving">Configureer regelmatige back-ups en test herstelprocedures</div>
+    </div>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>🔧 Tools & Resources</h2>
-    <ul>
-      <li><strong>Microsoft Security Compliance Toolkit:</strong> downloadbare security baselines.</li>
-      <li><strong>PowerShell:</strong> automatisering van hardening taken:
+    <div class="infra-flex-row header">
+      <div>Tool</div>
+      <div>Gebruik / Opmerking</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Tool">Microsoft Security Compliance Toolkit</div>
+      <div data-label="Gebruik / Opmerking">Downloadbare security baselines</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Tool">PowerShell</div>
+      <div data-label="Gebruik / Opmerking">
+        Automatisering van hardening taken<br>
         <pre><code class="language-powershell">
-# Voorbeeld: SMBv1 uitschakelen
+# SMBv1 uitschakelen
 Set-SmbServerConfiguration -EnableSMB1Protocol $false -Force
         </code></pre>
-      </li>
-      <li><strong>Windows Defender / ATP:</strong> anti-malware bescherming en exploit guard.</li>
-      <li><strong>AppLocker / WDAC:</strong> restricties op applicaties en scripts.</li>
-      <li><strong>Event Forwarding / SIEM:</strong> centrale logging en monitoring.</li>
-    </ul>
+      </div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Tool">Windows Defender / ATP</div>
+      <div data-label="Gebruik / Opmerking">Anti-malware bescherming en exploit guard</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Tool">AppLocker / WDAC</div>
+      <div data-label="Gebruik / Opmerking">Restricties op applicaties en scripts</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Tool">Event Forwarding / SIEM</div>
+      <div data-label="Gebruik / Opmerking">Centrale logging en monitoring</div>
+    </div>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>💡 Best Practices</h2>
-    <ul>
-      <li>Gebruik security baselines van Microsoft als uitgangspunt.</li>
-      <li>Implementeer hardening in een testomgeving voordat productie wordt aangepast.</li>
-      <li>Documenteer alle hardening configuraties en GPO-instellingen.</li>
-      <li>Monitor continu en update policies op basis van nieuwe bedreigingen.</li>
-      <li>Beperk administratieve rechten tot minimaal noodzakelijke accounts.</li>
-      <li>Integreer met patch management en monitoring voor defense-in-depth.</li>
-    </ul>
+    <div class="infra-flex-row header">
+      <div>Actie</div>
+      <div>Tip / Opmerking</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Security Baselines</div>
+      <div data-label="Tip / Opmerking">Gebruik Microsoft security baselines als uitgangspunt</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Testomgeving</div>
+      <div data-label="Tip / Opmerking">Implementeer hardening eerst in testomgeving voordat productie wordt aangepast</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Documentatie</div>
+      <div data-label="Tip / Opmerking">Documenteer alle hardening configuraties en GPO-instellingen</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Monitoring</div>
+      <div data-label="Tip / Opmerking">Continu monitoren en policies updaten op basis van nieuwe bedreigingen</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Minimale Admin Rechten</div>
+      <div data-label="Tip / Opmerking">Beperk administratieve rechten tot minimaal noodzakelijke accounts</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Integratie</div>
+      <div data-label="Tip / Opmerking">Integreer met patch management en monitoring voor defense-in-depth</div>
+    </div>
   </section>
 
   <section>
     <h2>🧾 Conclusie</h2>
     <p>
       Security hardening van Windows Server vermindert risico’s, beschermt gevoelige data en ondersteunt compliance.  
-      Door minimale installaties, strikte policies, encryptie, anti-malware, auditing en patchbeheer te combineren, creëer je een robuuste en veilige serveromgeving.
+      Minimaal installaties, strikte policies, encryptie, anti-malware, auditing en patchbeheer samen zorgen voor een robuuste en veilige serveromgeving.
     </p>
   </section>
 </section>

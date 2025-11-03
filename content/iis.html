@@ -1,4 +1,4 @@
-<article>
+<article class="content">
   <h1>Hyper-V IIS Webserver Lab</h1>
 
   <section>
@@ -9,34 +9,32 @@
     </p>
   </section>
 
-  <section class="infra-table">
+  <section class="infra-flex">
     <h3>🧩 Benodigde infrastructuur</h3>
-    <table>
-      <thead>
-        <tr>
-          <th>Component</th>
-          <th>Minimumvereisten</th>
-          <th>Aanbevolen</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Hyper-V VM</td>
-          <td>Windows Server 2019/2022, 2 vCPU, 4 GB RAM, 40 GB VHDX</td>
-          <td>4 vCPU, 8 GB RAM, 60 GB VHDX</td>
-        </tr>
-        <tr>
-          <td>Netwerk</td>
-          <td>Internal of External switch</td>
-          <td>Internal + External switch voor test en internet toegang</td>
-        </tr>
-        <tr>
-          <td>PowerShell</td>
-          <td>Windows PowerShell 5.1+</td>
-          <td>PowerShell 7 of hoger</td>
-        </tr>
-      </tbody>
-    </table>
+
+    <div class="infra-flex-row header">
+      <div>Component</div>
+      <div>Minimumvereisten</div>
+      <div>Aanbevolen</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Component">Hyper-V VM</div>
+      <div data-label="Minimumvereisten">Windows Server 2019/2022, 2 vCPU, 4 GB RAM, 40 GB VHDX</div>
+      <div data-label="Aanbevolen">4 vCPU, 8 GB RAM, 60 GB VHDX</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Component">Netwerk</div>
+      <div data-label="Minimumvereisten">Internal of External switch</div>
+      <div data-label="Aanbevolen">Internal + External switch voor test en internet toegang</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Component">PowerShell</div>
+      <div data-label="Minimumvereisten">Windows PowerShell 5.1+</div>
+      <div data-label="Aanbevolen">PowerShell 7 of hoger</div>
+    </div>
   </section>
 
   <section>
@@ -46,7 +44,7 @@
     <ol>
       <li>Open <strong>Server Manager → Add Roles and Features</strong>.</li>
       <li>Selecteer <strong>Web Server (IIS)</strong> en klik op volgende.</li>
-      <li>Kies de gewenste features, zoals:
+      <li>Kies gewenste features:
         <ul>
           <li>HTTP Features: Static Content, Default Document, HTTP Redirect</li>
           <li>Performance: Dynamic Content Compression</li>
@@ -104,13 +102,13 @@ Test-NetConnection -ComputerName [IP of hostname] -Port 80
     <h3>Stap 5 – HTTPS configuratie (optioneel)</h3>
     <ol>
       <li>Maak of importeer een SSL-certificaat via IIS Manager → Server Certificates.</li>
-      <li>Wijzig de binding van de website naar poort 443 en wijs het certificaat toe: Open IIS Manager → Sites → Selecteer je website → Rechtsklik → Edit Bindings.</li>
+      <li>Wijzig de binding van de website naar poort 443 en wijs het certificaat toe.</li>
       <li>Test HTTPS toegang via browser: <code>https://[IP of hostname]</code></li>
     </ol>
 
     <h3>Stap 6 – Best practices</h3>
     <ul>
-      <li>Plaats websitecontent buiten C:\Windows\System32.</li>
+      <li>Plaats websitecontent buiten <code>C:\Windows\System32</code>.</li>
       <li>Gebruik Windows Authentication of andere beveiliging indien nodig.</li>
       <li>Monitor IIS logs: <code>C:\inetpub\logs\LogFiles</code></li>
       <li>Maak regelmatig back-ups van websiteconfiguraties en content.</li>
@@ -118,34 +116,33 @@ Test-NetConnection -ComputerName [IP of hostname] -Port 80
     </ul>
   </section>
 
-  <section class="infra-table">
+  <section class="infra-flex">
     <h3>📊 Troubleshooting</h3>
-    <table>
-      <thead>
-        <tr>
-          <th>Probleem</th>
-          <th>Oplossing</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Website laadt niet</td>
-          <td>Controleer dat W3SVC draait, bindings correct zijn, en firewall openstaat</td>
-        </tr>
-        <tr>
-          <td>Poort 80/443 bereikbaar maar geen content</td>
-          <td>Controleer physical path en permissies van de map</td>
-        </tr>
-        <tr>
-          <td>HTTPS verbinding mislukt</td>
-          <td>Controleer SSL certificaat, binding en certificaatvertrouwensinstellingen</td>
-        </tr>
-        <tr>
-          <td>Toegang geweigerd voor gebruikers</td>
-          <td>Controleer NTFS- en share-permissies en IIS Authentication settings</td>
-        </tr>
-      </tbody>
-    </table>
+
+    <div class="infra-flex-row header">
+      <div>Probleem</div>
+      <div>Oplossing</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Probleem">Website laadt niet</div>
+      <div data-label="Oplossing">Controleer dat W3SVC draait, bindings correct zijn, en firewall openstaat</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Probleem">Poort 80/443 bereikbaar maar geen content</div>
+      <div data-label="Oplossing">Controleer physical path en permissies van de map</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Probleem">HTTPS verbinding mislukt</div>
+      <div data-label="Oplossing">Controleer SSL certificaat, binding en certificaatvertrouwensinstellingen</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Probleem">Toegang geweigerd voor gebruikers</div>
+      <div data-label="Oplossing">Controleer NTFS- en IIS Authentication instellingen</div>
+    </div>
   </section>
 
   <section>

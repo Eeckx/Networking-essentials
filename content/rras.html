@@ -4,193 +4,191 @@
   <section>
     <h2>🎯 Doelstelling</h2>
     <p>
-      In dit lab leer je hoe je <strong>Routing and Remote Access (RRAS)</strong> installeert en configureert op Windows Server.
-      RRAS maakt het mogelijk om de server te gebruiken als <strong>router, NAT-server of VPN-toegangspunt</strong>.
-      Je leert zowel LAN-routing als VPN-functionaliteit in te stellen voor veilige externe toegang.
+      Leer hoe je <strong>RRAS</strong> installeert en configureert als router, NAT-server of VPN-toegangspunt.
+      Zowel LAN-routing als VPN-functionaliteit komen aan bod voor veilige externe toegang.
     </p>
   </section>
 
   <section>
     <h2>🧰 Voorwaarden</h2>
     <ul>
-      <li>Windows Server 2019, 2022 of nieuwer</li>
-      <li>Minstens 2 netwerkinterfaces:
-        <ul>
-          <li>1 interne interface (LAN)</li>
-          <li>1 externe interface (Internet)</li>
-        </ul>
-      </li>
+      <li>Windows Server 2019/2022 of nieuwer</li>
+      <li>Minstens 2 netwerkinterfaces (1 intern, 1 extern)</li>
       <li>Statisch IP-adres</li>
       <li>Administratorrechten</li>
-      <li>(Optioneel) Active Directory-integratie voor VPN-authenticatie</li>
+      <li>Optioneel: AD-integratie voor VPN-authenticatie</li>
     </ul>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>⚙️ Installatie van RRAS</h2>
-    <ol>
-      <li>Open <strong>Server Manager → Add Roles and Features</strong>.</li>
-      <li>Kies <strong>Role-based or feature-based installation</strong>.</li>
-      <li>Selecteer <strong>Remote Access</strong> → klik <strong>Next</strong>.</li>
-      <li>Onder <strong>Role Services</strong>, vink aan:
-        <ul>
-          <li><strong>DirectAccess and VPN (RAS)</strong></li>
-          <li><strong>Routing</strong></li>
-        </ul>
-      </li>
-      <li>Klik <strong>Install</strong>.</li>
-      <li>PowerShell alternatief:
+
+    <div class="infra-flex-row header">
+      <div>Stap</div>
+      <div>Beschrijving</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Stap">1</div>
+      <div data-label="Beschrijving">Server Manager → Add Roles and Features → Role-based installation → Remote Access.</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Stap">2</div>
+      <div data-label="Beschrijving">Vink Role Services aan: <strong>DirectAccess and VPN (RAS)</strong> + <strong>Routing</strong>.</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Stap">3</div>
+      <div data-label="Beschrijving">Klik <strong>Install</strong>. PowerShell alternatief:
         <pre><code class="language-powershell">
 Install-WindowsFeature -Name RemoteAccess,Routing -IncludeManagementTools
         </code></pre>
-      </li>
-    </ol>
+      </div>
+    </div>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>🚀 Configuratie van RRAS</h2>
-    <h3>Stap 1 – Service configureren</h3>
-    <ol>
-      <li>Open <strong>Server Manager → Tools → Routing and Remote Access</strong>.</li>
-      <li>Rechtsklik op je servernaam → <strong>Configure and Enable Routing and Remote Access</strong>.</li>
-      <li>De wizard verschijnt — kies één van de volgende scenario’s:
-        <ul>
-          <li><strong>Network Address Translation (NAT)</strong> – deel internet via één WAN-interface.</li>
-          <li><strong>VPN access</strong> – laat externe gebruikers inloggen via VPN.</li>
-          <li><strong>Custom Configuration</strong> – voor combinaties zoals LAN routing + VPN.</li>
-        </ul>
-      </li>
-      <li>Kies <strong>Custom Configuration</strong> → selecteer:
-        <ul>
-          <li><strong>VPN access</strong></li>
-          <li><strong>LAN routing</strong></li>
-        </ul>
-      </li>
-      <li>Klik <strong>Finish</strong> → <strong>Start the service</strong>.</li>
-    </ol>
+
+    <div class="infra-flex-row header">
+      <div>Stap</div>
+      <div>Beschrijving</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Stap">1</div>
+      <div data-label="Beschrijving">Server Manager → Tools → Routing and Remote Access → Rechtsklik server → Configure and Enable Routing and Remote Access.</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Stap">2</div>
+      <div data-label="Beschrijving">Kies scenario: <strong>NAT</strong>, <strong>VPN access</strong> of <strong>Custom Configuration</strong>.</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Stap">3</div>
+      <div data-label="Beschrijving">Bij Custom Configuration: selecteer <strong>VPN access</strong> + <strong>LAN routing</strong> → Finish → Start service.</div>
+    </div>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>🌍 NAT-configuratie</h2>
-    <ol>
-      <li>Open in de RRAS-console: <strong>IPv4 → NAT</strong>.</li>
-      <li>Rechtsklik → <strong>New Interface…</strong>.</li>
-      <li>Selecteer je externe (Internet) netwerkinterface → klik <strong>Public interface connected to the Internet</strong>.</li>
-      <li>Vink aan: <strong>Enable NAT on this interface</strong>.</li>
-      <li>Herhaal voor de interne interface, maar kies <strong>Private interface connected to private network</strong>.</li>
-      <li>Clients kunnen nu via DHCP of statisch IP het interne subnet gebruiken met deze server als gateway.</li>
-    </ol>
 
-    <h3>PowerShell alternatief</h3>
-    <pre><code class="language-powershell">
+    <div class="infra-flex-row header">
+      <div>Stap</div>
+      <div>Beschrijving</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Stap">1</div>
+      <div data-label="Beschrijving">RRAS-console → IPv4 → NAT → New Interface voor externe interface → Public interface connected to the Internet → Enable NAT.</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Stap">2</div>
+      <div data-label="Beschrijving">Herhaal voor interne interface → Private interface connected to private network.</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Stap">3</div>
+      <div data-label="Beschrijving">PowerShell alternatief:
+        <pre><code class="language-powershell">
 New-NetNat -Name "LabNAT" -InternalIPInterfaceAddressPrefix "192.168.10.0/24"
-    </code></pre>
-  </section>
-
-  <section>
-    <h2>🔐 VPN-configuratie</h2>
-    <ol>
-      <li>In RRAS-console: rechtsklik op server → <strong>Properties → Security-tab</strong>.</li>
-      <li>Onder <strong>Authentication provider</strong> kies:
-        <ul>
-          <li><strong>Windows Authentication</strong> (voor lokale gebruikers)</li>
-          <li><strong>RADIUS</strong> (voor integratie met NPS/AD)</li>
-        </ul>
-      </li>
-      <li>Onder <strong>IPv4-tab</strong> kies:
-        <ul>
-          <li><strong>Static address pool</strong> (bijv. 192.168.50.10–192.168.50.100)</li>
-          <li>of <strong>DHCP</strong> als er een DHCP-server beschikbaar is.</li>
-        </ul>
-      </li>
-      <li>Open <strong>Ports → Properties</strong> → controleer dat PPTP en L2TP poorten actief zijn.</li>
-    </ol>
-
-    <h3>Firewallpoorten</h3>
-    <ul>
-      <li>PPTP: TCP 1723</li>
-      <li>L2TP/IPsec: UDP 500, UDP 1701, UDP 4500</li>
-      <li>SSTP (via HTTPS): TCP 443</li>
-    </ul>
-  </section>
-
-  <section>
-    <h2>🧾 VPN-protocollen en opties</h2>
-    <ul>
-      <li><strong>PPTP</strong> – eenvoudig, maar minder veilig. Alleen gebruiken in testomgevingen.</li>
-      <li><strong>L2TP/IPsec</strong> – veilige optie met certificaten of pre-shared key.</li>
-      <li><strong>SSTP</strong> – werkt over HTTPS, ideaal voor firewalls/NAT (vereist servercertificaat).</li>
-      <li><strong>IKEv2</strong> – modern protocol met snelle reconnects en sterke beveiliging (vanaf Server 2016).</li>
-    </ul>
-
-    <p>
-      Voor <strong>L2TP/IPsec</strong> en <strong>SSTP</strong> moet je een geldig certificaat installeren op de RRAS-server.
-      Dit kan via <strong>Active Directory Certificate Services</strong> of een publieke CA.
-    </p>
-  </section>
-
-  <section>
-    <h2>👤 VPN-gebruikers configureren</h2>
-    <ol>
-      <li>Open <strong>Active Directory Users and Computers</strong>.</li>
-      <li>Dubbelklik op de gebruiker → tab <strong>Dial-in</strong>.</li>
-      <li>Kies:
-        <ul>
-          <li><strong>Allow access</strong> – directe VPN-toegang</li>
-          <li><strong>Control access through NPS Network Policy</strong> – voor centrale policies</li>
-        </ul>
-      </li>
-      <li>De gebruiker kan nu verbinding maken via Windows:
-        <pre><code>
-Settings → Network & Internet → VPN → Add VPN connection
         </code></pre>
-      </li>
-      <li>Voer servernaam in (bijv. vpn.lab.local) en protocol (PPTP of SSTP).</li>
-    </ol>
+      </div>
+    </div>
   </section>
 
-  <section>
+  <section class="infra-flex">
+    <h2>🔐 VPN-configuratie</h2>
+
+    <div class="infra-flex-row header">
+      <div>Stap</div>
+      <div>Beschrijving</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Stap">1</div>
+      <div data-label="Beschrijving">RRAS-console → Properties → Security → Authentication provider (Windows Authentication of RADIUS).</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Stap">2</div>
+      <div data-label="Beschrijving">IPv4-tab → Static address pool (192.168.50.10–100) of DHCP.</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Stap">3</div>
+      <div data-label="Beschrijving">Ports → Properties → controleer PPTP/L2TP poorten. Firewallpoorten: PPTP 1723, L2TP/IPsec 500/1701/4500, SSTP 443.</div>
+    </div>
+  </section>
+
+  <section class="infra-flex">
+    <h2>👤 VPN-gebruikers configureren</h2>
+
+    <div class="infra-flex-row header">
+      <div>Stap</div>
+      <div>Beschrijving</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Stap">1</div>
+      <div data-label="Beschrijving">AD Users and Computers → gebruiker → tab Dial-in → Allow access of Control access through NPS.</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Stap">2</div>
+      <div data-label="Beschrijving">Client configuratie: Settings → Network & Internet → VPN → Add VPN connection → servernaam + protocol.</div>
+    </div>
+  </section>
+
+  <section class="infra-flex">
     <h2>🧩 LAN-routing (interne netwerken verbinden)</h2>
-    <ol>
-      <li>Open RRAS-console → <strong>IPv4 → Static Routes</strong>.</li>
-      <li>Voeg routes toe naar andere interne netwerken:
+
+    <div class="infra-flex-row header">
+      <div>Stap</div>
+      <div>Beschrijving</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Stap">1</div>
+      <div data-label="Beschrijving">RRAS-console → IPv4 → Static Routes → Voeg route toe:
         <pre><code>
 Destination: 192.168.20.0
 Subnet mask: 255.255.255.0
 Gateway: 192.168.10.1
         </code></pre>
-      </li>
-      <li>Clients kunnen nu communiceren tussen VLANs/subnets via RRAS als router.</li>
-    </ol>
+      </div>
+    </div>
 
-    <h3>PowerShell alternatief</h3>
-    <pre><code class="language-powershell">
+    <div class="infra-flex-row">
+      <div data-label="Stap">2</div>
+      <div data-label="Beschrijving">PowerShell alternatief:
+        <pre><code class="language-powershell">
 New-NetRoute -DestinationPrefix "192.168.20.0/24" -InterfaceAlias "LAN" -NextHop 192.168.10.1
-    </code></pre>
+        </code></pre>
+      </div>
+    </div>
   </section>
 
   <section>
     <h2>📜 Logging en monitoring</h2>
     <ul>
-      <li>Bekijk actieve verbindingen onder <strong>Remote Access Clients</strong>.</li>
-      <li>Controleer logs:
-        <ul>
-          <li><code>%SystemRoot%\System32\LogFiles\</code></li>
-          <li>Event Viewer → Custom Views → Server Roles → Routing and Remote Access</li>
-        </ul>
-      </li>
-      <li>Gebruik <code>Get-RemoteAccessConnectionStatistics</code> voor PowerShell-monitoring.</li>
+      <li>Bekijk actieve verbindingen onder Remote Access Clients.</li>
+      <li>Controleer logs: <code>%SystemRoot%\System32\LogFiles\</code>, Event Viewer → Custom Views → Server Roles → RRAS.</li>
+      <li>PowerShell: <code>Get-RemoteAccessConnectionStatistics</code>.</li>
     </ul>
   </section>
 
   <section>
     <h2>🧠 Best Practices</h2>
     <ul>
-      <li>Gebruik <strong>sterke authenticatie</strong> (MS-CHAPv2, EAP-TLS met certificaten).</li>
-      <li>Gebruik <strong>SSTP</strong> of <strong>IKEv2</strong> voor maximale beveiliging.</li>
-      <li>Segmenteer VPN-verkeer op een apart subnet.</li>
-      <li>Gebruik NPS (Network Policy Server) voor centrale toegangscontrole en accounting.</li>
-      <li>Gebruik logging en monitor actieve verbindingen.</li>
+      <li>Sterke authenticatie (MS-CHAPv2, EAP-TLS).</li>
+      <li>SSTP of IKEv2 voor maximale beveiliging.</li>
+      <li>Segmenteer VPN-verkeer op apart subnet.</li>
+      <li>Gebruik NPS voor centrale toegangscontrole.</li>
+      <li>Logging en monitor actieve verbindingen.</li>
       <li>Overweeg redundantie met meerdere RRAS-servers.</li>
     </ul>
   </section>
@@ -198,10 +196,7 @@ New-NetRoute -DestinationPrefix "192.168.20.0/24" -InterfaceAlias "LAN" -NextHop
   <section>
     <h2>🧾 Conclusie</h2>
     <p>
-      Met RRAS kan een Windows Server dienen als krachtige router of VPN-server.
-      Door LAN-routing, NAT en VPN te combineren, creëer je een veilige, flexibele netwerkverbinding
-      tussen interne netwerken en externe gebruikers.
-      RRAS is een essentieel onderdeel van elke geavanceerde Windows-infrastructuur.
+      Met RRAS kan een Windows Server dienen als router of VPN-server. Door LAN-routing, NAT en VPN te combineren, creëer je veilige en flexibele netwerkverbindingen.
     </p>
   </section>
 </section>

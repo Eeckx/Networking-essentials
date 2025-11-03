@@ -4,121 +4,198 @@
   <section>
     <h2>🎯 Doelstelling</h2>
     <p>
-      Dit lab behandelt methodes om problemen in Windows Server omgevingen systematisch op te lossen, gecombineerd met het opstellen van uitgebreide documentatie voor best practices.  
-      Het doel is om downtime te minimaliseren, kennis te centraliseren en toekomstige problemen sneller op te lossen.
+      Systematisch problemen oplossen in Windows Server omgevingen en uitgebreide documentatie bijhouden.  
+      Minimaliseer downtime, centraliseer kennis en versnelt toekomstige probleemoplossing.
     </p>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>🧰 Kernconcepten</h2>
-    <ul>
-      <li><strong>Systematisch Troubleshooting:</strong> gestructureerde aanpak van problemen om oorzaak snel te identificeren.</li>
-      <li><strong>Best Practices Documentatie:</strong> centrale, actuele richtlijnen en procedures voor configuratie, onderhoud en herstel.</li>
-      <li><strong>Root Cause Analysis (RCA):</strong> achterhalen waarom een probleem zich voordoet om herhaling te voorkomen.</li>
-      <li><strong>Knowledge Base:</strong> interne documentatie van bekende problemen, oplossingen en lessons learned.</li>
-      <li><strong>Monitoring & Logging:</strong> logs en performance metrics gebruiken als basis voor troubleshooting.</li>
-    </ul>
+    <div class="infra-flex-row header">
+      <div>Concept</div>
+      <div>Beschrijving</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Concept">Systematisch Troubleshooting</div>
+      <div data-label="Beschrijving">Gestructureerde aanpak om oorzaak snel te identificeren</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Concept">Best Practices Documentatie</div>
+      <div data-label="Beschrijving">Centrale, actuele richtlijnen voor configuratie, onderhoud en herstel</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Concept">Root Cause Analysis (RCA)</div>
+      <div data-label="Beschrijving">Achterhalen waarom een probleem zich voordoet om herhaling te voorkomen</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Concept">Knowledge Base</div>
+      <div data-label="Beschrijving">Interne documentatie van bekende problemen, oplossingen en lessons learned</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Concept">Monitoring & Logging</div>
+      <div data-label="Beschrijving">Gebruik logs en performance metrics als basis voor troubleshooting</div>
+    </div>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>⚙️ Stappen voor Troubleshooting</h2>
-    <ol>
-      <li><strong>Probleem identificeren:</strong> verzamel symptomen, foutmeldingen, tijdstip en impact.</li>
-      <li><strong>Logs analyseren:</strong> gebruik Event Viewer, PowerShell (Get-EventLog, Get-WinEvent), Performance Monitor.</li>
-      <li><strong>Hypotheses opstellen:</strong> mogelijke oorzaken opsommen en prioriteren.</li>
-      <li><strong>Test & Isolatie:</strong> beperk scope tot componenten (server, netwerk, storage, applicatie).</li>
-      <li><strong>Oplossing implementeren:</strong> voer gefaseerde correctie uit, documenteer wijzigingen.</li>
-      <li><strong>Validatie:</strong> controleer of probleem opgelost is en services correct functioneren.</li>
-      <li><strong>RCA & Lessons Learned:</strong> achterhaal root cause en update documentatie of GPO/beleid indien nodig.</li>
-    </ol>
+    <div class="infra-flex-row">
+      <div data-label="Stap">1. Probleem identificeren</div>
+      <div data-label="Beschrijving">Verzamel symptomen, foutmeldingen, tijdstip en impact</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Stap">2. Logs analyseren</div>
+      <div data-label="Beschrijving">Gebruik Event Viewer, PowerShell, Performance Monitor</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Stap">3. Hypotheses opstellen</div>
+      <div data-label="Beschrijving">Mogelijke oorzaken opsommen en prioriteren</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Stap">4. Test & Isolatie</div>
+      <div data-label="Beschrijving">Beperk scope tot componenten (server, netwerk, storage, applicatie)</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Stap">5. Oplossing implementeren</div>
+      <div data-label="Beschrijving">Gefaseerde correctie uitvoeren en wijzigingen documenteren</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Stap">6. Validatie</div>
+      <div data-label="Beschrijving">Controleer of probleem opgelost is en services correct functioneren</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Stap">7. RCA & Lessons Learned</div>
+      <div data-label="Beschrijving">Root cause achterhalen en documentatie/GPO/beleid bijwerken indien nodig</div>
+    </div>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>🔧 Tools & Methoden</h2>
-    <ul>
-      <li><strong>Event Viewer:</strong> Systeem, Security, Application, Setup, Forwarded Events.</li>
-      <li><strong>Performance Monitor:</strong> analyseer CPU, memory, disk, network bottlenecks.</li>
-      <li><strong>Resource Monitor:</strong> proces-specifieke resourceproblemen identificeren.</li>
-      <li><strong>PowerShell:</strong> automatisering van troubleshooting en log queries:
+    <div class="infra-flex-row">
+      <div data-label="Tool">Event Viewer</div>
+      <div data-label="Beschrijving">Systeem, Security, Application, Setup, Forwarded Events</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Tool">Performance Monitor</div>
+      <div data-label="Beschrijving">Analyseer CPU, memory, disk, network bottlenecks</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Tool">Resource Monitor</div>
+      <div data-label="Beschrijving">Identificeer proces-specifieke resourceproblemen</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Tool">PowerShell</div>
+      <div data-label="Beschrijving">
+        Automatisering van troubleshooting en log queries:<br>
         <pre><code class="language-powershell">
-# Laat foutmeldingen van afgelopen 24u zien
 Get-EventLog -LogName System -EntryType Error -After (Get-Date).AddDays(-1)
         </code></pre>
-      </li>
-      <li><strong>Network Tools:</strong> ping, tracert, netstat, ipconfig, Test-NetConnection voor netwerkproblemen.</li>
-      <li><strong>Application Logs:</strong> IIS logs, SQL Server logs, Hyper-V logs, RDS logs.</li>
-      <li><strong>Third-party Tools:</strong> SCOM, SolarWinds, Nagios voor centrale monitoring en alerting.</li>
-    </ul>
+      </div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Tool">Network Tools</div>
+      <div data-label="Beschrijving">ping, tracert, netstat, ipconfig, Test-NetConnection</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Tool">Application Logs</div>
+      <div data-label="Beschrijving">IIS, SQL Server, Hyper-V, RDS logs</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Tool">Third-party Tools</div>
+      <div data-label="Beschrijving">SCOM, SolarWinds, Nagios voor centrale monitoring en alerting</div>
+    </div>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>📄 Best-practice Documentatie</h2>
-    <ul>
-      <li>Maak template voor documentatie van problemen:
-        <ul>
-          <li>Beschrijving van probleem</li>
-          <li>Datum/tijd en impact</li>
-          <li>Onderzoek & logs</li>
-          <li>Oplossing & implementatie</li>
-          <li>Root Cause Analysis</li>
-          <li>Lessons Learned / Preventieve maatregelen</li>
-        </ul>
-      </li>
-      <li>Documenteer configuraties en policies:
-        <ul>
-          <li>Server roles & features</li>
-          <li>GPO instellingen</li>
-          <li>Storage & networking configuraties</li>
-          <li>Backup & DR procedures</li>
-        </ul>
-      </li>
-      <li>Gebruik centrale kennisbank (SharePoint, Confluence, Wiki) zodat iedereen toegang heeft tot oplossingen.</li>
-      <li>Periodiek review van documentatie om verouderde informatie te verwijderen of aan te passen.</li>
-    </ul>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Probleemdocumentatie Template</div>
+      <div data-label="Beschrijving">
+        Beschrijving probleem, datum/tijd, impact, onderzoek/logs, oplossing, RCA, lessons learned
+      </div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Configuratie & Policy Documentatie</div>
+      <div data-label="Beschrijving">
+        Server roles/features, GPO-instellingen, Storage/Networking, Backup & DR procedures
+      </div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Centrale Kennisbank</div>
+      <div data-label="Beschrijving">SharePoint, Confluence, Wiki voor toegang door team</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Periodieke Review</div>
+      <div data-label="Beschrijving">Verouderde informatie verwijderen of aanpassen</div>
+    </div>
   </section>
 
-  <section>
-    <h2>💡 Voorbeelden van Troubleshooting & Documentatie</h2>
-    <ul>
-      <li><strong>Voorbeeld 1 – Hyper-V VM start niet:</strong>
-        <ul>
-          <li>Symptoom: VM blijft hangen bij starten</li>
-          <li>Logs: Hyper-V-EventID 18506 (VHD/VHDX probleem)</li>
-          <li>Oplossing: VHDX checken, permissies corrigeren, VM opnieuw starten</li>
-          <li>RCA: Onjuiste NTFS permissies op VHDX-bestand</li>
-          <li>Documentatie: update template met foutmelding en oplossing voor toekomstige referentie</li>
-        </ul>
-      </li>
-      <li><strong>Voorbeeld 2 – RDS gebruiker kan niet inloggen:</strong>
-        <ul>
-          <li>Symptoom: login foutmelding “The user profile service failed the logon”</li>
-          <li>Logs: EventID 1500-1515 in Security/Application logs</li>
-          <li>Oplossing: profiel map permissions resetten, eventueel nieuw profiel aanmaken</li>
-          <li>RCA: corrupt profiel door onvoldoende quota of antivirus blokkade</li>
-          <li>Documentatie: noteer oorzaak en stappen in kennisbank</li>
-        </ul>
-      </li>
-    </ul>
+  <section class="infra-flex">
+    <h2>💡 Voorbeelden</h2>
+    <div class="infra-flex-row">
+      <div data-label="Voorbeeld">Hyper-V VM start niet</div>
+      <div data-label="Beschrijving">
+        Symptoom: VM blijft hangen bij starten<br>
+        Logs: Hyper-V EventID 18506<br>
+        Oplossing: VHDX checken, permissies corrigeren, VM herstarten<br>
+        RCA: Onjuiste NTFS permissies<br>
+        Documentatie: template updaten voor toekomstige referentie
+      </div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Voorbeeld">RDS gebruiker kan niet inloggen</div>
+      <div data-label="Beschrijving">
+        Symptoom: "User profile service failed the logon"<br>
+        Logs: EventID 1500-1515<br>
+        Oplossing: profiel permissions resetten of nieuw profiel aanmaken<br>
+        RCA: Corrupt profiel door quota of antivirus<br>
+        Documentatie: noteer oorzaak en stappen in kennisbank
+      </div>
+    </div>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>⚡ Best Practices</h2>
-    <ul>
-      <li>Gebruik gestructureerde methodiek bij alle troubleshooting taken.</li>
-      <li>Documenteer alles systematisch in centrale kennisbank.</li>
-      <li>Voer regelmatig review en update van documentatie uit.</li>
-      <li>Combineer monitoring data, logs en performance metrics voor snelle diagnose.</li>
-      <li>Test oplossingen eerst in labomgeving indien mogelijk.</li>
-      <li>Gebruik root cause analysis om herhaling te voorkomen.</li>
-      <li>Automatiseer terugkerende troubleshooting stappen met PowerShell of scripts.</li>
-    </ul>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Methodiek</div>
+      <div data-label="Beschrijving">Gebruik gestructureerde methodiek bij alle troubleshooting taken</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Documentatie</div>
+      <div data-label="Beschrijving">Alles systematisch in centrale kennisbank vastleggen</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Review</div>
+      <div data-label="Beschrijving">Regelmatig documentatie updaten</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Monitoring</div>
+      <div data-label="Beschrijving">Combineer logs, monitoring en performance metrics voor snelle diagnose</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Lab Test</div>
+      <div data-label="Beschrijving">Test oplossingen eerst in labomgeving indien mogelijk</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Actie">RCA</div>
+      <div data-label="Beschrijving">Gebruik root cause analysis om herhaling te voorkomen</div>
+    </div>
+    <div class="infra-flex-row">
+      <div data-label="Actie">Automatisering</div>
+      <div data-label="Beschrijving">Automatiseer terugkerende troubleshooting stappen met PowerShell of scripts</div>
+    </div>
   </section>
 
   <section>
     <h2>🧾 Conclusie</h2>
     <p>
-      Systematisch troubleshooting gecombineerd met uitgebreide best-practice documentatie vermindert downtime, versnelt probleemoplossing en verhoogt kennisdeling binnen de organisatie.  
-      Door tools, logs, monitoring en centrale kennisbanken te gebruiken, kunnen Windows Server omgevingen effectief beheerd en onderhouden worden.
+      Systematisch troubleshooting gecombineerd met best-practice documentatie vermindert downtime, versnelt probleemoplossing en verhoogt kennisdeling.  
+      Door logs, monitoring en centrale kennisbanken te gebruiken kunnen Windows Server omgevingen effectief beheerd en onderhouden worden.
     </p>
   </section>
 </section>

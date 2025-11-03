@@ -4,107 +4,209 @@
   <section>
     <h2>🎯 Doelstelling</h2>
     <p>
-      Dit lab behandelt hoe je Windows Server en de omgeving op een geavanceerde manier monitort en logt.  
-      Je leert tools, methoden en best practices om performance, events en security centraal en real-time te beheren.
+      Windows Server en omgeving geavanceerd monitoren en loggen.  
+      Tools, methoden en best practices toepassen voor centrale, real-time monitoring van performance, events en security.
     </p>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>🧰 Tools & Technologieën</h2>
-    <ul>
-      <li><strong>Event Viewer:</strong> logs van systeem, applicaties, beveiliging en hardware.</li>
-      <li><strong>Performance Monitor (PerfMon):</strong> real-time metrics en datacollectie voor CPU, RAM, disk, netwerk en applicaties.</li>
-      <li><strong>Reliability Monitor:</strong> overzicht van systeemstabiliteit en falen.</li>
-      <li><strong>Windows Admin Center / Remote Server Management:</strong> centrale monitoring van meerdere servers.</li>
-      <li><strong>PowerShell / Get-Counter / Get-EventLog:</strong> scripting en automatisering van monitoring.</li>
-      <li><strong>Data Collector Sets:</strong> voor lange-termijn performance logging.</li>
-      <li><strong>Third-party tools:</strong> System Center Operations Manager (SCOM), Grafana, Prometheus, ELK stack.</li>
-    </ul>
+    <div class="infra-flex-row header">
+      <div>Tool / Technologie</div>
+      <div>Gebruik / Beschrijving</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Tool / Technologie">Event Viewer</div>
+      <div data-label="Gebruik / Beschrijving">Logs bekijken: Systeem, Beveiliging, Applicatie, Setup, Forwarded Events</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Tool / Technologie">Performance Monitor (PerfMon)</div>
+      <div data-label="Gebruik / Beschrijving">Real-time metrics, CPU/RAM/disk/network monitoring, Data Collector Sets voor lange-termijn logging</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Tool / Technologie">Reliability Monitor</div>
+      <div data-label="Gebruik / Beschrijving">Overzicht van systeemstabiliteit en falen</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Tool / Technologie">Windows Admin Center / Remote Management</div>
+      <div data-label="Gebruik / Beschrijving">Centrale monitoring van meerdere servers</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Tool / Technologie">PowerShell</div>
+      <div data-label="Gebruik / Beschrijving">Scripting en automatisering: Get-Counter, Get-EventLog, custom reports</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Tool / Technologie">Third-party tools</div>
+      <div data-label="Gebruik / Beschrijving">SCOM, Grafana, Prometheus, ELK stack voor gecentraliseerde monitoring en SIEM-integratie</div>
+    </div>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>⚙️ Event Logging</h2>
-    <ul>
-      <li>Gebruik Event Viewer om logs te bekijken: Systeem, Beveiliging, Applicatie, Setup, Forwarded Events.</li>
-      <li>PowerShell voorbeeld om laatste 100 errors te tonen:
-        <pre><code class="language-powershell">
-Get-EventLog -LogName System -EntryType Error -Newest 100
-        </code></pre>
-      </li>
-      <li>Automatische alerts via Task Scheduler of SCOM bij kritieke events.</li>
-      <li>Event Forwarding: verzamel logs centraal van meerdere servers naar één collector.</li>
-    </ul>
+    <div class="infra-flex-row header">
+      <div>Actie</div>
+      <div>Voorbeeld / Opmerkingen</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Laatste 100 system errors tonen</div>
+      <div data-label="Voorbeeld / Opmerkingen">
+        <pre><code>Get-EventLog -LogName System -EntryType Error -Newest 100</code></pre>
+      </div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Automatische alerts instellen</div>
+      <div data-label="Voorbeeld / Opmerkingen">Via Task Scheduler of SCOM bij kritieke events</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Event Forwarding configureren</div>
+      <div data-label="Voorbeeld / Opmerkingen">Verzamel logs centraal van meerdere servers naar één collector</div>
+    </div>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>🖥️ Performance Monitoring</h2>
-    <ul>
-      <li>Gebruik Performance Monitor (PerfMon) voor metrics zoals CPU%, RAM, Disk Queue Length, Network Utilization.</li>
-      <li>Data Collector Sets configureren voor lange-termijn monitoring:
-        <pre><code class="language-powershell">
-# Voorbeeld: CPU usage loggen elke minuut
+    <div class="infra-flex-row header">
+      <div>Actie</div>
+      <div>Voorbeeld / Opmerkingen</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">CPU usage loggen</div>
+      <div data-label="Voorbeeld / Opmerkingen">
+        <pre><code>
 $counter = "\Processor(_Total)\% Processor Time"
 $logFile = "C:\PerfLogs\CPU.csv"
 Get-Counter -Counter $counter -SampleInterval 60 -MaxSamples 1440 | Export-Csv $logFile
         </code></pre>
-      </li>
-      <li>Analyseer historische data voor trends, capacity planning of bottleneck detectie.</li>
-    </ul>
+      </div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Trendanalyse & capacity planning</div>
+      <div data-label="Voorbeeld / Opmerkingen">Analyseer historische data voor bottleneck detectie en planning</div>
+    </div>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>🔐 Security Logging</h2>
-    <ul>
-      <li>Audit Policies configureren via Group Policy: login attempts, privilege changes, object access.</li>
-      <li>PowerShell voorbeeld om mislukte logins te controleren:
-        <pre><code class="language-powershell">
-Get-EventLog -LogName Security -InstanceId 4625 -After (Get-Date).AddDays(-1)
-        </code></pre>
-      </li>
-      <li>Forward security logs naar SIEM-oplossing voor centrale analyse (Splunk, ELK, Azure Sentinel).</li>
-      <li>Configureer alerts voor brute force, account lockout of privilege escalations.</li>
-    </ul>
+    <div class="infra-flex-row header">
+      <div>Actie</div>
+      <div>Voorbeeld / Opmerkingen</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Mislukte logins controleren</div>
+      <div data-label="Voorbeeld / Opmerkingen">
+        <pre><code>Get-EventLog -LogName Security -InstanceId 4625 -After (Get-Date).AddDays(-1)</code></pre>
+      </div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">SIEM integratie</div>
+      <div data-label="Voorbeeld / Opmerkingen">Forward security logs naar Splunk, ELK of Azure Sentinel voor centrale analyse</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Alerts configureren</div>
+      <div data-label="Voorbeeld / Opmerkingen">Brute force, account lockout, privilege escalation</div>
+    </div>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>🌐 Network Monitoring</h2>
-    <ul>
-      <li>Gebruik Performance Monitor counters: Network Interface\Bytes Total/sec, TCPv4\Connections Established.</li>
-      <li>PowerShell voorbeeld:
-        <pre><code class="language-powershell">
-Get-NetAdapterStatistics
-        </code></pre>
-      </li>
-      <li>Wireshark of Microsoft Message Analyzer voor diepgaande packet capture.</li>
-      <li>Configureer SNMP traps voor alerts bij netwerkapparatuur.</li>
-    </ul>
+    <div class="infra-flex-row header">
+      <div>Actie</div>
+      <div>Voorbeeld / Opmerkingen</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Netwerkstatistieken verzamelen</div>
+      <div data-label="Voorbeeld / Opmerkingen">
+        <pre><code>Get-NetAdapterStatistics</code></pre>
+      </div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Packet capture analyseren</div>
+      <div data-label="Voorbeeld / Opmerkingen">Wireshark of Microsoft Message Analyzer</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">SNMP traps instellen</div>
+      <div data-label="Voorbeeld / Opmerkingen">Alerts bij netwerkapparatuur configureren</div>
+    </div>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>📦 Centralisatie & Automatisering</h2>
-    <ul>
-      <li>Gebruik Windows Event Forwarding (WEF) of SCOM voor gecentraliseerde logverzameling.</li>
-      <li>Automatiseer rapporten met PowerShell scripts of Scheduled Tasks.</li>
-      <li>Integratie met SIEM: correlateer security events met performance data.</li>
-    </ul>
+    <div class="infra-flex-row header">
+      <div>Actie</div>
+      <div>Voorbeeld / Opmerkingen</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Gecentraliseerde logverzameling</div>
+      <div data-label="Voorbeeld / Opmerkingen">Windows Event Forwarding (WEF) of SCOM</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Rapporten automatiseren</div>
+      <div data-label="Voorbeeld / Opmerkingen">PowerShell scripts of Scheduled Tasks</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">SIEM integratie</div>
+      <div data-label="Voorbeeld / Opmerkingen">Correlatie van security events en performance data</div>
+    </div>
   </section>
 
-  <section>
+  <section class="infra-flex">
     <h2>⚡ Best Practices</h2>
-    <ul>
-      <li>Logniveau afstemmen: genoeg detail, maar niet te veel (om storage en performance te sparen).</li>
-      <li>Regelmatig logs archiveren en back-uppen.</li>
-      <li>Stel alerts in bij kritieke events en thresholds.</li>
-      <li>Gebruik standaard counters en consistent datacollectie-schema voor trendanalyse.</li>
-      <li>Test en documenteer monitoring en logging configuraties voor replicatie in andere servers/labs.</li>
-    </ul>
+    <div class="infra-flex-row header">
+      <div>Actie</div>
+      <div>Tip / Opmerking</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Logniveau afstemmen</div>
+      <div data-label="Tip / Opmerking">Voldoende detail voor analyse, maar niet te veel voor performance/storage</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Logs archiveren & back-up</div>
+      <div data-label="Tip / Opmerking">Regelmatig uitvoeren</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Alerts instellen</div>
+      <div data-label="Tip / Opmerking">Bij kritieke events en thresholds</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Consistente datacollectie</div>
+      <div data-label="Tip / Opmerking">Gebruik standaard counters en schema voor trendanalyse</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Actie">Test & documenteer configuratie</div>
+      <div data-label="Tip / Opmerking">Voor replicatie in andere servers/labs</div>
+    </div>
   </section>
 
   <section>
     <h2>🧾 Conclusie</h2>
     <p>
-      Geavanceerde monitoring en logging zorgen voor proactief beheer van Windows Server omgevingen.  
-      Door Event Viewer, PerfMon, PowerShell, Data Collector Sets en SIEM te combineren, kan je performance, security en stabiliteit centraal monitoren en historisch analyseren.
+      Geavanceerde monitoring en logging maken proactief beheer mogelijk.  
+      Door Event Viewer, PerfMon, PowerShell, Data Collector Sets en SIEM te combineren, kan je performance, security en stabiliteit centraal monitoren en analyseren.
     </p>
   </section>
 </section>

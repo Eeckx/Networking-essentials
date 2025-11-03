@@ -1,4 +1,4 @@
-<article>
+<article class="content">
   <h1>Hyper-V Virtual Switch en Netwerkconfiguratie Lab</h1>
 
   <section>
@@ -9,39 +9,38 @@
     </p>
   </section>
 
-  <section class="infra-table">
+  <section class="infra-flex">
     <h3>🧩 Benodigde infrastructuur</h3>
-    <table>
-      <thead>
-        <tr>
-          <th>Component</th>
-          <th>Minimumvereisten</th>
-          <th>Aanbevolen</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Host OS</td>
-          <td>Windows 10/11 Pro of Enterprise</td>
-          <td>Windows 10/11 Enterprise</td>
-        </tr>
-        <tr>
-          <td>Hyper-V</td>
-          <td>Ingeschakeld via Windows Features</td>
-          <td>Laatste updates geïnstalleerd</td>
-        </tr>
-        <tr>
-          <td>VM’s</td>
-          <td>1 of meer met Windows/Linux</td>
-          <td>2 of meer VM’s om netwerk te testen</td>
-        </tr>
-        <tr>
-          <td>Netwerkadapter</td>
-          <td>1× fysieke NIC</td>
-          <td>2× NIC (LAN + Internet)</td>
-        </tr>
-      </tbody>
-    </table>
+
+    <div class="infra-flex-row header">
+      <div>Component</div>
+      <div>Minimumvereisten</div>
+      <div>Aanbevolen</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Component">Host OS</div>
+      <div data-label="Minimumvereisten">Windows 10/11 Pro of Enterprise</div>
+      <div data-label="Aanbevolen">Windows 10/11 Enterprise</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Component">Hyper-V</div>
+      <div data-label="Minimumvereisten">Ingeschakeld via Windows Features</div>
+      <div data-label="Aanbevolen">Laatste updates geïnstalleerd</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Component">VM’s</div>
+      <div data-label="Minimumvereisten">1 of meer met Windows/Linux</div>
+      <div data-label="Aanbevolen">2 of meer VM’s om netwerk te testen</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Component">Netwerkadapter</div>
+      <div data-label="Minimumvereisten">1× fysieke NIC</div>
+      <div data-label="Aanbevolen">2× NIC (LAN + Internet)</div>
+    </div>
   </section>
 
   <section>
@@ -135,30 +134,28 @@ Set-DnsClientServerAddress -InterfaceAlias "Ethernet" -ServerAddresses 192.168.1
     </ul>
   </section>
 
-  <section class="infra-table">
+  <section class="infra-flex">
     <h3>📊 Probleemoplossing</h3>
-    <table>
-      <thead>
-        <tr>
-          <th>Probleem</th>
-          <th>Oplossing</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>VM kan geen IP krijgen</td>
-          <td>Controleer switch type, DHCP-server of statische instellingen</td>
-        </tr>
-        <tr>
-          <td>Geen connectiviteit tussen VM’s</td>
-          <td>Zorg dat ze aan dezelfde switch zijn gekoppeld en dezelfde VLAN gebruiken</td>
-        </tr>
-        <tr>
-          <td>Internet niet bereikbaar (External switch)</td>
-          <td>Controleer fysieke NIC, host netwerkconfiguratie en firewall</td>
-        </tr>
-      </tbody>
-    </table>
+
+    <div class="infra-flex-row header">
+      <div>Probleem</div>
+      <div>Oplossing</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Probleem">VM kan geen IP krijgen</div>
+      <div data-label="Oplossing">Controleer switch type, DHCP-server of statische instellingen</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Probleem">Geen connectiviteit tussen VM’s</div>
+      <div data-label="Oplossing">Zorg dat ze aan dezelfde switch zijn gekoppeld en dezelfde VLAN gebruiken</div>
+    </div>
+
+    <div class="infra-flex-row">
+      <div data-label="Probleem">Internet niet bereikbaar (External switch)</div>
+      <div data-label="Oplossing">Controleer fysieke NIC, host netwerkconfiguratie en firewall</div>
+    </div>
   </section>
 
   <section>
@@ -168,5 +165,4 @@ Set-DnsClientServerAddress -InterfaceAlias "Ethernet" -ServerAddresses 192.168.1
       Je kunt veilige en geïsoleerde testomgevingen opzetten, VLAN’s en IP-adressen instellen en connectiviteit testen.
     </p>
   </section>
-
 </article>
