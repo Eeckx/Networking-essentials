@@ -1,3 +1,4 @@
+// SIDEBAR LINK CLICK & PAGINA LOAD
 document.querySelectorAll('.sidebar a').forEach(link => {
   link.addEventListener('click', e => {
     e.preventDefault();
@@ -21,6 +22,12 @@ document.querySelectorAll('.sidebar a').forEach(link => {
   });
 });
 
+// SIDEBAR TOGGLE (mobiel)
+function toggleSidebar() {
+  document.querySelector('.sidebar').classList.toggle('active');
+}
+
+// SEARCH & HIGHLIGHT
 document.addEventListener('DOMContentLoaded', () => {
   const searchInput = document.getElementById('search-input');
   const tocList = document.getElementById('toc-list');
@@ -28,19 +35,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
   searchInput.addEventListener('input', () => {
     const query = searchInput.value.toLowerCase().trim();
+
     items.forEach(li => {
-      const text = li.textContent.toLowerCase();
-      if (query && text.includes(query)) {
-        li.style.backgroundColor = '#787975ff';
-        li.style.color = '#000';
-      } else {
-        li.style.backgroundColor = 'transparent';
-        li.style.color = '#020202ff';
+      const originalText = li.textContent;
+
+      // Reset eerst de inhoud
+      li.innerHTML = originalText;
+
+      if (query && originalText.toLowerCase().includes(query)) {
+        // Highlight alleen de match
+        const regex = new RegExp(`(${query})`, 'gi');
+        li.innerHTML = originalText.replace(regex, `<span class="highlight">$1</span>`);
       }
     });
   });
 });
-
-function toggleSidebar() {
-  document.querySelector('.sidebar').classList.toggle('active');
-}

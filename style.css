@@ -26,11 +26,13 @@ body {
   color: #e0e0e0;
   display: flex;
   height: 100vh;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 .container {
   display: flex;
   width: 100%;
+  transition: flex-direction 0.3s;
 }
 
 /* ==========================
@@ -42,7 +44,7 @@ body {
   padding: 1rem;
   overflow-y: auto;
   border-right: 2px solid #3a3a4a;
-  transition: transform 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out, background-color 0.3s;
   z-index: 1000;
 }
 
@@ -59,12 +61,13 @@ body {
 
 .sidebar li {
   margin: 10px 0;
+  line-height: 1.4;
 }
 
 .sidebar a {
   color: #d46600;
   text-decoration: none;
-  transition: 0.3s;
+  transition: color 0.3s;
 }
 
 .sidebar a:hover {
@@ -78,6 +81,7 @@ body {
   flex: 1;
   padding: 2rem;
   overflow-y: auto;
+  transition: padding 0.3s;
 }
 
 h1, h2 {
@@ -98,7 +102,7 @@ h1, h2 {
 ========================== */
 .infra-table-wrapper {
   overflow-x: auto;
-  -webkit-overflow-scrolling: touch; /* voor vloeiend scrollen op iOS */
+  -webkit-overflow-scrolling: touch; /* vloeiend scrollen op iOS */
 }
 
 .infra-table {
@@ -110,6 +114,7 @@ h1, h2 {
   border-radius: 10px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
   font-family: "Segoe UI", "Fira Code", monospace;
+  transition: transform 0.2s;
 }
 
 .infra-table h3 {
@@ -152,10 +157,21 @@ h1, h2 {
 }
 
 /* ==========================
+   HIGHLIGHT SEARCH
+========================== */
+.highlight {
+  background-color: #fffa8b; /* zachte gele highlight */
+  color: #000;
+  padding: 0 2px;
+  border-radius: 3px;
+  transition: background-color 0.3s;
+}
+
+/* ==========================
    TOGGLE BUTTON
 ========================== */
 .toggle-btn {
-  display: none; /* standaard verborgen, verschijnt via media queries */
+  display: none;
   background-color: #2c2c3c;
   color: #00bcd4;
   text-align: left;
@@ -165,6 +181,7 @@ h1, h2 {
   font-size: 1.2rem;
   position: relative;
   z-index: 1100;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 /* ==========================
@@ -174,7 +191,7 @@ h1, h2 {
 /* --- Desktop --- */
 @media (min-width: 901px) {
   .toggle-btn {
-    display: none; /* knop altijd verborgen */
+    display: none;
   }
 
   .sidebar {
@@ -196,7 +213,7 @@ h1, h2 {
 /* --- Tablets (601px - 900px) --- */
 @media (min-width: 601px) and (max-width: 900px) {
   .toggle-btn {
-    display: block; /* knop zichtbaar op tablet */
+    display: block;
   }
 
   .sidebar {
@@ -230,7 +247,7 @@ h1, h2 {
 /* --- Phones (max-width: 600px) --- */
 @media (max-width: 600px) {
   .toggle-btn {
-    display: block; /* knop zichtbaar op mobiel */
+    display: block;
   }
 
   .sidebar {
@@ -262,27 +279,40 @@ h1, h2 {
 
   #search-input {
     font-size: 16px;
+    padding: 8px 10px;
+    border-radius: 5px;
+    border: 1px solid #3a3a4a;
+    background-color: #2c2c3c;
+    color: #e0e0e0;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 1rem;
+    transition: border 0.3s, background-color 0.3s;
   }
 
-  /* ==========================
-     TABLES OPTIMALISATIE MOBILE
-  ========================== */
+  #search-input:focus {
+    outline: none;
+    border-color: #00bcd4;
+    background-color: #353545;
+  }
+
+  /* TABLES OPTIMALISATIE MOBILE */
   .infra-table {
     width: 100%;
-    font-size: 0.85rem;           /* iets kleiner lettertype */
-    table-layout: fixed;           /* kolommen passen binnen scherm */
-    word-break: break-word;        /* lange woorden afbreken */
+    font-size: 0.85rem;
+    table-layout: fixed;
+    word-break: break-word;
   }
 
   .infra-table th,
   .infra-table td {
-    padding: 0.4em 0.6em;         /* kleinere padding */
-    white-space: normal;           /* lange zinnen afbreken */
-    overflow-wrap: break-word;     /* lange woorden afbreken */
+    padding: 0.4em 0.6em;
+    white-space: normal;
+    overflow-wrap: break-word;
   }
 
   .infra-table h3 {
-    font-size: 1.1rem;            /* header iets kleiner */
+    font-size: 1.1rem;
     padding: 0.8em 1em;
   }
 }
