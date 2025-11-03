@@ -43,15 +43,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const query = searchInput.value.toLowerCase().trim();
 
     items.forEach(li => {
-      const originalText = li.textContent;
+      const links = li.querySelectorAll('a');
 
-      // Reset eerst de inhoud zonder de tekstkleur van links te veranderen
-      li.innerHTML = originalText;
+      links.forEach(link => {
+        // Originele tekst van de link
+        const text = link.textContent;
 
-      if (query && originalText.toLowerCase().includes(query)) {
-        const regex = new RegExp(`(${query})`, 'gi');
-        li.innerHTML = originalText.replace(regex, `<span class="highlight">$1</span>`);
-      }
+        // Reset link inhoud (behoudt <a> tags)
+        link.innerHTML = text;
+
+        if (query && text.toLowerCase().includes(query)) {
+          // Highlight alleen de zoekterm
+          const regex = new RegExp(`(${query})`, 'gi');
+          link.innerHTML = text.replace(regex, `<span class="highlight">$1</span>`);
+        }
+      });
     });
   });
 });
