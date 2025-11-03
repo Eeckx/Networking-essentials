@@ -32,3 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 }); // <-- this closing was missing
+
+function toggleSidebar() {
+  document.querySelector('.sidebar').classList.toggle('active');
+}

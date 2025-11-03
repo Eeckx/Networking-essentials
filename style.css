@@ -1,21 +1,24 @@
-/* Unclicked links */
+/* ==========================
+   GLOBAL LINK STYLES
+========================== */
 a:link {
-    color: white;
-    text-decoration: none; /* optional: remove underline */
+  color: white;
+  text-decoration: none;
 }
 
-/* Clicked links */
 a:visited {
-    color: grey;
+  color: grey;
 }
 
-/* Hovered or focused links */
 a:hover,
 a:focus {
-    color: lightblue; /* example color */
-    text-decoration: underline;
+  color: lightblue;
+  text-decoration: underline;
 }
 
+/* ==========================
+   LAYOUT BASE
+========================== */
 body {
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
@@ -30,12 +33,16 @@ body {
   width: 100%;
 }
 
+/* ==========================
+   SIDEBAR
+========================== */
 .sidebar {
   width: 280px;
   background-color: #2c2c3c;
   padding: 1rem;
   overflow-y: auto;
   border-right: 2px solid #3a3a4a;
+  transition: transform 0.3s ease-in-out;
 }
 
 .sidebar h2 {
@@ -46,6 +53,7 @@ body {
 .sidebar ul {
   list-style: none;
   padding: 0;
+  margin: 0;
 }
 
 .sidebar li {
@@ -62,6 +70,9 @@ body {
   color: #00bcd4;
 }
 
+/* ==========================
+   CONTENT AREA
+========================== */
 .content {
   flex: 1;
   padding: 2rem;
@@ -81,6 +92,9 @@ h1, h2 {
   font-size: 1.5rem;
 }
 
+/* ==========================
+   TABLES
+========================== */
 .infra-table {
   margin: 2em auto;
   max-width: 900px;
@@ -131,3 +145,80 @@ h1, h2 {
   white-space: nowrap;
 }
 
+/* ==========================
+   RESPONSIVE DESIGN
+========================== */
+
+/* --- Desktop --- */
+@media (min-width: 601px) {
+  .toggle-btn {
+    display: none; /* Hide the menu button on PC */
+  }
+
+  .sidebar {
+    display: block;
+    position: relative;
+    transform: none;
+    z-index: 1;
+  }
+}
+
+/* --- Tablets and phones --- */
+@media (max-width: 900px) {
+  body {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .container {
+    flex-direction: column;
+  }
+
+  .content {
+    padding: 1.5rem;
+  }
+
+  #search-input {
+    font-size: 16px;
+  }
+
+  .infra-table {
+    width: 100%;
+    font-size: 0.9rem;
+  }
+}
+
+/* --- Phones only --- */
+@media (max-width: 600px) {
+  /* Toggle button */
+  .toggle-btn {
+    display: block;
+    background-color: #2c2c3c;
+    color: #00bcd4;
+    text-align: left;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-bottom: 2px solid #3a3a4a;
+    font-size: 1.2rem;
+    position: relative;
+    z-index: 1100;
+  }
+
+  /* Sidebar hidden by default */
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 75%;
+    height: 100%;
+    background-color: #2c2c3c;
+    border-right: 2px solid #3a3a4a;
+    z-index: 1000;
+    transform: translateX(-100%);
+  }
+
+  /* Sidebar visible when active */
+  .sidebar.active {
+    transform: translateX(0);
+  }
+}
