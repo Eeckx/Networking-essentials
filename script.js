@@ -1,4 +1,6 @@
+// ==========================
 // SIDEBAR LINK CLICK & PAGINA LOAD
+// ==========================
 document.querySelectorAll('.sidebar a').forEach(link => {
   link.addEventListener('click', e => {
     e.preventDefault();
@@ -22,12 +24,16 @@ document.querySelectorAll('.sidebar a').forEach(link => {
   });
 });
 
+// ==========================
 // SIDEBAR TOGGLE (mobiel)
+// ==========================
 function toggleSidebar() {
   document.querySelector('.sidebar').classList.toggle('active');
 }
 
+// ==========================
 // SEARCH & HIGHLIGHT
+// ==========================
 document.addEventListener('DOMContentLoaded', () => {
   const searchInput = document.getElementById('search-input');
   const tocList = document.getElementById('toc-list');
@@ -39,11 +45,10 @@ document.addEventListener('DOMContentLoaded', () => {
     items.forEach(li => {
       const originalText = li.textContent;
 
-      // Reset eerst de inhoud
+      // Reset eerst de inhoud zonder de tekstkleur van links te veranderen
       li.innerHTML = originalText;
 
       if (query && originalText.toLowerCase().includes(query)) {
-        // Highlight alleen de match
         const regex = new RegExp(`(${query})`, 'gi');
         li.innerHTML = originalText.replace(regex, `<span class="highlight">$1</span>`);
       }

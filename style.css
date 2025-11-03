@@ -102,7 +102,7 @@ h1, h2 {
 ========================== */
 .infra-table-wrapper {
   overflow-x: auto;
-  -webkit-overflow-scrolling: touch; /* vloeiend scrollen op iOS */
+  -webkit-overflow-scrolling: touch;
 }
 
 .infra-table {
@@ -161,7 +161,7 @@ h1, h2 {
 ========================== */
 .highlight {
   background-color: #fffa8b; /* zachte gele highlight */
-  color: #000;
+  color: inherit;            /* behoudt de originele kleur van de link/tekst */
   padding: 0 2px;
   border-radius: 3px;
   transition: background-color 0.3s;
