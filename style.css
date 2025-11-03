@@ -264,14 +264,25 @@ h1, h2 {
     font-size: 16px;
   }
 
-  /* Tabellen scrollbaar maken op mobiel */
-  .infra-table-wrapper {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-
+  /* ==========================
+     TABLES OPTIMALISATIE MOBILE
+  ========================== */
   .infra-table {
     width: 100%;
-    font-size: 0.9rem;
+    font-size: 0.85rem;           /* iets kleiner lettertype */
+    table-layout: fixed;           /* kolommen passen binnen scherm */
+    word-break: break-word;        /* lange woorden afbreken */
+  }
+
+  .infra-table th,
+  .infra-table td {
+    padding: 0.4em 0.6em;         /* kleinere padding */
+    white-space: normal;           /* lange zinnen afbreken */
+    overflow-wrap: break-word;     /* lange woorden afbreken */
+  }
+
+  .infra-table h3 {
+    font-size: 1.1rem;            /* header iets kleiner */
+    padding: 0.8em 1em;
   }
 }
